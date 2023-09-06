@@ -2,8 +2,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 
-# Expose port 443 (HTTPS)
-EXPOSE 443
+# Expose port 80 (HTTP)
+EXPOSE 80
 
 # FROM instructions for build, publish, and final stages remain the same
 
@@ -21,9 +21,6 @@ RUN dotnet publish "AccountService.csproj" -c Release -o /app/publish /p:UseAppH
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-# Set environment variable for HTTPS
-ENV ASPNETCORE_URLS=https://+:443
 
 # Modify the entry point to use HTTPS on port 443
 ENTRYPOINT ["dotnet", "AccountService.dll"]
