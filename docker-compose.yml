@@ -11,5 +11,7 @@ services:
   account-service:
     build: Services\AccountService
     container_name: account-service
+    environment:
+      - ASPNETCORE_URLS=http://+:80
     ports:
       - "5051:80"
