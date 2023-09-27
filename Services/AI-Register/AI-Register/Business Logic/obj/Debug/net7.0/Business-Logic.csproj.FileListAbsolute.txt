@@ -1,0 +1,11 @@
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\bin\Debug\net7.0\Business-Logic.deps.json
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\bin\Debug\net7.0\Business-Logic.dll
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\bin\Debug\net7.0\Business-Logic.pdb
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\Business-Logic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\Business-Logic.AssemblyInfoInputs.cache
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\Business-Logic.AssemblyInfo.cs
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\Business-Logic.csproj.CoreCompileInputs.cache
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\Business-Logic.dll
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\refint\Business-Logic.dll
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\Business-Logic.pdb
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\ref\Business-Logic.dll

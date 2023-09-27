@@ -1,0 +1,17 @@
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.csproj.AssemblyReference.cache
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.AssemblyInfoInputs.cache
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.AssemblyInfo.cs
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.deps.json
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.runtimeconfig.json
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.dll
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.pdb
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\BusinessLogic.dll
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\BusinessLogic.pdb
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.csproj.CopyComplete
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.dll
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\refint\DAL.dll
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.pdb
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.genruntimeconfig.cache
+C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\ref\DAL.dll
