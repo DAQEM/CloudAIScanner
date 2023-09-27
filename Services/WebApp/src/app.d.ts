@@ -3,9 +3,7 @@
 // and what to do when importing types
 declare namespace App {
 	// interface Error {}
-	interface Locals {
-		getSession(): Promise<ISession | null>;
-	}
+	// interface Locals {}
 	// interface PageData {}
 	// interface Platform {}
 }
