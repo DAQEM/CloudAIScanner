@@ -1,8 +1,13 @@
 <script lang="ts">
-	import logo from '$lib/images/logo.png';
 	import ai_register_icon from '$lib/images/icon/ai_register.svg';
-	import setting_icon from '$lib/images/icon/setting.svg';
 	import logout_icon from '$lib/images/icon/logout.svg';
+	import setting_icon from '$lib/images/icon/setting.svg';
+	import logo from '$lib/images/logo.png';
+	import type { Session } from '$lib/types/session';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+	const session: Session = data.session;
 
 	interface Links {
 		name: string;
@@ -13,7 +18,7 @@
 	const links: Links[] = [
 		{
 			name: 'AI Register',
-			link: '/dashboard/ai/register',
+			link: '/dashboard/register',
 			icon: ai_register_icon
 		},
 		{
@@ -26,7 +31,7 @@
 
 <div>
 	<div
-		class="bg-white px-8 absolute w-64 h-full flex flex-col justify-between text-[#030229] fill-[#030229]"
+		class="bg-white px-8 fixed w-64 h-full flex flex-col justify-between text-[#030229] fill-[#030229]"
 	>
 		<div class="flex flex-col">
 			<div class="flex justify-center py-8">
@@ -53,9 +58,9 @@
 					class="rounded-2xl"
 				/>
 			</div>
-			<div>
-				<h1>Username</h1>
-				<h2 class="opacity-40 text-xs truncate">example@longemail.com</h2>
+			<div class="flex flex-col justify-center">
+				<h1>{session.user.name}</h1>
+				<h2 class="opacity-40 text-xs truncate">{session.user.email}</h2>
 			</div>
 			<div class="flex justify-center items-center">
 				<a href="/logout">
@@ -64,7 +69,9 @@
 			</div>
 		</div>
 	</div>
-	<slot />
+	<div class="ml-64">
+		<slot />
+	</div>
 </div>
 
 <style>
