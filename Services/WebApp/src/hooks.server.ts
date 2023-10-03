@@ -1,19 +1,22 @@
+import clientPromise from '$lib/database/clientPromise';
+import Google from '@auth/core/providers/google';
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import { SvelteKitAuth } from '@auth/sveltekit';
 import type { Handle } from '@sveltejs/kit';
-import { Session } from '$lib/types/session';
-import { User } from '$lib/types/user';
 
-export const handle: Handle = async ({ event, resolve }) => {
-	event.locals.getSession = async () => {
-        return Promise.resolve(new Session({
-            id: '123',
-            user: new User({
-                id: '123',
-                name: 'John Doe',
-                email: 'test@gmail.com',
-                roles: ['admin']
-            })
-        }));
-    };
-	const response = await resolve(event);
-	return response;
-};
+export const handle = SvelteKitAuth(async () => {
+	const authOptions = {
+		providers: [
+			Google({
+				clientId: '851505541857-1h5g89v9otcjcp34hmi1hrdnqknbmhbb.apps.googleusercontent.com',
+				clientSecret: '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'
+			})
+		],
+		adapter: MongoDBAdapter(clientPromise, {
+			databaseName: 'accounts'
+		}),
+		secret: '67c095d073427d9cd60e6c9b75577057',
+		trustHost: true
+	};
+	return authOptions;
+}) satisfies Handle;
