@@ -1,49 +1,15 @@
 <script lang="ts">
+	import type { System } from '$lib/api/systems';
 	import AnchorButton from '$lib/components/AnchorButton.svelte';
 	import Searchbar from '$lib/components/Searchbar.svelte';
 	import AiSystemList from '$lib/components/register/AiSystemList.svelte';
 	import plus_icon from '$lib/images/icon/plus.svg';
-	import type AiSystemListModel from '$lib/model/register/AiSystemListModel';
+	import type { PageData } from './$types';
 
-	const list: AiSystemListModel[] = [
-		{
-			id: '#876364',
-			name: 'AI System 1',
-			provider: 'Google Cloud',
-			date: '2021-08-12',
-			status: 'Approved'
-		},
-		{
-			id: '#876365',
-			name: 'AI System 2',
-			provider: 'Google Cloud',
-			date: '2021-08-12',
-			status: 'Pending'
-		},
-		{
-			id: '#876366',
-			name: 'AI System 3',
-			provider: 'Google Cloud',
-			date: '2021-08-12',
-			status: 'Pending'
-		},
-		{
-			id: '#876367',
-			name: 'AI System 4',
-			provider: 'Google Cloud',
-			date: '2021-08-12',
-			status: 'Approved'
-		},
-		{
-			id: '#876368',
-			name: 'AI System 5',
-			provider: 'Google Cloud',
-			date: '2021-08-12',
-			status: 'Pending'
-		}
-	];
+	export let data: PageData; 
+	const systems = data.systems;
 
-	let searchList: AiSystemListModel[] = list;
+	let searchList: System[] = systems;
 </script>
 
 <div class="grid grid-rows-[5rem,1fr] p-12">
@@ -55,7 +21,7 @@
 			<div>
 				<Searchbar
 					on:search={(event) => {
-						searchList = list.filter((item) => {
+						searchList = systems.filter((item) => {
 							return Object.values(item).some((value) =>
 								value.toString().toLowerCase().includes(event.detail.value.toLowerCase())
 							);

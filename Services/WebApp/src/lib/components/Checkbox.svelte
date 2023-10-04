@@ -12,4 +12,4 @@
 	}
 </script>
 
-<input type="checkbox" class="accent-[#605BFF] border-red-900 {className}" on:click={handleClick} />
+<input type="checkbox" class="accent-primary border-red-900 {className}" on:click={handleClick} />

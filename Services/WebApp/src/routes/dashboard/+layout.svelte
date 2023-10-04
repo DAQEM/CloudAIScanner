@@ -4,6 +4,7 @@
 	import setting_icon from '$lib/images/icon/setting.svg';
 	import logo from '$lib/images/logo.png';
 	import type { Session } from '@auth/core/types';
+	import { signOut } from '@auth/sveltekit/client';
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
@@ -35,7 +36,9 @@
 	>
 		<div class="flex flex-col">
 			<div class="flex justify-center py-8">
-				<img src={logo} alt="logo" />
+				<a href="/">
+					<img src={logo} alt="logo" />
+				</a>
 			</div>
 			<div class="flex flex-col gap-4 font-semibold text-xl">
 				{#each links as link}
@@ -54,19 +57,19 @@
 			<div class="grid grid-cols-[3rem,minmax(10px,100rem),max-content] h-12 mb-4 gap-2">
 				<div>
 					<img
-						src="https://images.peopleimages.com/picture/202304/2693419-portrait-thumbs-up-and-wink-by-asian-man-in-studio-with-positive-feedback-or-review-on-blue-background.-face-smile-and-hand-gesture-by-male-showing-yes-agreement-and-vote-emoji-while-isolated-box_175_175.jpg"
+						src={session.user.image || 'https://i.pravatar.cc/150'}
 						alt="profile"
 						class="rounded-2xl"
 					/>
 				</div>
 				<div class="flex flex-col justify-center">
-					<h1>{session.user.name}</h1>
+					<h1 class="truncate">{session.user.name}</h1>
 					<h2 class="opacity-40 text-xs truncate">{session.user.email}</h2>
 				</div>
 				<div class="flex justify-center items-center">
-					<a href="/logout">
+					<button on:click={signOut}>
 						<img src={logout_icon} alt="Logout" class="opacity-40" />
-					</a>
+					</button>
 				</div>
 			</div>
 		{/if}
