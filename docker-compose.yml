@@ -33,7 +33,6 @@ services:
     depends_on:
       - account-db
 
-
   account-service:
     build: Services\AccountService
     container_name: account-service
@@ -53,6 +52,3 @@ services:
       MYSQL_PASSWORD: my_password
     ports:
       - "3306:3306"
-
-
-
