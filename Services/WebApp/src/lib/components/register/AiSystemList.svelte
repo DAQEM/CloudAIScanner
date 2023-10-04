@@ -4,6 +4,7 @@
 	import dots_icon from '$lib/images/icon/dots.svg';
 	import dropdown_arrow_icon from '$lib/images/icon/dropdown_arrow.svg';
 	import type AiSystemListModel from '$lib/model/register/AiSystemListModel';
+	import AnchorButton from '../AnchorButton.svelte';
 	import Button from '../Button.svelte';
 	import Modal from '../Modal.svelte';
 
@@ -68,7 +69,8 @@
 					<div>Date</div>
 					<img src={dropdown_arrow_icon} alt="Drop down" class="opacity-75" />
 				</div>
-			</th><th class="font-normal">
+			</th>
+			<th class="font-normal">
 				<div class="flex gap-2">
 					<div>Status</div>
 					<img src={dropdown_arrow_icon} alt="Drop down" class="opacity-75" />
@@ -90,13 +92,13 @@
 				<td>
 					{#if item.status === 'Approved'}
 						<div
-							class="bg-[#3A974C] w-40 text-center py-3 rounded-full bg-opacity-10 text-[#3A974C]"
+							class="bg-[#3A974C] mr-8 max-w-[12rem] text-center py-3 rounded-full bg-opacity-10 text-[#3A974C]"
 						>
 							{item.status}
 						</div>
 					{:else if item.status === 'Pending'}
 						<div
-							class="bg-[#F29339] w-40 text-center py-3 rounded-full bg-opacity-10 text-[#F29339]"
+							class="bg-[#F29339] mr-8 max-w-[12rem] text-center py-3 rounded-full bg-opacity-10 text-[#F29339]"
 						>
 							{item.status}
 						</div>
@@ -141,10 +143,11 @@
 			</div>
 			<div class="flex flex-col gap-2">
 				<div class="flex gap-2">
-					<Button icon={undefined} className="w-full bg-red-600" on:click={closeModal}
+					<Button icon={undefined} className="w-full !bg-red-600" on:click={closeModal}
 						>Delete</Button
 					>
-					<Button icon={undefined} className="w-full bg-blue-600" on:click={closeModal}>Edit</Button
+					<AnchorButton icon={undefined} className="w-full !bg-blue-600" href="/dashboard/system/{modalAiSystem.id}/edit"
+						>Edit</AnchorButton
 					>
 				</div>
 				<Button icon={undefined} className="w-full" on:click={closeModal}>Close</Button>
