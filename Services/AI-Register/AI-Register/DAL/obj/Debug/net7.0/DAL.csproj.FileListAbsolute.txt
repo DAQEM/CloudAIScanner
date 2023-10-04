@@ -15,3 +15,20 @@ C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\
 C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.pdb
 C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.genruntimeconfig.cache
 C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\ref\DAL.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.deps.json
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.runtimeconfig.json
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\DAL.pdb
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\BusinessLogic.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\bin\Debug\net7.0\BusinessLogic.pdb
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.csproj.AssemblyReference.cache
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.AssemblyInfoInputs.cache
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.AssemblyInfo.cs
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.csproj.CoreCompileInputs.cache
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.csproj.CopyComplete
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\refint\DAL.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.pdb
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\DAL.genruntimeconfig.cache
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\DAL\obj\Debug\net7.0\ref\DAL.dll

@@ -9,3 +9,15 @@ C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Busi
 C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\refint\BusinessLogic.dll
 C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.pdb
 C:\Users\tienr\source\repos\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\ref\BusinessLogic.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\bin\Debug\net7.0\BusinessLogic.deps.json
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\bin\Debug\net7.0\BusinessLogic.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\bin\Debug\net7.0\BusinessLogic.pdb
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.csproj.AssemblyReference.cache
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.AssemblyInfoInputs.cache
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.AssemblyInfo.cs
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.csproj.CoreCompileInputs.cache
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\refint\BusinessLogic.dll
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\BusinessLogic.pdb
+D:\Fontys semester 3\GroepsProject\CloudAIScanner\Services\AI-Register\AI-Register\Business Logic\obj\Debug\net7.0\ref\BusinessLogic.dll

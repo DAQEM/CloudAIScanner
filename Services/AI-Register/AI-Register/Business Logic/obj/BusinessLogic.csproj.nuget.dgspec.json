@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tienr\\source\\repos\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj": {}
+    "D:\\Fontys semester 3\\GroepsProject\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tienr\\source\\repos\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj": {
+    "D:\\Fontys semester 3\\GroepsProject\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tienr\\source\\repos\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj",
+        "projectUniqueName": "D:\\Fontys semester 3\\GroepsProject\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj",
         "projectName": "BusinessLogic",
-        "projectPath": "C:\\Users\\tienr\\source\\repos\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj",
-        "packagesPath": "C:\\Users\\tienr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tienr\\source\\repos\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\obj\\",
+        "projectPath": "D:\\Fontys semester 3\\GroepsProject\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\BusinessLogic.csproj",
+        "packagesPath": "C:\\Users\\Gebruiker\\.nuget\\packages\\",
+        "outputPath": "D:\\Fontys semester 3\\GroepsProject\\CloudAIScanner\\Services\\AI-Register\\AI-Register\\Business Logic\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\tienr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Gebruiker\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

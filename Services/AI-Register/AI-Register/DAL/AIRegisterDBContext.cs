@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BusinessLogic.DTOs;
+﻿using BusinessLogic.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {
@@ -9,42 +9,42 @@ namespace DAL
         {
         }
 
-        DbSet<AISystemFileDTO> AISystemFile { get; set; }
-        DbSet<AISystemDTO> AISystem { get; set; }
-        DbSet<CertificateDTO> Certificate { get; set; }
-        DbSet<ProviderDTO> Provider { get; set; }
-        DbSet<ScanCertificateDTO> ScanCertificate { get; set; }
-
-
+        DbSet<AISystemFileEntity> AISystemFiles { get; set; }
+        DbSet<AISystemEntity> AISystems { get; set; }
+        DbSet<CertificateEntity> Certificates { get; set; }
+        DbSet<ProviderEntity> Providers { get; set; }
+        DbSet<ScanCertificateEntity> ScanCertificates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProviderDTO>()
+            modelBuilder.Entity<ProviderEntity>()
                 .HasKey(x => x.Id);
-                
-            modelBuilder.Entity<ProviderDTO>()
-                .HasMany(p => p.aISystemDTO)
-                .WithOne(a => a.providerDTO)
+
+            modelBuilder.Entity<ProviderEntity>()
+                .HasMany(p => p.aISystemEntity)
+                .WithOne(a => a.ProviderEntity)
                 .HasForeignKey(a => a.ProviderId);
 
-            modelBuilder.Entity<ScanCertificateDTO>()
+            modelBuilder.Entity<ScanCertificateEntity>()
                 .HasKey(m => m.Id);
-            modelBuilder.Entity<CertificateDTO>()
-                .HasOne(c => c.AISystemDTO)
-                .WithOne(a => a.certificateDTO)
-                .HasForeignKey<AISystemDTO>(a => a.CertificateId);
 
-            modelBuilder.Entity<AISystemDTO>()
+            modelBuilder.Entity<CertificateEntity>()
+                .HasOne(c => c.AISystemEntity)
+                .WithOne(a => a.CertificateEntity)
+                .HasForeignKey<AISystemEntity>(a => a.CertificateId);
+
+            modelBuilder.Entity<AISystemEntity>()
                 .HasKey(a => a.Id);
 
-            modelBuilder.Entity<AISystemDTO>()
-                .HasMany(a => a.fileDTOs)
-                .WithOne(f => f.AISystemDTO)
+            modelBuilder.Entity<AISystemEntity>()
+                .HasMany(a => a.FileEntities)
+                .WithOne(f => f.AISystemEntity)
                 .HasForeignKey(f => f.AISystemId);
-            modelBuilder.Entity<CertificateDTO>()
+
+            modelBuilder.Entity<CertificateEntity>()
                 .HasOne(c => c.ScanCertificate)
                 .WithOne(s => s.Certificate)
-                .HasForeignKey<CertificateDTO>(c => c.ScannedCertificateId);
+                .HasForeignKey<CertificateEntity>(c => c.ScannedCertificateId);
         }
     }
 }
