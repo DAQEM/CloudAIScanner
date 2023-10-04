@@ -1,6 +1,6 @@
+import type { Session } from '@auth/core/types';
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
-import type { Session } from '@auth/core/types';
 
 export const load = (async ({ locals }) => {
 	const session: Session | null = await locals.getSession();
@@ -9,6 +9,6 @@ export const load = (async ({ locals }) => {
 			session: structuredClone(session)
 		};
 	} else {
-		throw redirect(301, '/');
+		throw redirect(302, '/login');
 	}
 }) satisfies LayoutServerLoad;
