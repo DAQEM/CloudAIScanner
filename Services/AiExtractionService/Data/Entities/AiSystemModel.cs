@@ -8,6 +8,8 @@ public class AiSystemModel
     public AiSystemProvider Provider { get; set; }
     public AiSystemRepresentative Representative { get; set; }
     public string Type { get; set; }
+    public int Number { get; set; }
+    public DateTime ExpiryDate { get; set; }
     public enum StatusAi
     {
         OnTheMarket,
