@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
 	import google_logo from '$lib/images/icon/google_logo.svg';
 	import login_image from '$lib/images/login.svg';
 	import logo from '$lib/images/logo.png';
 	import { signIn } from '@auth/sveltekit/client';
+	import { Button } from 'flowbite-svelte';
 </script>
 
 <div class="h-screen">
@@ -21,9 +21,13 @@
 					</div>
 					<Button
 						on:click={() => signIn('google')}
-						icon={google_logo}
-						iconImgStyle="!w-11 !h-8 bg-white p-1 rounded-full">Log in with Google</Button
-					>
+						color="primary"
+						size="lg"
+						class="text-lg"
+						iconStyle="!w-5 !h-5">
+						<img src={google_logo} alt="Google logo" class="w-8 h-8 p-1 mr-4 rounded-full bg-white" />
+						Log in with Google
+					</Button>
 				</div>
 			</div>
 		</div>

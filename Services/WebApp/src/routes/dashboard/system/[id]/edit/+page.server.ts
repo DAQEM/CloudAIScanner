@@ -3,7 +3,6 @@ import { editSystem, getSystem, type System } from '$lib/api/systems';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { getProviders, type Provider } from '$lib/api/provider';
-import type { as } from 'vitest/dist/reporters-5f784f42';
 
 export const load = (async ({ params }) => {
 	const id = params.id;
@@ -28,7 +27,7 @@ export const actions = {
 		const name = data.get('name') as string;
 		const provider = data.get('provider') as string;
 		const date = data.get('date') as string;
-		const status = data.get('status') as string;
+		const status = data.get('status') as "Pending" | "Approved" | "Rejected";
 
 		const system: System = {
 			id,

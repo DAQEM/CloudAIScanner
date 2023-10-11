@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { System } from '$lib/api/systems';
+	import { setSystemStatusToApproved, setSystemStatusToRejected, type System } from '$lib/api/systems';
 	import {
 		Button,
 		Input,
+		Modal,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -11,8 +12,8 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { PlusSolid, SearchOutline } from 'flowbite-svelte-icons';
-	import type { PageData } from './$types';
 	import { slide } from 'svelte/transition';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 	const systems = data.systems;
@@ -31,8 +32,12 @@
 	let details: any = null;
 
 	const toggleRow = (i: number) => {
+		selectedSystem = filteredItems[i];
 		openRow = openRow === i ? null : i;
 	};
+
+	let showConfirmModal = false;
+	let selectedSystem: System | null = null;
 </script>
 
 <div class="grid grid-rows-[max-content,1fr] text-xs md:text-base lg:text-lg p-4 md:p-12 gap-4">
@@ -75,26 +80,52 @@
 					<TableBodyCell class="hidden md:table-cell">{item.date}</TableBodyCell>
 					<TableBodyCell>
 						<Button
-							class="!rounded-full !overflow-hidden {item.status === 'Approved'
-								? 'bg-[#3A974C] text-[#3A974C] hover:bg-[#3A974C] hover:text-[#3A974C] dark:bg-[#3A974C]'
-								: 'bg-[#F29339] text-[#F29339] hover:bg-[#F29339] hover:text-[#F29339] dark:bg-[#F29339]'} bg-opacity-10 hover:bg-opacity-10 dark:bg-opacity-10 focus:ring-0"
+							color={item.status === 'Approved' ? 'green' : item.status === 'Pending' ? 'yellow' : 'red'}
+							class="!rounded-full !overflow-hidden focus:ring-0 bg-opacity-70 text-white"
 							size="sm"
 						>
 							{item.status}
 						</Button>
 					</TableBodyCell>
 				</TableBodyRow>
-				{#if openRow === i}
+				{#if openRow === i && selectedSystem?.id === item.id}
 					<TableBodyRow on:dblclick={() => (details = item)}>
-						<TableBodyCell colspan="5" class="p-4">
-							<div class="px-2 py-3" transition:slide={{ duration: 300, axis: 'y' }}>
-								<div class="flex flex-col gap-2">
-									<p class="font-bold">Quick Actions</p>
-									<div class="flex gap-2">
-										<Button color="primary" href="/dashboard/system/{item.id}">View Details</Button>
-										<Button color="blue" href="/dashboard/system/{item.id}/edit">Edit</Button>
-										<Button color="red" href="/dashboard/system/{item.id}/delete">Delete</Button>
+						<TableBodyCell colspan="5" class="p-0">
+							<div class="p-6 grid grid-rows-[max-content,max-content,max-content] lg:grid-cols-[12rem,1fr,1fr] gap-8" transition:slide={{ duration: 300, axis: 'y' }}>
+								<div class="flex flex-col gap-8">
+									<div class="flex flex-col gap-2">
+										<p class="font-bold">Quick Actions</p>
+										<div class="grid grid-rows-2 gap-2">
+											<div>
+												<Button class="w-full" color="primary" href="/dashboard/system/{item.id}">View Details</Button>
+											</div>
+											<div class="grid grid-cols-2 gap-2">
+												<Button class="w-full" color="blue" href="/dashboard/system/{item.id}/edit">Edit</Button>
+												<Button class="w-full" color="red" href="/dashboard/system/{item.id}/delete">Delete</Button>
+											</div>
+										</div>
 									</div>
+									{#if item.status === 'Pending'}
+										<div class="flex flex-col gap-2">
+										<p class="font-bold">Status options</p>
+										<div class="grid grid-cols-2 gap-2">
+											<Button color="green" on:click={async () => {
+												await setSystemStatusToApproved(selectedSystem?.id ?? "");
+												location.reload();
+												}
+												}>Approve</Button>
+											<Button color="red" on:click={() => showConfirmModal = true}>Reject</Button>
+										</div>
+									</div>
+									{/if}
+								</div>
+								<div class="whitespace-normal w-full text-justify">
+									<h1 class="font-bold">Lorem ipsum dolor sit.</h1>
+									<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio iusto qui necessitatibus voluptatum itaque eaque pariatur! Veritatis repellendus possimus iste corporis pariatur labore vitae et nemo aliquam laboriosam nam aliquid, repellat ipsa odio odit dolorum non consequatur quam magni maxime recusandae cupiditate. Quis laborum distinctio error sequi! Eum ad iure unde explicabo ea voluptatibus esse debitis sunt porro, in, necessitatibus modi nobis quidem placeat vitae fugiat officiis repudiandae temporibus veniam! Esse animi quibusdam sequi quis, nam consectetur accusantium obcaecati distinctio? Vero laudantium aspernatur magni nobis optio ducimus neque alias et nemo sunt! Ipsam aut debitis, recusandae minus sapiente quae necessitatibus.</p>
+								</div>
+								<div class="whitespace-normal w-full text-justify">
+									<h1 class="font-bold">Lorem ipsum dolor sit.</h1>
+									<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus quis odio officia unde fugit ea, eligendi asperiores laboriosam doloremque perferendis cum ipsum perspiciatis suscipit possimus cumque, reprehenderit deserunt omnis nisi? Explicabo nihil esse dolorem tempora, id quidem accusantium officia distinctio beatae, dignissimos at possimus unde quasi odit vel culpa, nam error consequatur atque omnis dolores. Quas tenetur eius, provident temporibus autem nulla reiciendis assumenda laborum? Impedit distinctio assumenda enim laboriosam fugit natus! Voluptatibus dolor ducimus minima at commodi error rerum incidunt aut? Maxime, nobis alias totam veritatis officiis sapiente facere inventore libero mollitia aliquam praesentium, sed placeat. Eligendi exercitationem dolore a officia, magni maxime nostrum minima fuga optio qui animi quos pariatur nesciunt eaque harum sint commodi ipsam tempore tempora consequuntur modi repellendus in neque ea. Vero excepturi veritatis ratione.</p>
 								</div>
 							</div>
 						</TableBodyCell>
@@ -103,4 +134,37 @@
 			{/each}
 		</TableBody>
 	</Table>
+	<Modal 
+		title="Confirm Reject"
+		open={showConfirmModal}
+		on:close={() => showConfirmModal = false}
+	>
+		{#if selectedSystem}
+		<div transition:slide={{ duration: 150, axis: 'y' }}>
+			<div class="flex items-center flex-col gap-4">
+				<p>Are you sure you want to reject this system?</p>
+				<div class="flex gap-2">
+					<p class="font-bold">Name:</p>
+					<p>{selectedSystem.name}</p>
+				</div>
+				<div class="flex gap-2">
+					<p class="font-bold">Provider:</p>
+					<p>{selectedSystem.provider}</p>
+				</div>
+				<div class="flex gap-2">
+					<p class="font-bold">Date:</p>
+					<p>{selectedSystem.date}</p>
+				</div>
+				<div class="flex gap-4">
+					<Button color="primary" on:click={async () => {
+						await setSystemStatusToRejected(selectedSystem?.id ?? "");
+						location.reload();
+						}
+					}>Yes</Button>
+					<Button color="red" on:click={() => showConfirmModal = false}>No</Button>
+				</div>
+			</div>
+		</div>
+		{/if}
+	</Modal>
 </div>
