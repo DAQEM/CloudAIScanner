@@ -3,7 +3,7 @@ export type System = {
 	name: string;
 	provider: string;
 	date: string;
-	status: string;
+	status: "Approved" | "Pending" | "Rejected";
 };
 
 export const systems: System[] = [
@@ -80,7 +80,6 @@ export const editSystem = async (system: System): Promise<System | undefined> =>
 
 		systems.forEach((s) => {
 			if (s.id === system.id) {
-				console.log('changed');
 				s.name = system.name;
 				s.provider = system.provider;
 				s.date = system.date;
@@ -93,3 +92,39 @@ export const editSystem = async (system: System): Promise<System | undefined> =>
 
 	return undefined;
 };
+
+export const setSystemStatusToApproved = async (id: string): Promise<System | undefined> => {
+	const response = await fetch(`http://localhost:5050/api/system/${id}/approve`);
+
+	if (response.ok) {
+		const system: System = await response.json();
+
+		systems.forEach((s) => {
+			if (s.id === system.id) {
+				s.status = system.status;
+			}
+		});
+
+		return system;
+	}
+
+	return undefined;
+}
+
+export const setSystemStatusToRejected = async (id: string): Promise<System | undefined> => {
+	const response = await fetch(`http://localhost:5050/api/system/${id}/reject`);
+
+	if (response.ok) {
+		const system: System = await response.json();
+
+		systems.forEach((s) => {
+			if (s.id === system.id) {
+				s.status = system.status;
+			}
+		});
+
+		return system;
+	}
+
+	return undefined;
+}
