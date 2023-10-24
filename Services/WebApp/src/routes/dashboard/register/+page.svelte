@@ -120,12 +120,12 @@
 									{/if}
 								</div>
 								<div class="whitespace-normal w-full text-justify">
-									<h1 class="font-bold">Lorem ipsum dolor sit.</h1>
-									<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio iusto qui necessitatibus voluptatum itaque eaque pariatur! Veritatis repellendus possimus iste corporis pariatur labore vitae et nemo aliquam laboriosam nam aliquid, repellat ipsa odio odit dolorum non consequatur quam magni maxime recusandae cupiditate. Quis laborum distinctio error sequi! Eum ad iure unde explicabo ea voluptatibus esse debitis sunt porro, in, necessitatibus modi nobis quidem placeat vitae fugiat officiis repudiandae temporibus veniam! Esse animi quibusdam sequi quis, nam consectetur accusantium obcaecati distinctio? Vero laudantium aspernatur magni nobis optio ducimus neque alias et nemo sunt! Ipsam aut debitis, recusandae minus sapiente quae necessitatibus.</p>
+									<h1 class="font-bold">Description</h1>
+									<p>{item.description}</p>
 								</div>
 								<div class="whitespace-normal w-full text-justify">
-									<h1 class="font-bold">Lorem ipsum dolor sit.</h1>
-									<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus quis odio officia unde fugit ea, eligendi asperiores laboriosam doloremque perferendis cum ipsum perspiciatis suscipit possimus cumque, reprehenderit deserunt omnis nisi? Explicabo nihil esse dolorem tempora, id quidem accusantium officia distinctio beatae, dignissimos at possimus unde quasi odit vel culpa, nam error consequatur atque omnis dolores. Quas tenetur eius, provident temporibus autem nulla reiciendis assumenda laborum? Impedit distinctio assumenda enim laboriosam fugit natus! Voluptatibus dolor ducimus minima at commodi error rerum incidunt aut? Maxime, nobis alias totam veritatis officiis sapiente facere inventore libero mollitia aliquam praesentium, sed placeat. Eligendi exercitationem dolore a officia, magni maxime nostrum minima fuga optio qui animi quos pariatur nesciunt eaque harum sint commodi ipsam tempore tempora consequuntur modi repellendus in neque ea. Vero excepturi veritatis ratione.</p>
+									<h1 class="font-bold">Description 2</h1>
+									<p>{item.description2}</p>
 								</div>
 							</div>
 						</TableBodyCell>

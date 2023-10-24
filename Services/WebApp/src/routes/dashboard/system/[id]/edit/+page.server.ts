@@ -1,8 +1,8 @@
+import { getProviders, type Provider } from '$lib/api/provider';
 import { getStatus, type Status } from '$lib/api/status';
 import { editSystem, getSystem, type System } from '$lib/api/systems';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { getProviders, type Provider } from '$lib/api/provider';
 
 export const load = (async ({ params }) => {
 	const id = params.id;
@@ -23,19 +23,27 @@ export const actions = {
 	default: async ({ request, params }) => {
 		const data = await request.formData();
 
+		console.log(data);
+
 		const id = params.id;
 		const name = data.get('name') as string;
 		const provider = data.get('provider') as string;
 		const date = data.get('date') as string;
-		const status = data.get('status') as "Pending" | "Approved" | "Rejected";
+		const status = data.get('status') as 'Pending' | 'Approved' | 'Rejected';
+		const description = data.get('description') as string;
+		const description2 = data.get('description2') as string;
 
 		const system: System = {
 			id,
 			name,
 			provider,
 			date,
-			status
+			status,
+			description,
+			description2
 		};
+
+		console.log(system);
 
 		await editSystem(system);
 	}

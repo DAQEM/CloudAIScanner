@@ -42,12 +42,14 @@ export const PUT: RequestHandler = async ({ params, request }) => {
 	}
 
 	const data = await request.json();
-	const { name, provider, date, status } = data;
+	const { name, provider, date, status, description, description2 } = data;
 
 	system.name = name;
 	system.provider = provider;
 	system.date = date;
 	system.status = status;
+	system.description = description;
+	system.description2 = description2;
 
 	return new Response(JSON.stringify(system), {
 		headers: {
