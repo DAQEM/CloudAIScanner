@@ -1,9 +1,9 @@
 <script lang="ts">
 	import AnchorButton from '$lib/components/AnchorButton.svelte';
+	import Navbar from '$lib/components/Navbar.svelte';
 	import homepage_image from '$lib/images/homepage.svg';
 	import type { Session } from '@auth/core/types';
 	import type { PageData } from './$types';
-	import Navbar from '$lib/components/Navbar.svelte';
 
 	export let data: PageData;
 	const session: Session | null = data.session;
@@ -48,7 +48,7 @@
 				<img src={homepage_image} alt="" />
 			</div>
 		</div>
-		<div class="w-full text-black bg-gray-100 pb-24 dark:bg-gray-900">
+		<div class="w-full text-black dark:text-white bg-gray-100 pb-24 dark:bg-gray-900">
 			<div class="w-full flex flex-col items-center">
 				<div class="w-full flex flex-col max-w-7xl text-center px-4 py-12 gap-24">
 					<div class="w-full text-primary">
