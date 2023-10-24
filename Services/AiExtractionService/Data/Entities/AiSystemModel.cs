@@ -1,4 +1,6 @@
-﻿namespace AiExtractionService.Models;
+﻿using Data.Models;
+
+namespace Data.Entities;
 
 public class AiSystemModel
 {
@@ -10,20 +12,6 @@ public class AiSystemModel
     public string Type { get; set; }
     public int Number { get; set; }
     public DateTime ExpiryDate { get; set; }
-    public enum StatusAi
-    {
-        OnTheMarket,
-        InService,
-        NoLongerInMarket,
-        NoLongerInService,
-        Recalled
-    }
-    
-    public enum Status
-    {
-        Complete,
-        Pending,
-        Approved
-    }
-    
+    public AiStatus AiStatus { get; set; }
+    public RegistrationStatus RegistrationStatus { get; set; }
 }

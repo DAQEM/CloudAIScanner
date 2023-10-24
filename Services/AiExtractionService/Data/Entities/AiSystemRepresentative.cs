@@ -1,4 +1,4 @@
-﻿namespace AiExtractionService.Models;
+﻿namespace Data.Entities;
 
 public class AiSystemRepresentative
 {
