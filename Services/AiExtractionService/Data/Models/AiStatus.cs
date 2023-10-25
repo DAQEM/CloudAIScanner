@@ -1,9 +1,9 @@
 ﻿namespace Data.Models;
 
-[Flags]
 public enum AiStatus
 {
-    OnTheMarket=1,
+    None = 0,
+    OnTheMarket= 1,
     InService=2,
-    Recalled=4
+    Recalled=3
 }

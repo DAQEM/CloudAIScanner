@@ -1,6 +1,7 @@
 ﻿using Google.Api.Gax;
 
 namespace Logic.Services;
+
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.ResourceManager.V3;
 using Google.Cloud.ServiceUsage.V1;
@@ -15,8 +16,34 @@ public class GetServiceData : ControllerBase
     {
         GoogleCredential credential = GoogleCredential.FromAccessToken(accessToken);
         ProjectsClient = new ProjectsClientBuilder
-        { Credential = credential.}Build();
-        
-        PagedEnumerable<SearchProjectsResponse, Projects>
+            { Credential = credential. }Build();
+
+        PagedEnumerable<SearchProjectsResponse, Projects> projects = ProjectsClient.SearchProjects("");
+        List<Service> aiServices = new List<Service>();
+
+        foreach (Project project in projects)
+        {
+            ServiceUsageClient? serviceUsageClient = new ServiceUsageClientBuilder
+            {
+                Credential = credential
+            }.Build();
+            PagedEnumerable<ListServicesResponse, Service> services =
+                serviceUsageClient.ListServices(new ListServicesRequest
+                    { Parent = project.Name, Filter = "state:ENABLED" });
+
+            foreach (Service service in services)
+            {
+                string serviceTitle = service.Config.Title;
+                if (serviceTitle.StartsWith("AI ") || serviceTitle.Contains(" AI ") || serviceTitle.EndsWith(" AI"))
+                {
+                    aiServices.Add(service);
+                }
+            }
+        }
+
+        return Ok(aiServices);
     }
+}
+
+}
 }
