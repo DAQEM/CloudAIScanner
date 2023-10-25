@@ -1,11 +1,16 @@
+using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DAL;
+using DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 
 //add DBcontext
 IConfigurationRoot config = new ConfigurationBuilder()
