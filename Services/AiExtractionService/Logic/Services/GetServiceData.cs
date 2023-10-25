@@ -15,12 +15,11 @@ public class GetServiceData : ControllerBase
     public IActionResult Get(string accessToken)
     {
         GoogleCredential credential = GoogleCredential.FromAccessToken(accessToken);
-        ProjectsClient = new ProjectsClientBuilder
-            { Credential = credential. }Build();
+        ProjectsClient client = new ProjectsClientBuilder { Credential = credential}.Build();
 
-        PagedEnumerable<SearchProjectsResponse, Projects> projects = ProjectsClient.SearchProjects("");
+        PagedEnumerable<SearchProjectsResponse, Project> projects = client.SearchProjects("");
         List<Service> aiServices = new List<Service>();
-
+        
         foreach (Project project in projects)
         {
             ServiceUsageClient? serviceUsageClient = new ServiceUsageClientBuilder
@@ -43,7 +42,4 @@ public class GetServiceData : ControllerBase
 
         return Ok(aiServices);
     }
-}
-
-}
 }
