@@ -1,5 +1,7 @@
+using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DAL;
+using DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
 //add DBcontext
 IConfigurationRoot config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")

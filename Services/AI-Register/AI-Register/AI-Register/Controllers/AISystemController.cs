@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessLogic.Classes;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,8 +30,10 @@ namespace AIRegister.Controllers
 
         // POST: api/AISystem
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromServices] IAISystemRepository aiSystemRepository, AISystem aiSystem)
         {
+            AISystemService aiSystemService = new AISystemService(aiSystemRepository);
+            aiSystemService.AddAiSystem(aiSystem);
         }
 
         // PUT: api/AISystem/5

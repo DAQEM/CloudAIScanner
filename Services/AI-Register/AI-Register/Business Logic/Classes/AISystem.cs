@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogic.Entities;
 
 namespace BusinessLogic.Classes
 {
@@ -15,5 +16,6 @@ namespace BusinessLogic.Classes
         public string TechnicalDocumentationLink { get; set; }
         public Provider provider { get; set; }
         public Certificate certificate { get; set; }
+        
     }
 }
