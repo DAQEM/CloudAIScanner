@@ -2,7 +2,8 @@
 
 public enum RegistrationStatus
 {
-    Complete,
-    Pending,
-    Approved
+    None = 0,
+    Complete= 1,
+    Pending = 2,
+    Approved = 3
 }
