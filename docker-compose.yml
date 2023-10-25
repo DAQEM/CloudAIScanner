@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   web-app:
-    build: Services\WebApp
+    build: Services/WebApp
     container_name: web-app
     ports:
       - "5050:5050"
@@ -28,10 +28,16 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongopwd
       ME_CONFIG_MONGODB_URL: mongodb://root:mongopwd@account-db:27017/
-    links:
-      - account-db
     depends_on:
       - account-db
+
+  account-service:
+    build: Services/AccountService
+    container_name: account-service
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5051:80"
 
   db:
     image: mysql:8.0
@@ -44,3 +50,11 @@ services:
       MYSQL_PASSWORD: my_password
     ports:
       - "3306:3306"
+      
+  ai-register:
+    build: Services\AI-Register\AI-Register
+    container_name: ai-register-service
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "5052:8080"
