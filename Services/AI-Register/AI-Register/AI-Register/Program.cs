@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+
 //add DBcontext
 IConfigurationRoot config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
