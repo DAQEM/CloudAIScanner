@@ -2,59 +2,48 @@
 	import type { Provider } from '$lib/api/provider';
 	import type { Status } from '$lib/api/status';
 	import type { System } from '$lib/api/systems';
-	import Button from '$lib/components/Button.svelte';
-	import DateInput from '$lib/components/DateInput.svelte';
-	import DropDown from '$lib/components/DropDown.svelte';
-	import DropDownOption from '$lib/components/DropDownOption.svelte';
-	import Form from '$lib/components/Form.svelte';
-	import FormCategory from '$lib/components/FormCategory.svelte';
-	import FormItem from '$lib/components/FormItem.svelte';
-	import Label from '$lib/components/Label.svelte';
-	import TextInput from '$lib/components/TextInput.svelte';
+	import { Input, Select, Button, Label } from 'flowbite-svelte';
 	import type { PageData } from './$types';
-
 	export let data: PageData;
 	const system: System = data.system;
 	const status: Status[] = data.status;
 	const providers: Provider[] = data.providers;
 </script>
 
-<div class="p-12">
-	<h1 class="text-2xl font-bold">AI System: {system.name}</h1>
-	<div class="flex flex-col justify-center">
-		<Form>
-			<FormCategory>
-				<FormItem>
-					<Label forName="name">Name</Label>
-					<TextInput name="name" value={system.name} />
-				</FormItem>
-
-				<FormItem>
-					<Label forName="date">Date</Label>
-					<DateInput name="date" value={system.date} />
-				</FormItem>
-			</FormCategory>
-
-			<FormCategory>
-				<FormItem>
-					<Label forName="provider">Provider</Label>
-					<DropDown name="provider" value={system.provider}>
-						{#each providers as provider}
-							<DropDownOption value={provider}>{provider}</DropDownOption>
+<div class="flex justify-center">
+	<div class="p-12 w-[32rem]">
+		<h1 class="text-2xl font-bold">Edit AI System: {system.name}</h1>
+		<div class="flex flex-col justify-center">
+			<form method="post" class="flex flex-col gap-4">
+				<div>
+					<Input type="hidden" name="id" value={system.id} />
+				</div>
+				<div>
+					<Label for="name">Name</Label>
+					<Input type="text" name="name" value={system.name} />
+				</div>
+				<div>
+					<Label for="date">Date</Label>
+					<Input type="date" name="date" value={system.date} />
+				</div>
+				<div>
+					<Label for="status">Status</Label>
+					<Select name="status" value={system.status}>
+						{#each status as item}
+							<option value={item}>{item}</option>
 						{/each}
-					</DropDown>
-				</FormItem>
-
-				<FormItem>
-					<Label forName="status">Status</Label>
-					<DropDown name="status" value={system.status}>
-						{#each status as stat}
-							<DropDownOption value={stat}>{stat}</DropDownOption>
+					</Select>
+				</div>
+				<div>
+					<Label for="provider">Provider</Label>
+					<Select name="provider" value={system.provider}>
+						{#each providers as item}
+							<option value={item}>{item}</option>
 						{/each}
-					</DropDown>
-				</FormItem>
-			</FormCategory>
-			<Button type="submit">Submit</Button>
-		</Form>
+					</Select>
+				</div>
+				<Button type="submit" color="primary" class="w-full">Save</Button>
+			</form>
+		</div>
 	</div>
 </div>

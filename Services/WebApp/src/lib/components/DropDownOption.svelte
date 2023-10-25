@@ -2,4 +2,4 @@
 	export let value: string;
 </script>
 
-<option {value}>{value}</option>
+<option {value}><slot /></option>

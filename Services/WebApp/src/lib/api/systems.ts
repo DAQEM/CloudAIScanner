@@ -65,3 +65,31 @@ export const getSystems = async (): Promise<System[]> => {
 
 	return [];
 };
+
+export const editSystem = async (system: System): Promise<System | undefined> => {
+	const response = await fetch(`http://localhost:5050/api/system/${system.id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(system)
+	});
+
+	if (response.ok) {
+		const system: System = await response.json();
+
+		systems.forEach((s) => {
+			if (s.id === system.id) {
+				console.log('changed');
+				s.name = system.name;
+				s.provider = system.provider;
+				s.date = system.date;
+				s.status = system.status;
+			}
+		});
+
+		return system;
+	}
+
+	return undefined;
+};
