@@ -8,14 +8,20 @@ export const handle = SvelteKitAuth(async () => {
 	const authOptions = {
 		providers: [
 			Google({
-				clientId: '851505541857-1h5g89v9otcjcp34hmi1hrdnqknbmhbb.apps.googleusercontent.com',
-				clientSecret: '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'
+				clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+				clientSecret: import.meta.env.VITE_GOOGLE_SECRET,
+				authorization: {
+					params: {
+						scope:
+							'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/cloud-platform.read-only'
+					}
+				}
 			})
 		],
 		adapter: MongoDBAdapter(clientPromise, {
 			databaseName: 'accounts'
 		}),
-		secret: '67c095d073427d9cd60e6c9b75577057',
+		secret: import.meta.env.VITE_SECRET,
 		trustHost: true
 	};
 	return authOptions;
