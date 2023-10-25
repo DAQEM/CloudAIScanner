@@ -1,4 +1,4 @@
-﻿namespace Data.Entities;
+﻿namespace logic.Entities;
 
 public class AiSystemProvider
 {
