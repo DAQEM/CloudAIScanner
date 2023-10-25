@@ -17,9 +17,7 @@ export const GET: RequestHandler = async ({ params }) => {
 	const accounts: Account[] = (await collection
 		.find({ provider: { $regex: regex } })
 		.toArray()) as Account[];
-	console.log('Found {} accounts', accounts.length);
 	for (const account of accounts) {
-		console.log('Deleting account', account);
 		await collection.deleteOne({ _id: account._id });
 	}
 
