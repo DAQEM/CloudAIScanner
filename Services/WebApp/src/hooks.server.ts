@@ -17,12 +17,6 @@ export const authHandle: Handle = SvelteKitAuth(async () => {
 			Google({
 				clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
 				clientSecret: import.meta.env.VITE_GOOGLE_SECRET,
-				authorization: {
-					params: {
-						scope:
-							'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/cloud-platform.read-only'
-					}
-				}
 			}),
 			Google({
 				id: 'google-aiextraction',
