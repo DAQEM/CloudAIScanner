@@ -13,6 +13,9 @@
 
 	const success: string | null = data.success;
 	const provider: string | null = data.provider;
+	const aidata: string[] | undefined = data.data?.split(',');
+
+	console.log(aidata);
 
 	interface Provider {
 		name: string;
@@ -56,6 +59,20 @@
 				<CheckCircleSolid slot="icon" class="w-6 h-6 mr-2" />
 				<p class="font-bold">Success!</p>
 				<p>You have successfully logged in to <strong class="">{provider}</strong>.</p>
+			</Toast>
+		{/if}
+		{#if aidata && aidata.length > 0}
+			<Toast
+				color="green"
+				class="mb-4 shadow-none rounded-xl bg-green-400 bg-opacity-25 max-w-none"
+				contentClass="w-full text-lg font-normal text-gray-700"
+				transition={slide}
+			>
+				<CheckCircleSolid slot="icon" class="w-6 h-6 mr-2" />
+				<p class="font-bold">AI's Found:</p>
+				{#each aidata as ai}
+					<p>{ai}</p>
+				{/each}
 			</Toast>
 		{/if}
 		<div class="bg-white rounded-xl p-16">

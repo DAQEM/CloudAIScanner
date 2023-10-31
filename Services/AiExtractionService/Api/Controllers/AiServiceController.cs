@@ -3,6 +3,7 @@ using Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
+using logic.Entities;
 
 namespace AiExtractionService.Controllers
 {
@@ -20,9 +21,9 @@ namespace AiExtractionService.Controllers
         [HttpGet]
         public IActionResult Get(string accessToken)
         {
-            List<AiServiceDto> services = new List<AiServiceDto>();
+            List<AiSystemModel> services = new();
 
-            _aiService.Get(accessToken);
+            services.AddRange(_aiService.Get(accessToken));
 
             return Ok(services);
         }

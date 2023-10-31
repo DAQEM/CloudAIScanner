@@ -10,11 +10,22 @@ services:
     environment:
       NODE_ENV: production
 
+  ai-extraction-service:
+    build:
+      context: ./
+      dockerfile: ./Services/AiExtractionService/Api/Dockerfile
+    container_name: ai-extraction-service
+    environment:
+      - ENV=production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5001:80"
+
   account-db:
     image: mongo
     container_name: account-db
     ports:
-      - "27017:27017"
+      - "8080:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongopwd
