@@ -1,6 +1,6 @@
-﻿using Data.Models;
+﻿using logic.Models;
 
-namespace Data.Entities;
+namespace logic.Entities;
 
 public class AiSystemModel
 {

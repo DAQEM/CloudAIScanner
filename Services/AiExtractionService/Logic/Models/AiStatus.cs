@@ -1,4 +1,4 @@
-﻿namespace Data.Models;
+﻿namespace logic.Models;
 
 public enum AiStatus
 {
