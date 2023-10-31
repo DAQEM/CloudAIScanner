@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AnchorButton from '$lib/components/AnchorButton.svelte';
-	import Header from '$lib/components/Header.svelte';
+	import Navbar from '$lib/components/Navbar.svelte';
 	import homepage_image from '$lib/images/homepage.svg';
 	import type { Session } from '@auth/core/types';
 	import type { PageData } from './$types';
@@ -31,10 +31,8 @@
 </script>
 
 <div>
-	<div class="fixed w-full shadow-gray-200 shadow-2xl">
-		<Header {session} />
-	</div>
-	<div class="flex flex-col items-center w-full pt-24">
+	<Navbar {session} />
+	<div class="flex flex-col items-center">
 		<div class="flex max-w-7xl w-full px-4 my-28 gap-16">
 			<div class="flex-1">
 				<div class="h-full flex flex-col justify-center w-full max-w-lg gap-6">
@@ -50,7 +48,7 @@
 				<img src={homepage_image} alt="" />
 			</div>
 		</div>
-		<div class="w-full text-black bg-gray-100 pb-24">
+		<div class="w-full text-black dark:text-white bg-gray-100 pb-24 dark:bg-gray-900">
 			<div class="w-full flex flex-col items-center">
 				<div class="w-full flex flex-col max-w-7xl text-center px-4 py-12 gap-24">
 					<div class="w-full text-primary">
@@ -59,7 +57,7 @@
 					<div class="flex flex-wrap justify-center gap-16">
 						{#each services as service}
 							<div
-								class="max-w-sm bg-white p-6 rounded-xl bg-opacity-80 border-[3px] border-primary border-opacity-25"
+								class="max-w-sm bg-white p-6 rounded-xl bg-opacity-80 border-[3px] border-primary border-opacity-25 dark:bg-gray-800 dark:border-gray-700 dark:te"
 							>
 								<div
 									class="absolute ml-[136px] rounded-full overflow-hidden mt-[-64px] w-[64px] h-[64px]"

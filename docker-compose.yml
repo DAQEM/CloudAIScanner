@@ -31,14 +31,6 @@ services:
     depends_on:
       - account-db
 
-  account-service:
-    build: Services/AccountService
-    container_name: account-service
-    environment:
-      - ASPNETCORE_URLS=http://+:80
-    ports:
-      - "5051:80"
-
   db:
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password

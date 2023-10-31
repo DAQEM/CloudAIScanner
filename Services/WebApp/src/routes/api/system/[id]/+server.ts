@@ -24,3 +24,36 @@ export const GET: RequestHandler = async ({ params }) => {
 		}
 	});
 };
+
+export const PUT: RequestHandler = async ({ params, request }) => {
+	const systemList: System[] = systems;
+	const id = params.id;
+	const system: System | undefined = systemList.find((system) => system.id === id);
+
+	if (!system) {
+		return new Response(
+			JSON.stringify({ error: 'Invalid ID' }),
+			{
+				headers: {
+					'content-type': 'application/json'
+				}
+			}
+		);
+	}
+
+	const data = await request.json();
+	const { name, provider, date, status, description, description2 } = data;
+
+	system.name = name;
+	system.provider = provider;
+	system.date = date;
+	system.status = status;
+	system.description = description;
+	system.description2 = description2;
+
+	return new Response(JSON.stringify(system), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
+};
