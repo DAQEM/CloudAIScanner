@@ -1,5 +1,6 @@
 ﻿using AIRegister.DTOs;
 using BusinessLogic.Classes;
+using BusinessLogic.Services;
 using BusinessLogic.Interfaces;
 using DAL.Migrations;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,9 @@ namespace AIRegister.Controllers
     public class AISystemController : ControllerBase
     {
         
-        private readonly IAISystem _aiSystem;
+        private readonly IAISystemRepository _aiSystem;
 
-        public AISystemController(IAISystem aiSystem)
+        public AISystemController(IAISystemRepository aiSystem)
         {
             _aiSystem = aiSystem;
         }
@@ -25,16 +26,16 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemCollection aiSystemCollection = new AISystemCollection(_aiSystem);
-                GetAllSystemDTO getAllSystemDTO = new GetAllSystemDTO();
-                aiSystemCollection.SetAiSystemsWithProviders();
-                foreach (AISystem sytem in aiSystemCollection.AISystems)
+                AIsystemService aisystemService = new AIsystemService(_aiSystem);
+                List<AISystem> aisystems = aisystemService.GetAiSystems();
+                List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
+                foreach (AISystem sytem in aisystems)
                 {
                     GetAISystemDTO getAISystemDTO = new GetAISystemDTO(sytem.Guid, sytem.Name, sytem.provider.Name, sytem.DateAdded, sytem.ApprovalStatus);
-                    getAllSystemDTO.AISystems.Add(getAISystemDTO);
+                    getAISystemDTOs.Add(getAISystemDTO);
                 }
 
-                return Ok(getAllSystemDTO);
+                return Ok(getAISystemDTOs);
             }
             catch (Exception e)
             {
@@ -48,15 +49,10 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystem aisystem = new AISystem(_aiSystem);
-                aisystem.setAISystemById(id);
-
-                ProviderDTO providerDTO = new ProviderDTO();
-                providerDTO.toProviderDTO(aisystem.provider);
-
-                CertificateDTO certificateDTO = new CertificateDTO();
-                certificateDTO.toCertificateDTO(aisystem.certificate);
-
+                AIsystemService aisystemService = new AIsystemService(_aiSystem);
+                AISystem aisystem = aisystemService.setAISystemById(id);
+                ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
+                CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
                 AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.Status, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList());
 
                 return Ok(aiDetailDTO);

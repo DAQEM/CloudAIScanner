@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class AISystemRepository: IAISystem
+    public class AISystemRepository: IAISystemRepository
     {
         private readonly AIRegisterDBContext _context;
 

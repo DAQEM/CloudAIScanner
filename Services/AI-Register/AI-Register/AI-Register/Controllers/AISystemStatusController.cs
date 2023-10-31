@@ -13,19 +13,19 @@ namespace AIRegister.Controllers
     {
         // GET: api/<AISystemStatus>
         [HttpGet]
-        public IEnumerable<AISystemStatusEnumDTO> Get()
+        public IEnumerable<EnumDTO> Get()
         {
-            AISystemStatusEnumCollectionDTO aiSystemStatusEnumCollection = new AISystemStatusEnumCollectionDTO();
+            List<EnumDTO> aiSystemStatusEnumCollection = new List<EnumDTO>();
             foreach (string status in EnumHelper.EnumToList<AIRegisterEnum.AISystemStatus>())
             {
-                AISystemStatusEnumDTO aiSystemStatusEnum = new AISystemStatusEnumDTO();
+                EnumDTO aiSystemStatusEnum = new EnumDTO();
                 aiSystemStatusEnum.Name = status;
                 aiSystemStatusEnum.id = EnumHelper.EnumParse<AIRegisterEnum.AISystemStatus>(status);
-                aiSystemStatusEnumCollection.SystemStatuses.Add(aiSystemStatusEnum);
+                aiSystemStatusEnumCollection.Add(aiSystemStatusEnum);
 
             }
 
-            return aiSystemStatusEnumCollection.SystemStatuses;
+            return aiSystemStatusEnumCollection;
         }
 
         // GET api/<AISystemStatus>/5

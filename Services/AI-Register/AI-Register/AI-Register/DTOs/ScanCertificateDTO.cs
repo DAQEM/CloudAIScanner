@@ -8,7 +8,7 @@ namespace AIRegister.DTOs
         public string Filename { get; set; }
         public string Filepath { get; set; }
 
-        public void toScanCertificateDTO(ScanCertificate scanCertificate)
+        public ScanCertificateDTO(ScanCertificate scanCertificate)
         {
             guid = scanCertificate.guid;
             Filename = scanCertificate.Filename;

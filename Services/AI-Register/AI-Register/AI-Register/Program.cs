@@ -27,7 +27,7 @@ IConfigurationRoot config = new ConfigurationBuilder()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IAISystem, AISystemRepository>();
+builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
 
 var app = builder.Build();
 

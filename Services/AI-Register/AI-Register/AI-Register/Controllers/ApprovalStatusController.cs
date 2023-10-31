@@ -13,22 +13,20 @@ namespace AIRegister.Controllers
     {
         // GET: api/<ApprovalStatusController>
         [HttpGet]
-        public IEnumerable<ApprovalDTO>  Get()
+        public IEnumerable<EnumDTO>  Get()
         {
            
-            ApprovalStatusCollectionDTO approvalStatusCollectionDTO = new ApprovalStatusCollectionDTO();
+            List<EnumDTO> approvalStatusCollection = new List<EnumDTO>();
             foreach (string approval in EnumHelper.EnumToList<AIRegisterEnum.ApprovalStatus>())
             {
-                ApprovalDTO approvalStatusDTO = new ApprovalDTO();
+                EnumDTO approvalStatusDTO = new EnumDTO();
                 approvalStatusDTO.Name = approval;
                 approvalStatusDTO.id = EnumHelper.EnumParse<AIRegisterEnum.ApprovalStatus>(approval);
-                approvalStatusCollectionDTO.ApprovalStatuses.Add(approvalStatusDTO);
+                approvalStatusCollection.Add(approvalStatusDTO);
                 
             }
 
-            return approvalStatusCollectionDTO.ApprovalStatuses;
-
-          
+            return approvalStatusCollection;
         }
 
         // GET: api/<ApprovalStatusController>

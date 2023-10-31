@@ -10,7 +10,7 @@ namespace AIRegister.DTOs
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
-        public void toProviderDTO(Provider provider)
+        public ProviderDTO(Provider provider)
         {
             guid = provider.guid;
             Name = provider.Name;

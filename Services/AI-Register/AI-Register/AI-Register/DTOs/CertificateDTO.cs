@@ -12,7 +12,7 @@ namespace AIRegister.DTOs
         public int IdNotifiedBody { get; set; }
         public ScanCertificateDTO ScanCertificate { get; set; }
 
-        public void toCertificateDTO(Certificate certificate)
+        public CertificateDTO(Certificate certificate)
         {
             guid = certificate.guid;
             Type = certificate.Type;
@@ -20,8 +20,7 @@ namespace AIRegister.DTOs
             ExpiryDate = certificate.ExpiryDate;
             NameNotifiedBody = certificate.NameNotifiedBody;
             IdNotifiedBody = certificate.IdNotifiedBody;
-            ScanCertificate = new ScanCertificateDTO();
-            ScanCertificate.toScanCertificateDTO(certificate.ScanCertificate);
+            ScanCertificate = new ScanCertificateDTO(certificate.ScanCertificate);
         }
        
     }

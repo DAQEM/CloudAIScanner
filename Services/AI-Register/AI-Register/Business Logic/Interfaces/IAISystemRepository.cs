@@ -8,7 +8,7 @@ using BusinessLogic.Entities;
 
 namespace BusinessLogic.Interfaces
 {
-    public interface IAISystem
+    public interface IAISystemRepository
     {
         public List<AISystemEntity> GetAiSystemsWithProvider();
 

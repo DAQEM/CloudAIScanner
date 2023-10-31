@@ -10,7 +10,6 @@ namespace BusinessLogic.Classes
 {
     public class AISystem
     {
-        private readonly IAISystem _IaISystem;
 
         public Guid Guid { get; set; }
         public string Name { get; set; }
@@ -23,11 +22,6 @@ namespace BusinessLogic.Classes
         public Certificate certificate { get; set; }
         public ICollection<AISystemFile> Files { get; set; }
 
-        public AISystem(IAISystem aisystemrepository)
-        {
-            _IaISystem = aisystemrepository;
-            Files = new List<AISystemFile>();
-        }
 
         public AISystem(){ }
 
@@ -51,19 +45,13 @@ namespace BusinessLogic.Classes
 
         internal void setFiles(AISystemEntity aiSystemEntity)
         {
+            Files = new List<AISystemFile>();
             foreach (AISystemFileEntity fileEntity in aiSystemEntity.FileEntities)
             {
                 AISystemFile file = new AISystemFile();
                 file.toAISystemFile(fileEntity);
                 Files.Add(file);
             }
-        }
-
-
-        public void setAISystemById(Guid id)
-        {
-            toAISystem(_IaISystem.GetAiSystemById(id));
-            setFiles(_IaISystem.GetAiSystemById(id));
         }
     }
 
