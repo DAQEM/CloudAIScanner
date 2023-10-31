@@ -30,10 +30,19 @@ namespace AIRegister.Controllers
 
         // POST: api/AISystem
         [HttpPost]
-        public void Post([FromServices] IAISystemRepository aiSystemRepository, AISystem aiSystem)
+        public IActionResult Post([FromServices] IAISystemRepository aiSystemRepository, AISystem aiSystem)
         {
-            AISystemService aiSystemService = new AISystemService(aiSystemRepository);
-            aiSystemService.AddAiSystem(aiSystem);
+            try
+            {
+                AISystemService aiSystemService = new AISystemService(aiSystemRepository);
+                aiSystemService.AddAiSystem(aiSystem);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         // PUT: api/AISystem/5

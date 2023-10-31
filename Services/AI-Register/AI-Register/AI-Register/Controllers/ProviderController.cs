@@ -16,10 +16,19 @@ namespace AIRegister.Controllers
     {
         // POST: api/Provider
         [HttpPost]
-        public void Post([FromServices] IProviderRepository providerRepository, Provider provider)
+        public IActionResult Post([FromServices] IProviderRepository providerRepository, Provider provider)
         {
-            ProviderService providerService = new ProviderService(providerRepository);
-            providerService.CreateProvider(provider);
+            try
+            {
+                ProviderService providerService = new ProviderService(providerRepository);
+                providerService.CreateProvider(provider);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         // PUT: api/Provider/5
