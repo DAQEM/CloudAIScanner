@@ -19,7 +19,7 @@ namespace DAL.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("BusinessLogic.DTOs.AISystemDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.AISystemEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,10 +53,10 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("AISystem");
+                    b.ToTable("AISystems");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.AISystemFileDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.AISystemFileEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,10 +81,10 @@ namespace DAL.Migrations
 
                     b.HasIndex("AISystemId");
 
-                    b.ToTable("AISystemFile");
+                    b.ToTable("AISystemFiles");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.CertificateDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.CertificateEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,10 +115,10 @@ namespace DAL.Migrations
                     b.HasIndex("ScannedCertificateId")
                         .IsUnique();
 
-                    b.ToTable("Certificate");
+                    b.ToTable("Certificates");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.ProviderDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.ProviderEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -142,10 +142,10 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Provider");
+                    b.ToTable("Providers");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.ScanCertificateDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.ScanCertificateEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -161,67 +161,67 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ScanCertificate");
+                    b.ToTable("ScanCertificates");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.AISystemDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.AISystemEntity", b =>
                 {
-                    b.HasOne("BusinessLogic.DTOs.CertificateDTO", "certificateDTO")
-                        .WithOne("AISystemDTO")
-                        .HasForeignKey("BusinessLogic.DTOs.AISystemDTO", "CertificateId")
+                    b.HasOne("BusinessLogic.Entities.CertificateEntity", "CertificateEntity")
+                        .WithOne("AISystemEntity")
+                        .HasForeignKey("BusinessLogic.Entities.AISystemEntity", "CertificateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessLogic.DTOs.ProviderDTO", "providerDTO")
-                        .WithMany("aISystemDTO")
+                    b.HasOne("BusinessLogic.Entities.ProviderEntity", "ProviderEntity")
+                        .WithMany("aISystemEntity")
                         .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("certificateDTO");
+                    b.Navigation("CertificateEntity");
 
-                    b.Navigation("providerDTO");
+                    b.Navigation("ProviderEntity");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.AISystemFileDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.AISystemFileEntity", b =>
                 {
-                    b.HasOne("BusinessLogic.DTOs.AISystemDTO", "AISystemDTO")
-                        .WithMany("fileDTOs")
+                    b.HasOne("BusinessLogic.Entities.AISystemEntity", "AISystemEntity")
+                        .WithMany("FileEntities")
                         .HasForeignKey("AISystemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AISystemDTO");
+                    b.Navigation("AISystemEntity");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.CertificateDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.CertificateEntity", b =>
                 {
-                    b.HasOne("BusinessLogic.DTOs.ScanCertificateDTO", "ScanCertificate")
+                    b.HasOne("BusinessLogic.Entities.ScanCertificateEntity", "ScanCertificate")
                         .WithOne("Certificate")
-                        .HasForeignKey("BusinessLogic.DTOs.CertificateDTO", "ScannedCertificateId")
+                        .HasForeignKey("BusinessLogic.Entities.CertificateEntity", "ScannedCertificateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ScanCertificate");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.AISystemDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.AISystemEntity", b =>
                 {
-                    b.Navigation("fileDTOs");
+                    b.Navigation("FileEntities");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.CertificateDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.CertificateEntity", b =>
                 {
-                    b.Navigation("AISystemDTO")
+                    b.Navigation("AISystemEntity")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.ProviderDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.ProviderEntity", b =>
                 {
-                    b.Navigation("aISystemDTO");
+                    b.Navigation("aISystemEntity");
                 });
 
-            modelBuilder.Entity("BusinessLogic.DTOs.ScanCertificateDTO", b =>
+            modelBuilder.Entity("BusinessLogic.Entities.ScanCertificateEntity", b =>
                 {
                     b.Navigation("Certificate")
                         .IsRequired();
