@@ -34,6 +34,10 @@ namespace DAL.Migrations
                     b.Property<DateOnly>("DateAdded")
                         .HasColumnType("date");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");

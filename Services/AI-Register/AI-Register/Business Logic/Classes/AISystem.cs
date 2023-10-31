@@ -13,6 +13,7 @@ namespace BusinessLogic.Classes
         public string Name { get; set; }
         public int Status { get; set; }
         public string URL { get; set; }
+        public string Description { get; set; }
         public string TechnicalDocumentationLink { get; set; }
         public Provider provider { get; set; }
         public Certificate certificate { get; set; }

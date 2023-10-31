@@ -34,6 +34,7 @@ public class AISystemService
         aiSystemEntity.TechnicalDocumentationLink = aiSystem.TechnicalDocumentationLink;
         aiSystemEntity.DateAdded = DateOnly.FromDateTime(DateTime.Now);
         aiSystemEntity.ApprovalStatus = 0;
+        aiSystemEntity.Description = aiSystem.Description;
         aiSystemEntity.CertificateEntity = certificateEntity;
         aiSystemEntity.ProviderId = aiSystem.provider.guid;
         
