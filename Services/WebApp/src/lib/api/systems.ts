@@ -77,6 +77,17 @@ export const getSystem = async (id: string): Promise<System | undefined> => {
 	return undefined;
 };
 
+export const getSystemsByStatus = async (status: string): Promise<System[]> => {
+	const response = await fetch(`http://localhost:5050/api/system?status=${status}`);
+
+	if (response.ok) {
+		const systems: System[] = await response.json();
+		return systems;
+	}
+
+	return [];
+}
+
 export const getSystems = async (): Promise<System[]> => {
 	const response = await fetch(`http://localhost:5050/api/system`);
 
