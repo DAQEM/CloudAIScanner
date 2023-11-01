@@ -32,6 +32,7 @@ namespace BusinessLogic.Classes
            Status = aiSystemEntity.Status;
            URL = aiSystemEntity.URL;
            DateAdded = aiSystemEntity.DateAdded;
+           Description = aiSystemEntity.Description;
            ApprovalStatus = (AIRegisterEnum.ApprovalStatus)aiSystemEntity.ApprovalStatus;
 
             TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink;

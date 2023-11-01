@@ -11,11 +11,12 @@ namespace AIRegister.DTOs
         public string TechnicalDocumentationLink { get; set; }
         public int ApprovalStatus { get; set; }
         public DateOnly DateAdded { get; set; }
+        public string Description { get; set; }
         public ProviderDTO Provider { get; set; }
         public CertificateDTO Certificate { get; set; }
         public List<AISystemFile> Files { get; set; }
 
-        public AIDetailDTO(Guid guid, string name, int status, string url, string technicalDocumentationLink, int approvalStatus, DateOnly dateAdded, ProviderDTO provider, CertificateDTO certificate, List<AISystemFile> files)
+        public AIDetailDTO(Guid guid, string name, int status, string url, string technicalDocumentationLink, int approvalStatus, DateOnly dateAdded, ProviderDTO provider, CertificateDTO certificate, List<AISystemFile> files, string description)
         {
             Guid = guid;
             Name = name;
@@ -27,6 +28,7 @@ namespace AIRegister.DTOs
             Provider = provider;
             Certificate = certificate;
             Files = files;
+            Description = description;
         }
 
     }

@@ -71,6 +71,7 @@ namespace BusinessLogic.Services
             aiSystemEntity.TechnicalDocumentationLink = aiSystem.TechnicalDocumentationLink;
             aiSystemEntity.DateAdded = DateOnly.FromDateTime(DateTime.Now);
             aiSystemEntity.ApprovalStatus = 2;
+            aiSystemEntity.Description = aiSystem.Description;
             aiSystemEntity.CertificateEntity = certificateEntity;
             aiSystemEntity.ProviderId = aiSystem.provider.guid;
             
