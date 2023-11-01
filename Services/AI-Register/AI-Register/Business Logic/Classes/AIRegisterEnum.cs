@@ -21,5 +21,7 @@ namespace BusinessLogic.Classes
             InService = 2,
             Recalled = 3
         }
+
+        public enum 
     }
 }
