@@ -13,7 +13,7 @@ namespace AIRegister.Controllers
     {
         // GET: api/<ApprovalStatusController>
         [HttpGet]
-        public IEnumerable<EnumDTO>  Get()
+        public IActionResult  Get()
         {
            
             List<EnumDTO> approvalStatusCollection = new List<EnumDTO>();
@@ -26,14 +26,14 @@ namespace AIRegister.Controllers
                 
             }
 
-            return approvalStatusCollection;
+            return Ok(approvalStatusCollection);
         }
 
         // GET: api/<ApprovalStatusController>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-           return EnumHelper.EnumToString<AIRegisterEnum.ApprovalStatus>(id);
+           return Ok(EnumHelper.EnumToString<AIRegisterEnum.ApprovalStatus>(id));
         }
 
     }

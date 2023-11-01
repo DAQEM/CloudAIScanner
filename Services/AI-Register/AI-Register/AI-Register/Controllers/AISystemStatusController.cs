@@ -13,7 +13,7 @@ namespace AIRegister.Controllers
     {
         // GET: api/<AISystemStatus>
         [HttpGet]
-        public IEnumerable<EnumDTO> Get()
+        public IActionResult Get()
         {
             List<EnumDTO> aiSystemStatusEnumCollection = new List<EnumDTO>();
             foreach (string status in EnumHelper.EnumToList<AIRegisterEnum.AISystemStatus>())
@@ -25,14 +25,14 @@ namespace AIRegister.Controllers
 
             }
 
-            return aiSystemStatusEnumCollection;
+            return Ok(aiSystemStatusEnumCollection);
         }
 
         // GET api/<AISystemStatus>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return EnumHelper.EnumToString<AIRegisterEnum.AISystemStatus>(id);
+            return Ok(EnumHelper.EnumToString<AIRegisterEnum.AISystemStatus>(id));
         }
 
     }

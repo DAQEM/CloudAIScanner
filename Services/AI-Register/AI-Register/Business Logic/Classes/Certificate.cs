@@ -16,18 +16,17 @@ namespace BusinessLogic.Classes
         public string NameNotifiedBody { get; set; }
         public int IdNotifiedBody { get; set; }
         public ScanCertificate ScanCertificate { get; set; }
+        
 
-        internal Certificate toCertificate(CertificateEntity certificateEntity)
+        public Certificate(Guid guid, string type, int number, DateTime expiryDate, string nameNotifiedBody, int idNotifiedBody, ScanCertificate scanCertificate)
         {
-            guid = certificateEntity.Id;
-            Type = certificateEntity.Type;
-            Number = certificateEntity.Number;
-            ExpiryDate = certificateEntity.ExpiryDate;
-            NameNotifiedBody = certificateEntity.NameNotifiedBody;
-            IdNotifiedBody = certificateEntity.IdNotifiedBody;
-            ScanCertificate = new ScanCertificate().toScanCertificate(certificateEntity.ScanCertificate);
-
-            return this;
+            this.guid = guid;
+            Type = type;
+            Number = number;
+            ExpiryDate = expiryDate;
+            NameNotifiedBody = nameNotifiedBody;
+            IdNotifiedBody = idNotifiedBody;
+            ScanCertificate = scanCertificate;
         }
     }
 }

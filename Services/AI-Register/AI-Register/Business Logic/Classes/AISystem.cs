@@ -23,25 +23,22 @@ namespace BusinessLogic.Classes
         public ICollection<AISystemFile> Files { get; set; }
 
 
-        public AISystem(){ }
-
-        internal AISystem toAISystem(AISystemEntity aiSystemEntity)
+        public AISystem()
         {
-           Guid = aiSystemEntity.Id;
-           Name = aiSystemEntity.Name;
-           Status = aiSystemEntity.Status;
-           URL = aiSystemEntity.URL;
-           DateAdded = aiSystemEntity.DateAdded;
-           Description = aiSystemEntity.Description;
-           ApprovalStatus = (AIRegisterEnum.ApprovalStatus)aiSystemEntity.ApprovalStatus;
-
-            TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink;
-            provider = new Provider();
-            provider.toSimpleProvider(aiSystemEntity.ProviderEntity);
-            certificate = new Certificate();
-            certificate.toCertificate(aiSystemEntity.CertificateEntity);
-
-            return this;
+            
+        }
+        public AISystem(Guid guid, string name, int status, string url, string technicalDocumentationLink, AIRegisterEnum.ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate)
+        {
+            Guid = guid;
+            Name = name;
+            Status = status;
+            URL = url;
+            TechnicalDocumentationLink = technicalDocumentationLink;
+            ApprovalStatus = approvalStatus;
+            DateAdded = dateAdded;
+            this.provider = provider;
+            this.certificate = certificate;
+            
         }
 
         internal void setFiles(AISystemEntity aiSystemEntity)
@@ -49,9 +46,9 @@ namespace BusinessLogic.Classes
             Files = new List<AISystemFile>();
             foreach (AISystemFileEntity fileEntity in aiSystemEntity.FileEntities)
             {
-                AISystemFile file = new AISystemFile();
-                file.toAISystemFile(fileEntity);
-                Files.Add(file);
+                AISystemFile aiSystemFile = new AISystemFile(fileEntity.Id, fileEntity.Filename, fileEntity.Filepath,
+                    fileEntity.Filetype);
+                Files.Add(aiSystemFile);
             }
         }
     }

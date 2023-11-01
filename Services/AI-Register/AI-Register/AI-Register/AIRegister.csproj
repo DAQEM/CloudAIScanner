@@ -25,6 +25,4 @@
     <ProjectReference Include="..\Business Logic\BusinessLogic.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
   </ItemGroup>
-
-
 </Project>

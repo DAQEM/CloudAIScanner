@@ -11,17 +11,14 @@ namespace BusinessLogic.Classes
         public string PhoneNumber { get; set; }
         public List<AISystem> AISystems { get; set; }
 
-        internal Provider toSimpleProvider(ProviderEntity providerEntity)
+        public Provider(Guid guid, string name, string address, string email, string phoneNumber)
         {
-            guid = providerEntity.Id;
-            Name = providerEntity.Name;
-            Address = providerEntity.Address;
-            Email = providerEntity.Email;
-            PhoneNumber = providerEntity.PhoneNumber;
-
-            return this;
+            this.guid = guid;
+            Name = name;
+            Address = address;
+            Email = email;
+            PhoneNumber = phoneNumber;
         }
-
         public Provider()
         {
             AISystems = new List<AISystem>();
