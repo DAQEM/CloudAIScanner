@@ -31,7 +31,7 @@ namespace BusinessLogic.Services
             return aiSystems;
         }
 
-        public AISystem setAISystemById(Guid id)
+        public AISystem getAISystemById(Guid id)
         {
             AISystemEntity aisystemEntity = _IaiSystemRepository.GetAiSystemById(id);
             AISystem aisystem = new AISystem();
@@ -39,6 +39,47 @@ namespace BusinessLogic.Services
             aisystem.setFiles(aisystemEntity);
 
             return aisystem;
+        }
+        public AISystem AddAiSystem(AISystem aiSystem)
+        {
+            AISystemEntity aiSystemEntity = new AISystemEntity();
+            CertificateEntity certificateEntity = new CertificateEntity();
+            certificateEntity.Number = aiSystem.certificate.Number;
+            certificateEntity.Type = aiSystem.certificate.Type;
+        
+            ScanCertificateEntity scanCertificateEntity = new ScanCertificateEntity();
+            scanCertificateEntity.Filename = aiSystem.certificate.ScanCertificate.Filename;
+            scanCertificateEntity.Filepath = string.Empty;
+            certificateEntity.ScanCertificate = scanCertificateEntity;
+            certificateEntity.ExpiryDate = aiSystem.certificate.ExpiryDate;
+            certificateEntity.NameNotifiedBody = aiSystem.certificate.NameNotifiedBody;
+            certificateEntity.IdNotifiedBody = aiSystem.certificate.IdNotifiedBody;
+
+            foreach (AISystemFile aiSystemFile in aiSystem.Files)
+            {
+                AISystemFileEntity aiSystemFileEntity = new AISystemFileEntity();
+                aiSystemFileEntity.Filename = aiSystemFile.Filename;
+                aiSystemFileEntity.Filetype = aiSystemFile.Filetype;
+                aiSystemFileEntity.Filepath = string.Empty;
+                aiSystemEntity.FileEntities.Add(aiSystemFileEntity);
+
+            }
+            
+            aiSystemEntity.Name = aiSystem.Name;
+            aiSystemEntity.Status = aiSystem.Status;
+            aiSystemEntity.URL = aiSystem.URL;
+            aiSystemEntity.TechnicalDocumentationLink = aiSystem.TechnicalDocumentationLink;
+            aiSystemEntity.DateAdded = DateOnly.FromDateTime(DateTime.Now);
+            aiSystemEntity.ApprovalStatus = 2;
+            aiSystemEntity.CertificateEntity = certificateEntity;
+            aiSystemEntity.ProviderId = aiSystem.provider.guid;
+            
+        
+            AISystemEntity returnAISystem = _IaiSystemRepository.AddSystemAI(aiSystemEntity);
+            aiSystem.Guid = returnAISystem.Id;
+            aiSystem.ApprovalStatus = (AIRegisterEnum.ApprovalStatus)returnAISystem.ApprovalStatus;
+            aiSystem.DateAdded = returnAISystem.DateAdded;
+            return aiSystem;
         }
     }
 }

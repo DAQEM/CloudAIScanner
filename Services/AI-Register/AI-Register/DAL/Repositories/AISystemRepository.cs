@@ -8,6 +8,7 @@ using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DAL.Repositories
 {
@@ -61,11 +62,16 @@ namespace DAL.Repositories
             }
 
         }
-        public void AddSystemAI(AISystemEntity aiSystemEntity)
+        public AISystemEntity AddSystemAI(AISystemEntity aiSystemEntity)
         {
             _context.Add((aiSystemEntity.CertificateEntity));
+            foreach (AISystemFileEntity aiSystemFileEntity in aiSystemEntity.FileEntities)
+            {
+                _context.Add(aiSystemFileEntity);
+            }
             _context.Add(aiSystemEntity);
             _context.SaveChanges();
+            return aiSystemEntity;
         }
     }
 }

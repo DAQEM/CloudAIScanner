@@ -4,7 +4,7 @@ namespace BusinessLogic.Interfaces;
 
 public interface IAISystemRepository
 {
-    public void AddSystemAI(AISystemEntity aiSystemEntity);
+    public AISystemEntity AddSystemAI(AISystemEntity aiSystemEntity);
     
     public List<AISystemEntity> GetAiSystemsWithProvider();
 

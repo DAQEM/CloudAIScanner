@@ -12,9 +12,10 @@ public class ProviderRepository : IProviderRepository
         Context = aiRegisterDbContext;
     }
 
-    public void CreateProvider(ProviderEntity providerEntity)
+    public ProviderEntity CreateProvider(ProviderEntity providerEntity)
     {
         Context.Add(providerEntity);
         Context.SaveChanges();
+        return providerEntity;
     }
 }

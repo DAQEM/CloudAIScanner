@@ -6,6 +6,7 @@ using BusinessLogic.Classes;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIRegister.Controllers
@@ -21,8 +22,8 @@ namespace AIRegister.Controllers
             try
             {
                 ProviderService providerService = new ProviderService(providerRepository);
-                providerService.CreateProvider(provider);
-                return Ok();
+                Provider returnProvider = providerService.CreateProvider(provider);
+                return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
             }
             catch (Exception e)
             {

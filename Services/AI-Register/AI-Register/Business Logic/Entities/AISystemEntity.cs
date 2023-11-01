@@ -17,7 +17,7 @@ namespace BusinessLogic.Entities
 
         public ProviderEntity ProviderEntity { get; set; }
         public CertificateEntity CertificateEntity { get; set; }
-        public ICollection<AISystemFileEntity> FileEntities { get; set; }
+        public ICollection<AISystemFileEntity> FileEntities { get; set; } = new List<AISystemFileEntity>();
 
     }
 }
