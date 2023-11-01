@@ -6,6 +6,7 @@ using BusinessLogic.Classes;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIRegister.Controllers
@@ -16,10 +17,19 @@ namespace AIRegister.Controllers
     {
         // POST: api/Provider
         [HttpPost]
-        public void Post([FromServices] IProviderRepository providerRepository, Provider provider)
+        public IActionResult Post([FromServices] IProviderRepository providerRepository, Provider provider)
         {
-            ProviderService providerService = new ProviderService(providerRepository);
-            providerService.CreateProvider(provider);
+            try
+            {
+                ProviderService providerService = new ProviderService(providerRepository);
+                Provider returnProvider = providerService.CreateProvider(provider);
+                return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         // PUT: api/Provider/5

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogic.Entities;
 
 namespace BusinessLogic.Classes
 {
@@ -15,5 +16,18 @@ namespace BusinessLogic.Classes
         public string NameNotifiedBody { get; set; }
         public int IdNotifiedBody { get; set; }
         public ScanCertificate ScanCertificate { get; set; }
+
+        internal Certificate toCertificate(CertificateEntity certificateEntity)
+        {
+            guid = certificateEntity.Id;
+            Type = certificateEntity.Type;
+            Number = certificateEntity.Number;
+            ExpiryDate = certificateEntity.ExpiryDate;
+            NameNotifiedBody = certificateEntity.NameNotifiedBody;
+            IdNotifiedBody = certificateEntity.IdNotifiedBody;
+            ScanCertificate = new ScanCertificate().toScanCertificate(certificateEntity.ScanCertificate);
+
+            return this;
+        }
     }
 }

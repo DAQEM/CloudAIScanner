@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.ServiceUsage.V1;
 using logic.Entities;
 using Logic.Interfaces;
+using logic.Models;
 
 namespace Logic.Services
 {
@@ -19,7 +20,24 @@ namespace Logic.Services
 
             List<AiSystemModel> AiSystems = services.Select(service => new AiSystemModel
             {
-                TradeName = service.Name
+                UnambiguousReference = service.Name,
+                TradeName = service.Config.Title,
+                Description = service.Config.Documentation.Summary,
+                Provider = new AiSystemProvider
+                {
+                    Id = 0,
+                    Name = "Google",
+                    Address = "1600 Amphitheatre Parkway in Mountain View, California",
+                    ContactDetails = "https://cloud.google.com/contact"
+                },
+                AiStatus = AiStatus.InService,
+                RegistrationStatus = RegistrationStatus.Pending,
+                Representative = new AiSystemRepresentative
+                {
+                    NameRepresentative = "Google Cloud Employee",
+                    AddressRepresentative = "Unknown",
+                    ContactDetailsRepresentative = "Unknown"
+                }
             }).ToList();
 
             return AiSystems;

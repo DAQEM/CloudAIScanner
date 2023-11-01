@@ -9,11 +9,11 @@ namespace DAL
         {
         }
 
-        DbSet<AISystemFileEntity> AISystemFiles { get; set; }
-        DbSet<AISystemEntity> AISystems { get; set; }
-        DbSet<CertificateEntity> Certificates { get; set; }
-        DbSet<ProviderEntity> Providers { get; set; }
-        DbSet<ScanCertificateEntity> ScanCertificates { get; set; }
+        public DbSet<AISystemFileEntity> AISystemFiles { get; set; }
+        public DbSet<AISystemEntity> AISystems { get; set; }
+        public DbSet<CertificateEntity> Certificates { get; set; }
+        public DbSet<ProviderEntity> Providers { get; set; }
+        public DbSet<ScanCertificateEntity> ScanCertificates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

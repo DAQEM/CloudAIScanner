@@ -4,5 +4,5 @@ namespace BusinessLogic.Interfaces;
 
 public interface IProviderRepository
 {
-    public void CreateProvider(ProviderEntity providerEntity);
+    public ProviderEntity CreateProvider(ProviderEntity providerEntity);
 }

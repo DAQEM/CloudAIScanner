@@ -13,13 +13,15 @@ public class ProviderService
         ProviderRepository = providerRepository;
     }
 
-    public void CreateProvider(Provider provider)
+    public Provider CreateProvider(Provider provider)
     {
         ProviderEntity providerEntity = new ProviderEntity();
         providerEntity.Name = provider.Name;
         providerEntity.Address = provider.Address;
         providerEntity.Email = provider.Email;
         providerEntity.PhoneNumber = provider.PhoneNumber;
-        ProviderRepository.CreateProvider(providerEntity);
+        ProviderEntity returnProviderEntity = ProviderRepository.CreateProvider(providerEntity);
+        provider.guid = returnProviderEntity.Id;
+        return provider;
     }
 }

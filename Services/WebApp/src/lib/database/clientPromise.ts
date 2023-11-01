@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 
 function getUri() {
 	if (constants.isDev) {
-		return 'mongodb://root:mongopwd@localhost:27017';
+		return 'mongodb://root:mongopwd@localhost:8080';
 	}
 	return 'mongodb://root:mongopwd@account-db:27017';
 }

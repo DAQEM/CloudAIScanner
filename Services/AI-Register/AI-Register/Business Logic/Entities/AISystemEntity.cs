@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices.JavaScript;
 
 namespace BusinessLogic.Entities
 {
@@ -19,7 +18,7 @@ namespace BusinessLogic.Entities
 
         public ProviderEntity ProviderEntity { get; set; }
         public CertificateEntity CertificateEntity { get; set; }
-        public ICollection<AISystemFileEntity> FileEntities { get; set; }
-        
+        public ICollection<AISystemFileEntity> FileEntities { get; set; } = new List<AISystemFileEntity>();
+
     }
 }
