@@ -7,6 +7,7 @@ using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AIRegister.DTOs;
 
 namespace AIRegister.Controllers
 {
@@ -14,19 +15,30 @@ namespace AIRegister.Controllers
     [ApiController]
     public class AISystemController : ControllerBase
     {
-        // GET: api/AISystem
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        
+        private readonly IAISystemRepository _aiSystem;
 
-        // GET: api/AISystem/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public AISystemController(IAISystemRepository aiSystem)
         {
-            return "value";
+            _aiSystem = aiSystem;
         }
+        // GET: api/<AISystemController>
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                AIsystemService aisystemService = new AIsystemService(_aiSystem);
+                List<AISystem> aisystems = aisystemService.GetAiSystems();
+                List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
+                foreach (AISystem sytem in aisystems)
+                {
+                    GetAISystemDTO getAISystemDTO = new GetAISystemDTO(sytem.Guid, sytem.Name, sytem.provider.Name, sytem.DateAdded, sytem.ApprovalStatus);
+                    getAISystemDTOs.Add(getAISystemDTO);
+                }
+
+                return Ok(getAISystemDTOs);
+       
 
         // POST: api/AISystem
         [HttpPost]
@@ -42,19 +54,28 @@ namespace AIRegister.Controllers
             {
                 return BadRequest(e.Message);
             }
-            
         }
 
-        // PUT: api/AISystem/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // GET api/<AISystemController>/5
+        [HttpGet("{id}")]
+        public IActionResult Get(Guid id)
         {
+            try
+            {
+                AIsystemService aisystemService = new AIsystemService(_aiSystem);
+                AISystem aisystem = aisystemService.setAISystemById(id);
+                ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
+                CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
+                AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.Status, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList());
+
+                return Ok(aiDetailDTO);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+ 
         }
 
-        // DELETE: api/AISystem/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
