@@ -29,7 +29,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AIsystemService aisystemService = new AIsystemService(_aiSystem);
+                AISystemService aisystemService = new AISystemService(_aiSystem);
                 List<AISystem> aisystems = aisystemService.GetAiSystems();
                 List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
                 foreach (AISystem sytem in aisystems)
@@ -54,7 +54,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AIsystemService aiSystemService = new AIsystemService(aiSystemRepository);
+                AISystemService aiSystemService = new AISystemService(aiSystemRepository);
                 
                 AISystem returnAISystem = aiSystemService.AddAiSystem(aiSystem);
                 return Created(new Uri(Request.GetDisplayUrl()), returnAISystem);
@@ -71,7 +71,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AIsystemService aisystemService = new AIsystemService(_aiSystem);
+                AISystemService aisystemService = new AISystemService(_aiSystem);
                 AISystem aisystem = aisystemService.getAISystemById(id);
                 ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
                 CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
