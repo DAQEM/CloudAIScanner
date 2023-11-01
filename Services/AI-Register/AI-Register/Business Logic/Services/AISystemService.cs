@@ -24,8 +24,8 @@ namespace BusinessLogic.Services
             List<AISystem> aiSystems = new List<AISystem>();
             foreach (AISystemEntity aiSystem in aiSystemEntities)
             {
-                AISystem newAISystem = new AISystem();
-                newAISystem.toAISystem(aiSystem);
+                Provider newProvider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
+                AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (AIRegisterEnum.ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)));
                 aiSystems.Add(newAISystem);
             }
             return aiSystems;
@@ -33,12 +33,12 @@ namespace BusinessLogic.Services
 
         public AISystem getAISystemById(Guid id)
         {
-            AISystemEntity aisystemEntity = _IaiSystemRepository.GetAiSystemById(id);
-            AISystem aisystem = new AISystem();
-            aisystem.toAISystem(aisystemEntity);
-            aisystem.setFiles(aisystemEntity);
+            AISystemEntity aiSystem = _IaiSystemRepository.GetAiSystemById(id);
+            Provider provider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
+            AISystem detailedAiSystem = new AISystem(aiSystem.Id, aiSystem.Name, aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (AIRegisterEnum.ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, provider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)));
+            detailedAiSystem.setFiles(aiSystem);
 
-            return aisystem;
+            return detailedAiSystem;
         }
         public AISystem AddAiSystem(AISystem aiSystem)
         {

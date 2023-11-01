@@ -14,15 +14,13 @@ namespace BusinessLogic.Classes
         public string Filename { get; set; }
         public string Filepath { get; set; }
         public string Filetype { get; set; }
-
-        internal AISystemFile toAISystemFile(AISystemFileEntity aiSystemFileEntity)
+        
+        public AISystemFile(Guid guid, string filename, string filepath, string filetype)
         {
-            guid = aiSystemFileEntity.Id;
-            Filename = aiSystemFileEntity.Filename;
-            Filepath = aiSystemFileEntity.Filepath;
-            Filetype = aiSystemFileEntity.Filetype;
-
-            return this;
-        }   
+            this.guid = guid;
+            Filename = filename;
+            Filepath = filepath;
+            Filetype = filetype;
+        }
     }
 }
