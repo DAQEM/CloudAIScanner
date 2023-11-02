@@ -1,9 +1,14 @@
 FROM node:20.6.0-alpine3.18
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install production dependencies.
+RUN npm install
+
+# Copy local code to the container image.
 COPY . .
-RUN npm run build && npm prune --production
-ENV PORT 5050
-EXPOSE 5050
-CMD ["node", "build"]
+
+# Run the web service on container startup.
+CMD npm run dev -- --host 
