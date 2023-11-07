@@ -1,9 +1,11 @@
 import { ObjectId } from 'bson';
 import type { Collection, Db, MongoClient, WithId } from 'mongodb';
+import clientPromise from './clientPromise';
+import { roles } from '$lib/types/role';
 
 export interface User {
-	_id?: ObjectId;
-	userId?: ObjectId;
+	_id?: ObjectId | string;
+	userId?: ObjectId | string;
 	name?: string;
 	email?: string;
 	image?: string;
@@ -23,8 +25,6 @@ interface DatabaseAccount {
 	image: string;
 }
 
-const allRoles = ['admin', 'editor', 'user'];
-
 export class UserDatabase {
 	private db: Db;
 	private userCollection: Collection<DatabaseUser>;
@@ -40,18 +40,19 @@ export class UserDatabase {
 		return new UserDatabase((await client).db("accounts"));
 	}
 
+	static async get(): Promise<UserDatabase> {
+		return await UserDatabase.fromClient(clientPromise);
+	}
+
 	async addUser(user: DatabaseUser): Promise<User | WithId<User> | null> {
 		//check if email is already in use
-		await this.userCollection.findOne({ email: user.email }).then((result) => {
-			if (result) {
-				throw new Error('Email already in use');
-			}
-		});
+		const result = await this.userCollection.findOne({ email: user.email });
+		if (result) return null;
 
 		//check if roles are valid
 		user.roles.forEach((role) => {
-			if (!allRoles.includes(role)) {
-				throw new Error('Invalid role ' + role);
+			if (!roles.includes(role)) {
+				return null;
 			}
 		});
 
@@ -140,5 +141,22 @@ export class UserDatabase {
 	async deleteUser(id: ObjectId): Promise<boolean> {
 		const result = await this.userCollection.findOneAndDelete({ _id: id });
 		return !!result;
+	}
+
+	async addRole(_id: ObjectId, role: string) {
+		const user = await this.userCollection.findOne({ _id });
+		if (user) {
+			const roles = user.roles;
+			roles.push(role);
+			await this.userCollection.findOneAndUpdate({ _id }, { $set: { roles } });
+		}
+	}
+
+	async deleteRole(_id: ObjectId, role: string): Promise<void> {
+		const user = await this.userCollection.findOne({ _id });
+		if (user) {
+			const roles = user.roles.filter((r) => r !== role);
+			await this.userCollection.findOneAndUpdate({ _id }, { $set: { roles } });
+		}
 	}
 }

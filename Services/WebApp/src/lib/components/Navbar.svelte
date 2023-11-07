@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { User } from '$lib/database/userDatabase';
 	import logo from '$lib/images/logo.png';
 	import type { Session } from '@auth/core/types';
 	import { signOut } from '@auth/sveltekit/client';
@@ -18,7 +19,7 @@
 	} from 'flowbite-svelte';
 	import { ChevronDownOutline } from 'flowbite-svelte-icons';
 	export let session: Session | null;
-	export let associatedUser: any;
+	export let associatedUser: User | null;
 </script>
 
 <Navbar>

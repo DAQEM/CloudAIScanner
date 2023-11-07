@@ -67,8 +67,8 @@
 			</Button>
 		</div>
 	</div>
-	<Table hoverable={true} divClass="w-full">
-		<TableHead>
+	<Table hoverable={true} divClass="rounded-lg overflow-hidden w-full">
+		<TableHead class="text-white dark:text-white bg-primary-500 dark:bg-primary-600">
 			<TableHeadCell>ID</TableHeadCell>
 			<TableHeadCell>Name</TableHeadCell>
 			<TableHeadCell class="hidden sm:table-cell">Provider</TableHeadCell>

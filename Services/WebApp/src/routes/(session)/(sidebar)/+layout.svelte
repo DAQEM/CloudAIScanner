@@ -15,7 +15,7 @@
 		<Navbar {session} {associatedUser} />
 	</div>
 	<div class="bg-white w-64 fixed h-full lg:flex hidden px-3 dark:bg-gray-900">
-		<Sidebar {session} />
+		<Sidebar {session} {associatedUser} />
 	</div>
 
 	<div class="lg:ml-64">

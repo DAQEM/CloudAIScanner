@@ -12,8 +12,6 @@ export const load = (async ({ locals }) => {
 	const session = await locals.getSession();
 	let associatedUser = await getAssociatedUser(session);
 
-	console.log('associatedUser', associatedUser);
-
 	return {
 		session: structuredClone(session),
 		associatedUser: structuredClone(associatedUser)

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { User } from '$lib/database/userDatabase';
 	import logo from '$lib/images/logo.png';
 	import type { Session } from '@auth/core/types';
 	import { signOut } from '@auth/sveltekit/client';
@@ -17,6 +18,7 @@
 	import { slide } from 'svelte/transition';
 
 	export let session: Session | null;
+	export let associatedUser: User | null;
 
 	let user_popup_shown = false;
 </script>
@@ -43,19 +45,21 @@
 				</svelte:fragment>
 			</SidebarItem>
 		</SidebarGroup>
-		<SidebarGroup class="p-4">
-			<h1 class="text-sm font-bold text-gray-500 uppercase">Admin</h1>
-			<SidebarDropdownWrapper label="Admin" isOpen>
-				<svelte:fragment slot="icon">
-					<GearSolid
-						class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-					/>
-				</svelte:fragment>
-				<SidebarDropdownItem label="Dashboard" href="/admin" />
-				<SidebarDropdownItem label="Users" href="/admin/users" />
-				<SidebarDropdownItem label="System Approval" href="/admin/approval" />
-			</SidebarDropdownWrapper>
-		</SidebarGroup>
+		{#if associatedUser && associatedUser.roles.includes('admin')}
+			<SidebarGroup class="p-4">
+				<h1 class="text-sm font-bold text-gray-500 uppercase">Admin</h1>
+				<SidebarDropdownWrapper label="Admin" isOpen>
+					<svelte:fragment slot="icon">
+						<GearSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+					<SidebarDropdownItem label="Dashboard" href="/admin" />
+					<SidebarDropdownItem label="Users" href="/admin/users" />
+					<SidebarDropdownItem label="System Approval" href="/admin/approval" />
+				</SidebarDropdownWrapper>
+			</SidebarGroup>
+		{/if}
 		<SidebarGroup class="flex h-full items-end">
 			{#if session?.user}
 				<div class="bg-gray-200 dark:bg-gray-800 rounded-xl p-3 mb-4">
