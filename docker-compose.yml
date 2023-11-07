@@ -55,3 +55,11 @@ services:
       MYSQL_PASSWORD: my_password
     ports:
       - "3306:3306"
+      
+  ai-register:
+    build: Services\AI-Register\AI-Register
+    container_name: ai-register-service
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "5052:8080"

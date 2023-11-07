@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BusinessLogic.Classes;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using AIRegister.DTOs;
+using Microsoft.AspNetCore.Http.Extensions;
+
+namespace AIRegister.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AISystemController : ControllerBase
+    {
+        
+        private readonly IAISystemRepository _aiSystem;
+
+        public AISystemController(IAISystemRepository aiSystem)
+        {
+            _aiSystem = aiSystem;
+        }
+        // GET: api/<AISystemController>
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                AISystemService aisystemService = new AISystemService(_aiSystem);
+                List<AISystem> aisystems = aisystemService.GetAiSystems();
+                List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
+                foreach (AISystem sytem in aisystems)
+                {
+                    GetAISystemDTO getAISystemDTO = new GetAISystemDTO(sytem.Guid, sytem.Name, sytem.provider.Name,
+                        sytem.DateAdded, sytem.ApprovalStatus);
+                    getAISystemDTOs.Add(getAISystemDTO);
+                }
+
+                return Ok(getAISystemDTOs);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        // POST: api/AISystem
+        [HttpPost]
+        public IActionResult Post([FromServices] IAISystemRepository aiSystemRepository, AISystem aiSystem)
+        {
+            try
+            {
+                AISystemService aiSystemService = new AISystemService(aiSystemRepository);
+                
+                AISystem returnAISystem = aiSystemService.AddAiSystem(aiSystem);
+                return Created(new Uri(Request.GetDisplayUrl()), returnAISystem);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        // GET api/<AISystemController>/5
+        [HttpGet("{id}")]
+        public IActionResult Get(Guid id)
+        {
+            try
+            {
+                AISystemService aisystemService = new AISystemService(_aiSystem);
+                AISystem aisystem = aisystemService.getAISystemById(id);
+                ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
+                CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
+                AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.Status, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList());
+
+                return Ok(aiDetailDTO);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+ 
+        }
+
+    }
+}
