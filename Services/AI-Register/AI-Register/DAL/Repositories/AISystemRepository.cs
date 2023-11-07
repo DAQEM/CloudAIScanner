@@ -39,8 +39,7 @@ namespace DAL.Repositories
                 Console.WriteLine(e);
                 throw;
             }
-          
-   
+
         }
 
         public List<AISystemEntity> GetAiSystemsWithProvider()
@@ -60,8 +59,8 @@ namespace DAL.Repositories
                 Console.WriteLine(e);
                 throw;
             }
-
         }
+
         public AISystemEntity AddSystemAI(AISystemEntity aiSystemEntity)
         {
             _context.Add((aiSystemEntity.CertificateEntity));
@@ -74,5 +73,4 @@ namespace DAL.Repositories
             return aiSystemEntity;
         }
     }
-    
 }

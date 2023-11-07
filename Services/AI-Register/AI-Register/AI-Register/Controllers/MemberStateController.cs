@@ -1,5 +1,6 @@
 ﻿using AIRegister.DTOs;
 using BusinessLogic.Classes;
+using BusinessLogic.Enums;
 using BusinessLogic.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,11 @@ namespace AIRegister.Controllers
         public IActionResult Get()
         {
             List<EnumDTO> aiSystemStatusEnumCollection = new List<EnumDTO>();
-            foreach (string status in EnumHelper.EnumToList<AIRegisterEnum.MemberStates>())
+            foreach (string status in EnumHelper.EnumToList<MemberStates>())
             {
                 EnumDTO aiSystemStatusEnum = new EnumDTO();
                 aiSystemStatusEnum.Name = status;
-                aiSystemStatusEnum.id = EnumHelper.EnumParse<AIRegisterEnum.MemberStates>(status);
+                aiSystemStatusEnum.id = EnumHelper.EnumParse<MemberStates>(status);
                 aiSystemStatusEnumCollection.Add(aiSystemStatusEnum);
 
             }
@@ -32,7 +33,7 @@ namespace AIRegister.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(EnumHelper.EnumToString<AIRegisterEnum.MemberStates>(id));
+            return Ok(EnumHelper.EnumToString<MemberStates>(id));
         }
 
     }
