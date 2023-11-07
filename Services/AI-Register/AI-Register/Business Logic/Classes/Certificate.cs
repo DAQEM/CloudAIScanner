@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogic.Entities;
 
 namespace BusinessLogic.Classes
 {
@@ -15,5 +16,17 @@ namespace BusinessLogic.Classes
         public string NameNotifiedBody { get; set; }
         public int IdNotifiedBody { get; set; }
         public ScanCertificate ScanCertificate { get; set; }
+        
+
+        public Certificate(Guid guid, string type, int number, DateTime expiryDate, string nameNotifiedBody, int idNotifiedBody, ScanCertificate scanCertificate)
+        {
+            this.guid = guid;
+            Type = type;
+            Number = number;
+            ExpiryDate = expiryDate;
+            NameNotifiedBody = nameNotifiedBody;
+            IdNotifiedBody = idNotifiedBody;
+            ScanCertificate = scanCertificate;
+        }
     }
 }

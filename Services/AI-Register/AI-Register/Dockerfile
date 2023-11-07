@@ -2,21 +2,20 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["AI-Register/AI-Register.csproj", "AI-Register/"]
-RUN dotnet restore "AI-Register/AI-Register.csproj"
+COPY ["AI-Register/AIRegister.csproj", "./AI-Register/"]
+RUN dotnet restore "AI-Register/AIRegister.csproj"
 COPY . .
 WORKDIR "/src/AI-Register"
-RUN dotnet build "AI-Register.csproj" -c Release -o /app/build
+RUN dotnet build "AIRegister.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AI-Register.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "AIRegister.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AI-Register.dll"]
+ENTRYPOINT ["dotnet", "AIRegister.dll"]

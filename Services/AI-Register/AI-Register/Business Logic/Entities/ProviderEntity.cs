@@ -11,6 +11,7 @@ namespace BusinessLogic.Entities
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
-        public ICollection<AISystemEntity> aISystemEntity{ get; set;} 
+        public ICollection<AISystemEntity> aISystemEntity{ get; set;}
+        
     }
 }
