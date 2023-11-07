@@ -12,8 +12,10 @@ namespace BusinessLogic.Entities
         public string TechnicalDocumentationLink { get; set; }
         public DateOnly DateAdded { get; set; }
         public int ApprovalStatus { get; set; }
+        public string Description { get; set; }
         public Guid ProviderId { get; set; }
         public Guid CertificateId { get; set; }
+        public int MemberState { get; set; }
 
         public ProviderEntity ProviderEntity { get; set; }
         public CertificateEntity CertificateEntity { get; set; }

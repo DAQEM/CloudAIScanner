@@ -1,5 +1,6 @@
 ﻿using AIRegister.DTOs;
 using BusinessLogic.Classes;
+using BusinessLogic.Enums;
 using BusinessLogic.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,11 @@ namespace AIRegister.Controllers
         {
            
             List<EnumDTO> approvalStatusCollection = new List<EnumDTO>();
-            foreach (string approval in EnumHelper.EnumToList<AIRegisterEnum.ApprovalStatus>())
+            foreach (string approval in EnumHelper.EnumToList<ApprovalStatus>())
             {
                 EnumDTO approvalStatusDTO = new EnumDTO();
                 approvalStatusDTO.Name = approval;
-                approvalStatusDTO.id = EnumHelper.EnumParse<AIRegisterEnum.ApprovalStatus>(approval);
+                approvalStatusDTO.id = EnumHelper.EnumParse<ApprovalStatus>(approval);
                 approvalStatusCollection.Add(approvalStatusDTO);
                 
             }
@@ -33,7 +34,7 @@ namespace AIRegister.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-           return Ok(EnumHelper.EnumToString<AIRegisterEnum.ApprovalStatus>(id));
+           return Ok(EnumHelper.EnumToString<ApprovalStatus>(id));
         }
 
     }
