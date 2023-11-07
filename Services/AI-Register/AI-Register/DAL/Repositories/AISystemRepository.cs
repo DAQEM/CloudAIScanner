@@ -75,14 +75,36 @@ namespace DAL.Repositories
         }
         public void UpdateAISystem(AISystemEntity aiSystemEntity)
         {
-            AISystemEntity aiSystemToUpdate = context.AISystems.Find(aiSystemEntity.Id);
+            AISystemEntity aiSystemToUpdate = _context.AISystems.First(a => a.Id == aiSystemEntity.Id);
             if (aiSystemToUpdate != null)
             {
-                aiSystemToUpdate = aiSystemEntity;
+                if (aiSystemEntity.Name != null)
+                {
+                    aiSystemToUpdate.Name = aiSystemEntity.Name;
+                }
+                if (aiSystemEntity.Status != null)
+                {
+                    aiSystemToUpdate.Status = aiSystemEntity.Status;
+                }
+
+                if (aiSystemEntity.URL != null)
+                {
+                    aiSystemToUpdate.URL = aiSystemEntity.URL;
+                }
+                if(aiSystemEntity.TechnicalDocumentationLink != null)
+                {
+                    aiSystemToUpdate.TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink;
+                }
+                if (aiSystemEntity.ApprovalStatus != null)
+                {
+                    aiSystemToUpdate.ApprovalStatus = aiSystemEntity.ApprovalStatus;
+                }
+                if (aiSystemEntity.Description != null)
+                {
+                    aiSystemToUpdate.Description = aiSystemEntity.Description;
+                }
             }
-            context.SaveChanges();
+            _context.SaveChanges();
         }
     }
-    }
-    
 }

@@ -9,4 +9,6 @@ public interface IAISystemRepository
     public List<AISystemEntity> GetAiSystemsWithProvider();
 
     public AISystemEntity GetAiSystemById(Guid id);
+    
+    public void UpdateAISystem(AISystemEntity aiSystemEntity);
 }

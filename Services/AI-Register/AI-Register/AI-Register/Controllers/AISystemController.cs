@@ -85,13 +85,23 @@ namespace AIRegister.Controllers
             }
  
         }
-        // PUT: api/AISystem/5
-        [HttpPut("{id}")]
-        public IActionResult Put([FromServices] IAISystemRepository aiSystemRepository, AISystem aiSystem)
+        // PUT: api/AISystem/
+        [HttpPut]
+        public IActionResult Put([FromServices] IAISystemRepository aiSystemRepository, AIUpdateDTO aiUpdateDto)
         {
             try
             {
-                AISystemService aiSystemService = new AISystemService(aiSystemRepository);
+                AISystem aiSystem = new AISystem()
+                {
+                    Name = aiUpdateDto.Name,
+                    Status = aiUpdateDto.Status,
+                    TechnicalDocumentationLink = aiUpdateDto.TechnicalDocumentationLink,
+                    URL = aiUpdateDto.Url,
+                    Guid = aiUpdateDto.Guid,
+                    Description = aiUpdateDto.Description,
+                    ApprovalStatus = aiUpdateDto.ApprovalStatus
+                };
+              AISystemService aiSystemService = new AISystemService(aiSystemRepository);
                 aiSystemService.UpdateAISystem(aiSystem);
                 return Ok();
             }

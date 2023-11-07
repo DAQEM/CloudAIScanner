@@ -25,7 +25,7 @@ namespace BusinessLogic.Services
             foreach (AISystemEntity aiSystem in aiSystemEntities)
             {
                 Provider newProvider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
-                AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (AIRegisterEnum.ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)));
+                AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (AIRegisterEnum.ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)), aiSystem.Description);
                 aiSystems.Add(newAISystem);
             }
             return aiSystems;
@@ -35,7 +35,7 @@ namespace BusinessLogic.Services
         {
             AISystemEntity aiSystem = _IaiSystemRepository.GetAiSystemById(id);
             Provider provider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
-            AISystem detailedAiSystem = new AISystem(aiSystem.Id, aiSystem.Name, aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (AIRegisterEnum.ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, provider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)));
+            AISystem detailedAiSystem = new AISystem(aiSystem.Id, aiSystem.Name, aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (AIRegisterEnum.ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, provider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)), aiSystem.Description);
             detailedAiSystem.setFiles(aiSystem);
 
             return detailedAiSystem;
@@ -84,26 +84,16 @@ namespace BusinessLogic.Services
         }
         public void UpdateAISystem(AISystem aiSystem)
         {
-            CertificateEntity certificateEntity = new CertificateEntity();
-            certificateEntity.Number = aiSystem.certificate.Number;
-            certificateEntity.Type = aiSystem.certificate.Type;
-        
-            ScanCertificateEntity scanCertificateEntity = new ScanCertificateEntity();
-            scanCertificateEntity.Id = aiSystem.certificate.ScanCertificate.guid;
-            certificateEntity.ScanCertificate = scanCertificateEntity;
-            certificateEntity.ExpiryDate = aiSystem.certificate.ExpiryDate;
-            certificateEntity.NameNotifiedBody = aiSystem.certificate.NameNotifiedBody;
-            certificateEntity.IdNotifiedBody = aiSystem.certificate.IdNotifiedBody;
         
             AISystemEntity aiSystemEntity = new AISystemEntity();
             aiSystemEntity.Name = aiSystem.Name;
             aiSystemEntity.Status = aiSystem.Status;
             aiSystemEntity.URL = aiSystem.URL;
             aiSystemEntity.TechnicalDocumentationLink = aiSystem.TechnicalDocumentationLink;
-            aiSystemEntity.CertificateEntity = certificateEntity;
-            aiSystemEntity.ProviderId = aiSystem.provider.guid;
+            aiSystemEntity.Description = aiSystem.Description;
+            aiSystemEntity.ApprovalStatus = (int)aiSystem.ApprovalStatus;
             aiSystemEntity.Id = aiSystem.Guid;
-            AiSystemRepository.UpdateAISystem(aiSystemEntity);
+            _IaiSystemRepository.UpdateAISystem(aiSystemEntity);
         }
     }
 }

@@ -24,12 +24,8 @@ namespace BusinessLogic.Classes
 
 
         public AISystem(){ }
-
-        internal AISystem toAISystem(AISystemEntity aiSystemEntity)
-        {
-            
-        }
-        public AISystem(Guid guid, string name, int status, string url, string technicalDocumentationLink, AIRegisterEnum.ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate)
+        
+        public AISystem(Guid guid, string name, int status, string url, string technicalDocumentationLink, AIRegisterEnum.ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate, string description)
         {
             Guid = guid;
             Name = name;
@@ -40,16 +36,7 @@ namespace BusinessLogic.Classes
             DateAdded = dateAdded;
             this.provider = provider;
             this.certificate = certificate;
-           Description = aiSystemEntity.Description;
-           ApprovalStatus = (AIRegisterEnum.ApprovalStatus)aiSystemEntity.ApprovalStatus;
-
-            TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink;
-            provider = new Provider();
-            provider.toSimpleProvider(aiSystemEntity.ProviderEntity);
-            certificate = new Certificate();
-            certificate.toCertificate(aiSystemEntity.CertificateEntity);
-
-            return this;
+            Description = description;
         }
 
         internal void setFiles(AISystemEntity aiSystemEntity)
