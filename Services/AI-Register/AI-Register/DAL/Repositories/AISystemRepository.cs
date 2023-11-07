@@ -72,5 +72,12 @@ namespace DAL.Repositories
             _context.SaveChanges();
             return aiSystemEntity;
         }
+
+        public void DeleteAiSystem(Guid aiSystemId)
+        {
+           AISystemEntity aisystem = _context.AISystems.First(a => a.Id == aiSystemId);
+            _context.Remove(aisystem);
+            _context.SaveChanges();
+        }
     }
 }

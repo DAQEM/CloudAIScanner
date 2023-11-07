@@ -83,5 +83,10 @@ namespace BusinessLogic.Services
             aiSystem.DateAdded = returnAISystem.DateAdded;
             return aiSystem;
         }
+
+        public void DeleteAiSystem(Guid id)
+        {
+            _IaiSystemRepository.DeleteAiSystem(id);
+        }
     }
 }
