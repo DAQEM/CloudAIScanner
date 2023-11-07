@@ -75,7 +75,7 @@ namespace AIRegister.Controllers
                 AISystem aisystem = aisystemService.getAISystemById(id);
                 ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
                 CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
-                AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.Status, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList(), aisystem.Description);
+                AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.ApprovalStatus, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList(), aisystem.Description, aisystem.MemberState);
 
                 return Ok(aiDetailDTO);
             }
