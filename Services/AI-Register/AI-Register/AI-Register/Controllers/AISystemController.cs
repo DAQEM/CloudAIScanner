@@ -32,10 +32,10 @@ namespace AIRegister.Controllers
                 AISystemService aisystemService = new AISystemService(_aiSystem);
                 List<AISystem> aisystems = aisystemService.GetAiSystems();
                 List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
-                foreach (AISystem sytem in aisystems)
+                foreach (AISystem system in aisystems)
                 {
-                    GetAISystemDTO getAISystemDTO = new GetAISystemDTO(sytem.Guid, sytem.Name, sytem.provider.Name,
-                        sytem.DateAdded, sytem.ApprovalStatus);
+                    GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, system.provider.Name,
+                        system.DateAdded, system.ApprovalStatus, system.Description);
                     getAISystemDTOs.Add(getAISystemDTO);
                 }
 
@@ -75,7 +75,7 @@ namespace AIRegister.Controllers
                 AISystem aisystem = aisystemService.getAISystemById(id);
                 ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
                 CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
-                AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.Status, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList());
+                AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.Status, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList(), aisystem.Description);
 
                 return Ok(aiDetailDTO);
             }

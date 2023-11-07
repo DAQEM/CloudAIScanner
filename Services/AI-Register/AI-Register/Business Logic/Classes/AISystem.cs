@@ -14,6 +14,7 @@ namespace BusinessLogic.Classes
         public string Name { get; set; }
         public int Status { get; set; }
         public string URL { get; set; }
+        public string Description { get; set; }
         public string TechnicalDocumentationLink { get; set; }
         public AIRegisterEnum.ApprovalStatus ApprovalStatus { get; set; }
         public DateOnly DateAdded { get; set; }
@@ -22,7 +23,9 @@ namespace BusinessLogic.Classes
         public ICollection<AISystemFile> Files { get; set; }
 
 
-        public AISystem()
+        public AISystem(){ }
+
+        internal AISystem toAISystem(AISystemEntity aiSystemEntity)
         {
             
         }
@@ -37,7 +40,16 @@ namespace BusinessLogic.Classes
             DateAdded = dateAdded;
             this.provider = provider;
             this.certificate = certificate;
-            
+           Description = aiSystemEntity.Description;
+           ApprovalStatus = (AIRegisterEnum.ApprovalStatus)aiSystemEntity.ApprovalStatus;
+
+            TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink;
+            provider = new Provider();
+            provider.toSimpleProvider(aiSystemEntity.ProviderEntity);
+            certificate = new Certificate();
+            certificate.toCertificate(aiSystemEntity.CertificateEntity);
+
+            return this;
         }
 
         internal void setFiles(AISystemEntity aiSystemEntity)
