@@ -9,4 +9,8 @@ public interface IProviderRepository
     public ProviderEntity UpdateProvider(ProviderEntity providerEntity);
 
     public void DeleteProvider(Guid id);
+    
+    public List<ProviderEntity> GetAllProviderEntities();
+
+    public ProviderEntity GetProviderById(Guid id);
 }
