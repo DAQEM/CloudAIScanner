@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BusinessLogic.Classes;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AIRegister.DTOs;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -50,11 +45,11 @@ namespace AIRegister.Controllers
 
         // POST: api/AISystem
         [HttpPost]
-        public IActionResult Post([FromServices] IAISystemRepository aiSystemRepository, AISystem aiSystem)
+        public IActionResult Post([FromBody]AISystem aiSystem)
         {
             try
             {
-                AISystemService aiSystemService = new AISystemService(aiSystemRepository);
+                AISystemService aiSystemService = new AISystemService(_aiSystem);
                 
                 AISystem returnAISystem = aiSystemService.AddAiSystem(aiSystem);
                 return Created(new Uri(Request.GetDisplayUrl()), returnAISystem);
@@ -87,7 +82,7 @@ namespace AIRegister.Controllers
         }
         // PUT: api/AISystem/
         [HttpPut]
-        public IActionResult Put([FromServices] IAISystemRepository aiSystemRepository, AIUpdateDTO aiUpdateDto)
+        public IActionResult Put([FromBody] AIUpdateDTO aiUpdateDto)
         {
             try
             {
@@ -102,9 +97,9 @@ namespace AIRegister.Controllers
                     ApprovalStatus = aiUpdateDto.ApprovalStatus,
                     MemberState = aiUpdateDto.MemberState
                 };
-              AISystemService aiSystemService = new AISystemService(aiSystemRepository);
-                aiSystemService.UpdateAISystem(aiSystem);
-                return Ok();
+              AISystemService aiSystemService = new AISystemService(_aiSystem);
+                AISystem returnAiSystem = aiSystemService.UpdateAISystem(aiSystem);
+                return Created(new Uri(Request.GetDisplayUrl()), returnAiSystem);
             }
             catch(Exception e)
             {

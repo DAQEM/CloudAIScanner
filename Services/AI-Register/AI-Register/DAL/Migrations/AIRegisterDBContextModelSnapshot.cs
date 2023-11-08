@@ -38,6 +38,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("MemberState")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");

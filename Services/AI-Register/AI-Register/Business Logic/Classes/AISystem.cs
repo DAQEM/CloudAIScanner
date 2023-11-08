@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLogic.Entities;
+﻿using BusinessLogic.Entities;
 using BusinessLogic.Enums;
-using BusinessLogic.Interfaces;
 
 namespace BusinessLogic.Classes
 {
@@ -40,6 +34,18 @@ namespace BusinessLogic.Classes
             DateAdded = dateAdded;
             this.provider = provider;
             this.certificate = certificate;
+        }
+
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string description, string technicalDocumentationLink, ApprovalStatus approvalStatus, MemberStates memberState)
+        {
+            Guid = guid;
+            Name = name;
+            Status = status;
+            URL = url;
+            Description = description;
+            TechnicalDocumentationLink = technicalDocumentationLink;
+            ApprovalStatus = approvalStatus;
+            MemberState = memberState;
         }
 
         internal void setFiles(AISystemEntity aiSystemEntity)

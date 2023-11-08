@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DAL.Repositories
 {
@@ -72,7 +64,7 @@ namespace DAL.Repositories
             _context.SaveChanges();
             return aiSystemEntity;
         }
-        public void UpdateAISystem(AISystemEntity aiSystemEntity)
+        public AISystemEntity UpdateAISystem(AISystemEntity aiSystemEntity)
         {
             AISystemEntity aiSystemToUpdate = _context.AISystems.First(a => a.Id == aiSystemEntity.Id);
             if (aiSystemToUpdate != null)
@@ -100,6 +92,7 @@ namespace DAL.Repositories
                 }
             }
             _context.SaveChanges();
+            return aiSystemToUpdate;
         }
 
         public void DeleteAiSystem(Guid aiSystemId)

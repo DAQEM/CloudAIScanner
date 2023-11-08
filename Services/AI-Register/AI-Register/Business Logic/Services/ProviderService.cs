@@ -15,11 +15,14 @@ public class ProviderService
 
     public Provider CreateProvider(Provider provider)
     {
-        ProviderEntity providerEntity = new ProviderEntity();
-        providerEntity.Name = provider.Name;
-        providerEntity.Address = provider.Address;
-        providerEntity.Email = provider.Email;
-        providerEntity.PhoneNumber = provider.PhoneNumber;
+        ProviderEntity providerEntity = new ProviderEntity()
+        {
+            Name = provider.Name,
+            Address = provider.Address,
+            Email = provider.Email,
+            PhoneNumber = provider.PhoneNumber
+        };
+        
         ProviderEntity returnProviderEntity = ProviderRepository.CreateProvider(providerEntity);
         provider.guid = returnProviderEntity.Id;
         return provider;
@@ -28,5 +31,20 @@ public class ProviderService
     public void DeleteProvider(Guid id)
     {
         ProviderRepository.DeleteProvider(id);
+    }
+
+    public Provider UpdateProvider(Provider provider)
+    {
+        ProviderEntity providerEntity = new ProviderEntity()
+        {
+            Name = provider.Name,
+            Id = provider.guid,
+            Address = provider.Address,
+            PhoneNumber = provider.PhoneNumber,
+            Email = provider.Email
+        };
+        ProviderRepository.UpdateProvider(providerEntity);
+        Provider _provider = new Provider(providerEntity.Id, providerEntity.Name, providerEntity.Address, providerEntity.Email, providerEntity.PhoneNumber);
+        return _provider;
     }
 }

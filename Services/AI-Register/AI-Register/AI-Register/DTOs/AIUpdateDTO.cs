@@ -1,5 +1,4 @@
-﻿using BusinessLogic.Classes;
-using BusinessLogic.Enums;
+﻿using BusinessLogic.Enums;
 
 namespace AIRegister.DTOs;
 
@@ -14,16 +13,17 @@ public class AIUpdateDTO
     public ApprovalStatus ApprovalStatus { get; set; }
     public MemberStates MemberState { get; set; }
 
-    public AIUpdateDTO(Guid guid, string name, int status, string url, string technicalDocumentationLink,
+    public AIUpdateDTO(Guid guid, string name, AISystemStatus status, string url, string technicalDocumentationLink,
         string description, ApprovalStatus approvalStatus, MemberStates memberState)
     {
         Guid = guid;
         Name = name;
-        Status = (AISystemStatus)status;
+        Status = status;
         Url = url;
         TechnicalDocumentationLink = technicalDocumentationLink;
         Description = description;
         ApprovalStatus = approvalStatus;
         MemberState = memberState;
     }
+    
 }

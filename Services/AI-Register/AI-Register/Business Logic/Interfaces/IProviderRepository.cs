@@ -6,5 +6,7 @@ public interface IProviderRepository
 {
     public ProviderEntity CreateProvider(ProviderEntity providerEntity);
 
+    public ProviderEntity UpdateProvider(ProviderEntity providerEntity);
+
     public void DeleteProvider(Guid id);
 }

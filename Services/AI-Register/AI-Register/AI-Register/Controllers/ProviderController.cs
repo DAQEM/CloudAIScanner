@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
+using AIRegister.DTOs;
 using BusinessLogic.Classes;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,24 +38,21 @@ namespace AIRegister.Controllers
         // PUT: api/Provider/5
         
         [HttpPut]
-        public IActionResult Put([FromServices] IAISystemRepository aiSystemRepository, AIUpdateDTO aiUpdateDto)
+        public IActionResult Put([FromServices] IProviderRepository providerRepository, ProviderUpdateDTO providerUpdateDto)
         {
             try
             {
-                AISystem aiSystem = new AISystem()
+                Provider provider = new Provider()
                 {
-                    Name = aiUpdateDto.Name,
-                    Status = aiUpdateDto.Status,
-                    TechnicalDocumentationLink = aiUpdateDto.TechnicalDocumentationLink,
-                    URL = aiUpdateDto.Url,
-                    Guid = aiUpdateDto.Guid,
-                    Description = aiUpdateDto.Description,
-                    ApprovalStatus = aiUpdateDto.ApprovalStatus,
-                    MemberState = aiUpdateDto.MemberState
+                    Name = providerUpdateDto.Name,
+                    Address = providerUpdateDto.Address,
+                    guid = providerUpdateDto.Guid,
+                    PhoneNumber = providerUpdateDto.PhoneNumber,
+                    Email = providerUpdateDto.Email
                 };
-                AISystemService aiSystemService = new AISystemService(aiSystemRepository);
-                aiSystemService.UpdateAISystem(aiSystem);
-                return Ok();
+                ProviderService providerService = new ProviderService(providerRepository);
+                Provider returnProvider = providerService.UpdateProvider(provider);
+                return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
             }
             catch(Exception e)
             {
