@@ -1,6 +1,4 @@
-﻿using BusinessLogic.Classes;
-
-namespace BusinessLogic.Helpers
+﻿namespace BusinessLogic.Helpers
 {
     public static class EnumHelper
     {

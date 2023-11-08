@@ -1,6 +1,4 @@
-﻿using BusinessLogic.Entities;
-
-namespace BusinessLogic.Classes
+﻿namespace BusinessLogic.Classes
 {
     public class Provider
     {

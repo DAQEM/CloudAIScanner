@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BusinessLogic.Classes;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AIRegister.DTOs;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -16,11 +11,11 @@ namespace AIRegister.Controllers
     [ApiController]
     public class AISystemController : ControllerBase
     {
-        private readonly IAISystemRepository _aiSystem;
+        private AISystemService _aiSystemService;
 
         public AISystemController(IAISystemRepository aiSystem)
         {
-            _aiSystem = aiSystem;
+            _aiSystemService = new AISystemService(aiSystem);
         }
         // GET: api/<AISystemController>
         [HttpGet]
@@ -28,8 +23,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemService aisystemService = new AISystemService(_aiSystem);
-                List<AISystem> aisystems = aisystemService.GetAiSystems();
+                List<AISystem> aisystems = _aiSystemService.GetAiSystems();
                 List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
                 foreach (AISystem system in aisystems)
                 {
@@ -49,13 +43,11 @@ namespace AIRegister.Controllers
 
         // POST: api/AISystem
         [HttpPost]
-        public IActionResult Post([FromServices] IAISystemRepository aiSystemRepository, AISystem aiSystem)
+        public IActionResult Post([FromBody]AISystem aiSystem)
         {
             try
             {
-                AISystemService aiSystemService = new AISystemService(aiSystemRepository);
-                
-                AISystem returnAISystem = aiSystemService.AddAiSystem(aiSystem);
+                AISystem returnAISystem = _aiSystemService.AddAiSystem(aiSystem);
                 return Created(new Uri(Request.GetDisplayUrl()), returnAISystem);
             }
             catch (Exception e)
@@ -70,8 +62,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemService aisystemService = new AISystemService(_aiSystem);
-                AISystem aisystem = aisystemService.getAISystemById(id);
+                AISystem aisystem = _aiSystemService.getAISystemById(id);
                 ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
                 CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
                 AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.ApprovalStatus, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList(), aisystem.Description, aisystem.MemberState);
@@ -79,6 +70,32 @@ namespace AIRegister.Controllers
                 return Ok(aiDetailDTO);
             }
             catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+ 
+        }
+        // PUT: api/AISystem/
+        [HttpPut]
+        public IActionResult Put([FromBody] AIUpdateDTO aiUpdateDto)
+        {
+            try
+            {
+                AISystem aiSystem = new AISystem()
+                {
+                    Name = aiUpdateDto.Name,
+                    Status = aiUpdateDto.Status,
+                    TechnicalDocumentationLink = aiUpdateDto.TechnicalDocumentationLink,
+                    URL = aiUpdateDto.Url,
+                    Guid = aiUpdateDto.Guid,
+                    Description = aiUpdateDto.Description,
+                    ApprovalStatus = aiUpdateDto.ApprovalStatus,
+                    MemberState = aiUpdateDto.MemberState
+                };
+                AISystem returnAiSystem = _aiSystemService.UpdateAISystem(aiSystem);
+                return Created(new Uri(Request.GetDisplayUrl()), returnAiSystem);
+            }
+            catch(Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -90,8 +107,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemService aisystemService = new AISystemService(_aiSystem);
-                aisystemService.DeleteAiSystem(id);
+                _aiSystemService.DeleteAiSystem(id);
                 return Ok();
             }
             catch (Exception e)

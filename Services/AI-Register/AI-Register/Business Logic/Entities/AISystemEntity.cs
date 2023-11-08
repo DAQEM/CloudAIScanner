@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BusinessLogic.Enums;
 
 namespace BusinessLogic.Entities
 {
@@ -16,7 +17,6 @@ namespace BusinessLogic.Entities
         public Guid ProviderId { get; set; }
         public Guid CertificateId { get; set; }
         public int MemberState { get; set; }
-
         public ProviderEntity ProviderEntity { get; set; }
         public CertificateEntity CertificateEntity { get; set; }
         public ICollection<AISystemFileEntity> FileEntities { get; set; } = new List<AISystemFileEntity>();

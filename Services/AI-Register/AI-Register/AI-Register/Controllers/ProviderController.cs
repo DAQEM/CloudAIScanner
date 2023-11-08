@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
+using AIRegister.DTOs;
 using BusinessLogic.Classes;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,21 +11,21 @@ namespace AIRegister.Controllers
     [ApiController]
     public class ProviderController : ControllerBase
     {
-        private readonly IProviderRepository _provider;
+        private readonly ProviderService _providerService;
 
         public ProviderController(IProviderRepository provider)
         {
-            _provider = provider;
+            _providerService = new ProviderService(provider);
+
         }
 
         // POST: api/Provider
         [HttpPost]
-        public IActionResult Post([FromServices] IProviderRepository providerRepository, Provider provider)
+        public IActionResult Post([FromBody] Provider provider)
         {
             try
             {
-                ProviderService providerService = new ProviderService(providerRepository);
-                Provider returnProvider = providerService.CreateProvider(provider);
+                Provider returnProvider = _providerService.CreateProvider(provider);
                 return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
             }
             catch (Exception e)
@@ -41,9 +36,27 @@ namespace AIRegister.Controllers
         }
 
         // PUT: api/Provider/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        
+        [HttpPut]
+        public IActionResult Put([FromBody] ProviderUpdateDTO providerUpdateDto)
         {
+            try
+            {
+                Provider provider = new Provider()
+                {
+                    Name = providerUpdateDto.Name,
+                    Address = providerUpdateDto.Address,
+                    guid = providerUpdateDto.Guid,
+                    PhoneNumber = providerUpdateDto.PhoneNumber,
+                    Email = providerUpdateDto.Email
+                };
+                Provider returnProvider = _providerService.UpdateProvider(provider);
+                return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // DELETE: api/Provider/5
@@ -52,8 +65,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                ProviderService providerservice = new ProviderService(_provider); 
-                providerservice.DeleteProvider(id);
+                _providerService.DeleteProvider(id);
                 return Ok();
             }
             catch (Exception e)

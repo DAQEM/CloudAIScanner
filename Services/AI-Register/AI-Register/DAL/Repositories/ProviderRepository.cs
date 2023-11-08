@@ -1,7 +1,5 @@
-﻿using BusinessLogic.Classes;
-using BusinessLogic.Entities;
+﻿using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories;
 
@@ -19,6 +17,21 @@ public class ProviderRepository : IProviderRepository
         _context.Add(providerEntity);
         _context.SaveChanges();
         return providerEntity;
+    }
+
+    public ProviderEntity UpdateProvider(ProviderEntity providerEntity)
+    {
+        ProviderEntity providerEntityToUpdate = _context.Providers.First(p => p.Id == providerEntity.Id);
+        if (providerEntityToUpdate != null)
+        {
+            providerEntityToUpdate.Name = providerEntity.Name ?? providerEntityToUpdate.Name;
+            providerEntityToUpdate.PhoneNumber = providerEntity.PhoneNumber ?? providerEntityToUpdate.PhoneNumber;
+            providerEntityToUpdate.Address = providerEntity.Address ?? providerEntityToUpdate.Address;
+            providerEntityToUpdate.Email = providerEntity.Email ?? providerEntityToUpdate.Email;
+        }
+
+        _context.SaveChanges();
+        return providerEntityToUpdate;
     }
 
     public void DeleteProvider(Guid id)

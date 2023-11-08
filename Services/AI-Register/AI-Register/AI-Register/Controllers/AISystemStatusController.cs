@@ -1,5 +1,4 @@
 ﻿using AIRegister.DTOs;
-using BusinessLogic.Classes;
 using BusinessLogic.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogic.Enums;
