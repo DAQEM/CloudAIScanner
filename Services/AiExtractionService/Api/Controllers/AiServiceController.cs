@@ -31,13 +31,13 @@ namespace AiExtractionService.Controllers
             string? environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             client.BaseAddress = environment == "Development" ? new Uri("http://localhost:5052/api/AISystem") : new Uri("http://ai-register-service/api/AISystem");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            string result = "";
+            List<HttpResponseMessage> responses = new();
             foreach (AiSystem service in services)
             {
-                HttpResponseMessage response = client.PostAsJsonAsync("AISystem", service).Result;
-                result = await response.Content.ReadAsStringAsync();
+                HttpResponseMessage response = await client.PostAsJsonAsync("AISystem", service);
+                responses.Add(response);
             }
-            return new JsonResult(result);
+            return responses.Any(r => r.IsSuccessStatusCode) ? Ok() : BadRequest();
         }
     }
 }
