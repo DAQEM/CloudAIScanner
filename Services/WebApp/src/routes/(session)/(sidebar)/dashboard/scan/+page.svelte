@@ -60,18 +60,36 @@
 			</Toast>
 		{/if}
 		{#if aiData && aiData.length > 0}
-			<Toast
-				color="green"
-				class="mb-4 shadow-none rounded-xl bg-green-400 bg-opacity-25 max-w-none"
-				contentClass="w-full text-lg font-normal text-gray-700"
-				transition={slide}
-			>
-				<CheckCircleSolid slot="icon" class="w-6 h-6 mr-2" />
-				<p class="font-bold">AI's Found:</p>
-				{#each aiData as ai}
-					<p>{ai}</p>
-				{/each}
-			</Toast>
+			{#if success === 'true'}
+				<Toast
+					color="green"
+					class="mb-4 shadow-none rounded-xl bg-green-400 bg-opacity-25 max-w-none"
+					contentClass="w-full text-lg font-normal text-gray-700"
+					transition={slide}
+				>
+					<CheckCircleSolid slot="icon" class="w-6 h-6 mr-2" />
+					<p class="font-bold">AI's Found:</p>
+					{#each aiData as ai}
+						<p>{ai}</p>
+					{/each}
+				</Toast>
+			{:else}
+				<Toast
+					color="red"
+					defaultIconClass="bg-opacity-0"
+					class="mb-4 shadow-none rounded-xl bg-red-400 bg-opacity-25 max-w-none"
+					contentClass="w-full text-lg font-normal text-gray-700"
+					transition={slide}
+				>
+					<CheckCircleSolid slot="icon" class="w-6 h-6 mr-2" />
+					<p class="font-bold">Error:</p>
+					{#if aiData[0] === 'ECONNREFUSED'}
+						<p>The AI Extraction service is currently unavailable. Please try again later.</p>
+					{:else}
+						<p>Something went wrong. Please try again later.</p>
+					{/if}
+				</Toast>
+			{/if}
 		{/if}
 		<div class="bg-white rounded-xl p-16">
 			<div class="mb-8">
