@@ -11,11 +11,12 @@ namespace AIRegister.Controllers
     [ApiController]
     public class ProviderController : ControllerBase
     {
-        private readonly IProviderRepository _provider;
+        private readonly ProviderService _providerService;
 
         public ProviderController(IProviderRepository provider)
         {
-            _provider = provider;
+            _providerService = new ProviderService(provider);
+
         }
 
         // POST: api/Provider
@@ -24,8 +25,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                ProviderService providerService = new ProviderService(_provider);
-                Provider returnProvider = providerService.CreateProvider(provider);
+                Provider returnProvider = _providerService.CreateProvider(provider);
                 return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
             }
             catch (Exception e)
@@ -50,8 +50,7 @@ namespace AIRegister.Controllers
                     PhoneNumber = providerUpdateDto.PhoneNumber,
                     Email = providerUpdateDto.Email
                 };
-                ProviderService providerService = new ProviderService(_provider);
-                Provider returnProvider = providerService.UpdateProvider(provider);
+                Provider returnProvider = _providerService.UpdateProvider(provider);
                 return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
             }
             catch(Exception e)
@@ -66,8 +65,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                ProviderService providerservice = new ProviderService(_provider); 
-                providerservice.DeleteProvider(id);
+                _providerService.DeleteProvider(id);
                 return Ok();
             }
             catch (Exception e)

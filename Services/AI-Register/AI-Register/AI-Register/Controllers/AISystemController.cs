@@ -11,12 +11,11 @@ namespace AIRegister.Controllers
     [ApiController]
     public class AISystemController : ControllerBase
     {
-        
-        private readonly IAISystemRepository _aiSystem;
+        private AISystemService _aiSystemService;
 
         public AISystemController(IAISystemRepository aiSystem)
         {
-            _aiSystem = aiSystem;
+            _aiSystemService = new AISystemService(aiSystem);
         }
         // GET: api/<AISystemController>
         [HttpGet]
@@ -24,8 +23,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemService aisystemService = new AISystemService(_aiSystem);
-                List<AISystem> aisystems = aisystemService.GetAiSystems();
+                List<AISystem> aisystems = _aiSystemService.GetAiSystems();
                 List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
                 foreach (AISystem system in aisystems)
                 {
@@ -49,9 +47,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemService aiSystemService = new AISystemService(_aiSystem);
-                
-                AISystem returnAISystem = aiSystemService.AddAiSystem(aiSystem);
+                AISystem returnAISystem = _aiSystemService.AddAiSystem(aiSystem);
                 return Created(new Uri(Request.GetDisplayUrl()), returnAISystem);
             }
             catch (Exception e)
@@ -66,8 +62,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemService aisystemService = new AISystemService(_aiSystem);
-                AISystem aisystem = aisystemService.getAISystemById(id);
+                AISystem aisystem = _aiSystemService.getAISystemById(id);
                 ProviderDTO providerDTO = new ProviderDTO(aisystem.provider);
                 CertificateDTO certificateDTO = new CertificateDTO(aisystem.certificate);
                 AIDetailDTO aiDetailDTO = new AIDetailDTO(aisystem.Guid, aisystem.Name, aisystem.Status, aisystem.URL, aisystem.TechnicalDocumentationLink, aisystem.ApprovalStatus, aisystem.DateAdded, providerDTO, certificateDTO, aisystem.Files.ToList(), aisystem.Description, aisystem.MemberState);
@@ -97,8 +92,7 @@ namespace AIRegister.Controllers
                     ApprovalStatus = aiUpdateDto.ApprovalStatus,
                     MemberState = aiUpdateDto.MemberState
                 };
-              AISystemService aiSystemService = new AISystemService(_aiSystem);
-                AISystem returnAiSystem = aiSystemService.UpdateAISystem(aiSystem);
+                AISystem returnAiSystem = _aiSystemService.UpdateAISystem(aiSystem);
                 return Created(new Uri(Request.GetDisplayUrl()), returnAiSystem);
             }
             catch(Exception e)
@@ -113,8 +107,7 @@ namespace AIRegister.Controllers
         {
             try
             {
-                AISystemService aisystemService = new AISystemService(_aiSystem);
-                aisystemService.DeleteAiSystem(id);
+                _aiSystemService.DeleteAiSystem(id);
                 return Ok();
             }
             catch (Exception e)
