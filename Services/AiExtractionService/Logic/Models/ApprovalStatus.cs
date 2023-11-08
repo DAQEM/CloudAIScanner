@@ -1,8 +1,7 @@
 ﻿namespace logic.Models;
 
-public enum RegistrationStatus
+public enum ApprovalStatus
 {
-    None = 0,
     Complete= 1,
     Pending = 2,
     Approved = 3

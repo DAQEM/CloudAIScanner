@@ -4,6 +4,6 @@ namespace Logic.Interfaces
 {
     public interface IAiService
     {
-        List<AiSystemModel> Get(string accessToken);
+        List<AiSystem> Get(string accessToken);
     }
 }

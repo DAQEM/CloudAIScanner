@@ -1,4 +1,5 @@
-﻿using AiExtractionService.Dtos;
+﻿using System.Net.Http.Headers;
+using AiExtractionService.Dtos;
 using Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,24 @@ namespace AiExtractionService.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(string accessToken)
+        public async Task<IActionResult> Get(string accessToken)
         {
-            List<AiSystemModel> services = new();
+            List<AiSystem> services = new();
 
             services.AddRange(_aiService.Get(accessToken));
-
-            return Ok(services);
+            
+            HttpClient client = new();
+            //get environment dev or prod
+            string? environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            client.BaseAddress = environment == "Development" ? new Uri("http://localhost:5052/api/AISystem") : new Uri("http://ai-register-service/api/AISystem");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            string result = "";
+            foreach (AiSystem service in services)
+            {
+                HttpResponseMessage response = client.PostAsJsonAsync("AISystem", service).Result;
+                result = await response.Content.ReadAsStringAsync();
+            }
+            return new JsonResult(result);
         }
     }
 }

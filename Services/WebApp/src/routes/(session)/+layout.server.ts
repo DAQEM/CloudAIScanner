@@ -2,13 +2,15 @@ import clientPromise from '$lib/database/clientPromise';
 import { UserDatabase, type User } from '$lib/database/userDatabase';
 import type { Session } from '@auth/core/types';
 import type { LayoutServerLoad } from './$types';
+import AiRegisterAPI from '$lib/api/ai_register';
 
 /**
  * This is the server-side load function for the layout.
  * It is used to get the session and associated user.
  */
 
-export const load = (async ({ locals }) => {
+export const load = (async ({ locals, fetch }) => {
+	new AiRegisterAPI(fetch).getAiSystems();
 	const session = await locals.getSession();
 	let associatedUser = await getAssociatedUser(session);
 
