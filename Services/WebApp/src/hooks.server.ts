@@ -5,7 +5,6 @@ import { SvelteKitAuth } from '@auth/sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
-
 export const defaultHandle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 	return response;
@@ -16,7 +15,7 @@ export const authHandle: Handle = SvelteKitAuth(async () => {
 		providers: [
 			Google({
 				clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-				clientSecret: import.meta.env.VITE_GOOGLE_SECRET,
+				clientSecret: import.meta.env.VITE_GOOGLE_SECRET
 			}),
 			Google({
 				id: 'google-aiextraction',

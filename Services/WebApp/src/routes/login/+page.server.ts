@@ -1,11 +1,12 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = (async ({locals}) => {
+export const load: PageServerLoad = (async ({ locals }) => {
 	const session = await locals.getSession();
 	if (session?.user) {
 		throw redirect(302, '/dashboard/register');
 	} else {
-		return {};
+		return {
+		};
 	}
 });
