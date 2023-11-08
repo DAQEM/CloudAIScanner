@@ -1,48 +1,34 @@
 import { systems, type System } from '$lib/api/systems';
-import { json } from '@sveltejs/kit';
+import type { User } from '$lib/database/userDatabase';
+import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }) => {
-	const systemList: System[] = systems;
-	const id = params.id;
-	const system: System | undefined = systemList.find((system) => system.id === id);
+	const user: User | null = await fetch('/api/auth?user=true')
+		.then((res) => res.json())
+		.catch(() => null);
 
-	if (!system) {
-		return new Response(
-			JSON.stringify({ error: 'Invalid ID' }),
-			{
-				headers: {
-					'content-type': 'application/json'
-				}
-			}
-		);
-	}
+	if (!user) throw error(401, 'Unauthorized');
 
-	return new Response(JSON.stringify(system), {
-		headers: {
-			'content-type': 'application/json'
-		}
-	});
+	const system: System | undefined = systems.find((system) => system.id === params.id);
+
+	if (!system) return json({ error: 'Invalid ID' });
+
+	return json(system);
 };
 
-export const PUT: RequestHandler = async ({ params, request }) => {
-	const systemList: System[] = systems;
-	const id = params.id;
-	const system: System | undefined = systemList.find((system) => system.id === id);
+export const PUT: RequestHandler = async ({ params, request, fetch }) => {
+	const user: User | null = await fetch('/api/auth?user=true')
+		.then((res) => res.json())
+		.catch(() => null);
 
-	if (!system) {
-		return new Response(
-			JSON.stringify({ error: 'Invalid ID' }),
-			{
-				headers: {
-					'content-type': 'application/json'
-				}
-			}
-		);
-	}
+	if (!user) throw error(401, 'Unauthorized');
 
-	const data = await request.json();
-	const { name, provider, date, status, description, description2 } = data;
+	const system: System | undefined = systems.find((system) => system.id === params.id);
+
+	if (!system) return json({ error: 'Invalid ID' });
+
+	const { name, provider, date, status, description, description2 } = await request.json();
 
 	system.name = name;
 	system.provider = provider;
@@ -51,9 +37,5 @@ export const PUT: RequestHandler = async ({ params, request }) => {
 	system.description = description;
 	system.description2 = description2;
 
-	return new Response(JSON.stringify(system), {
-		headers: {
-			'content-type': 'application/json'
-		}
-	});
+	return json(system);
 };

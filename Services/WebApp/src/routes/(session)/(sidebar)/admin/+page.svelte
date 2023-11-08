@@ -1,4 +1,5 @@
 <script lang="ts">
+	import DeviceTable from '$lib/components/DeviceTable.svelte';
 	import UserTable from '$lib/components/UserTable.svelte';
 	import type { PageData } from './$types';
 
@@ -12,13 +13,17 @@
 </script>
 
 <div class=" p-2 md:p-16">
-	<h1 class="text-2xl font-bold">Admin Dashboard</h1>
+	<div class="mb-8">
+		<h1 class="text-3xl font-bold">Admin Dashboard</h1>
+	</div>
 	<div class="grid lg:grid-cols-2 gap-16 mt-4">
-		<div>
-			<h1>Pending Systems</h1>
-			{#each pendingSystems as system}
-				<div>{system.name}</div>
-			{/each}
+		<div class="flex flex-col gap-4">
+			<DeviceTable
+				systems={pendingSystems}
+				title="Pending Systems"
+				showStatus={false}
+				approvable={true}
+			/>
 		</div>
 		<div class="flex flex-col gap-4">
 			<UserTable {users} {session} {associatedUser} url="/admin" />
