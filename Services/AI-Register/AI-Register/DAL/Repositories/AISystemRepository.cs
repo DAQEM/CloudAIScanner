@@ -78,30 +78,26 @@ namespace DAL.Repositories
             AISystemEntity aiSystemToUpdate = _context.AISystems.First(a => a.Id == aiSystemEntity.Id);
             if (aiSystemToUpdate != null)
             {
-                if (aiSystemEntity.Name != null)
+                
+                aiSystemToUpdate.Name = aiSystemEntity.Name ?? aiSystemToUpdate.Name;
+                
+                aiSystemToUpdate.URL = aiSystemEntity.URL ?? aiSystemToUpdate.URL;
+                
+                aiSystemToUpdate.TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink ?? aiSystemToUpdate.TechnicalDocumentationLink;
+                
+                aiSystemToUpdate.Description = aiSystemEntity.Description ?? aiSystemToUpdate.Description;
+
+                if (aiSystemEntity.MemberState != 0)
                 {
-                    aiSystemToUpdate.Name = aiSystemEntity.Name;
+                    aiSystemToUpdate.MemberState = aiSystemEntity.MemberState;
+                    
                 }
-                if (aiSystemEntity.Status != null)
+                if (aiSystemEntity.ApprovalStatus != 0)
+                {
+                    aiSystemToUpdate.ApprovalStatus = aiSystemEntity.ApprovalStatus;}
+                if (aiSystemEntity.Status != 0)
                 {
                     aiSystemToUpdate.Status = aiSystemEntity.Status;
-                }
-
-                if (aiSystemEntity.URL != null)
-                {
-                    aiSystemToUpdate.URL = aiSystemEntity.URL;
-                }
-                if(aiSystemEntity.TechnicalDocumentationLink != null)
-                {
-                    aiSystemToUpdate.TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink;
-                }
-                if (aiSystemEntity.ApprovalStatus != null)
-                {
-                    aiSystemToUpdate.ApprovalStatus = aiSystemEntity.ApprovalStatus;
-                }
-                if (aiSystemEntity.Description != null)
-                {
-                    aiSystemToUpdate.Description = aiSystemEntity.Description;
                 }
             }
             _context.SaveChanges();

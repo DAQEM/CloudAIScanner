@@ -27,7 +27,7 @@ namespace BusinessLogic.Classes
 
         public AISystem(){ }
         
-        public AISystem(Guid guid, string name, int status, string url, string technicalDocumentationLink, AIRegisterEnum.ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate, string description)
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate, string description, MemberStates memberstate)
         {
             Guid = guid;
             Name = name;

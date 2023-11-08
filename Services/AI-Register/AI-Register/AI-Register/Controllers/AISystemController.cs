@@ -99,7 +99,8 @@ namespace AIRegister.Controllers
                     URL = aiUpdateDto.Url,
                     Guid = aiUpdateDto.Guid,
                     Description = aiUpdateDto.Description,
-                    ApprovalStatus = aiUpdateDto.ApprovalStatus
+                    ApprovalStatus = aiUpdateDto.ApprovalStatus,
+                    MemberState = aiUpdateDto.MemberState
                 };
               AISystemService aiSystemService = new AISystemService(aiSystemRepository);
                 aiSystemService.UpdateAISystem(aiSystem);
