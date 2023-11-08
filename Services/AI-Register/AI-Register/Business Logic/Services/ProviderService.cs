@@ -15,8 +15,9 @@ public class ProviderService
 
     public Provider CreateProvider(Provider provider)
     {
-        ProviderEntity providerEntity = new ProviderEntity()
+        ProviderEntity providerEntity = new()
         {
+            Id = provider.guid == Guid.Empty ? Guid.NewGuid() : provider.guid,
             Name = provider.Name,
             Address = provider.Address,
             Email = provider.Email,

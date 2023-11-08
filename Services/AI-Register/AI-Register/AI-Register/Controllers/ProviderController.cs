@@ -30,9 +30,8 @@ namespace AIRegister.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
-            
         }
 
         // PUT: api/Provider/5
@@ -55,7 +54,7 @@ namespace AIRegister.Controllers
             }
             catch(Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
 
@@ -70,7 +69,7 @@ namespace AIRegister.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
     }
