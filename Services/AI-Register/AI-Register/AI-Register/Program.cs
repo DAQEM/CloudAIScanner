@@ -10,9 +10,19 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 
-IConfigurationRoot config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
+IConfigurationRoot config;
+if (builder.Environment.IsDevelopment())
+{
+    config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.Development.json")
+        .Build();
+}
+else
+{
+    config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
+}
 
 string? connectionString = config.GetConnectionString("MySqlConnection");
 
