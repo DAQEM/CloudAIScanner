@@ -47,12 +47,16 @@
 				<span class="block text-sm font-bold">{session.user.name}</span>
 				<span class="block truncate text-sm">{session.user.email}</span>
 			</DropdownHeader>
-			<DropdownItem href="/dashboard/scan">Scan Provider</DropdownItem>
-			<DropdownItem href="/dashboard/register">AI Register</DropdownItem>
-			<DropdownDivider />
-			{#if associatedUser && associatedUser.roles.includes('admin')}
-				<DropdownItem href="/admin">Admin</DropdownItem>
-				<DropdownDivider />
+			{#if associatedUser}
+				{#if associatedUser.roles.includes('admin') || associatedUser.roles.includes('user')}
+					<DropdownItem href="/dashboard/scan">Scan Provider</DropdownItem>
+					<DropdownItem href="/dashboard/register">AI Register</DropdownItem>
+					<DropdownDivider />
+				{/if}
+				{#if associatedUser.roles.includes('admin')}
+					<DropdownItem href="/admin">Admin</DropdownItem>
+					<DropdownDivider />
+				{/if}
 			{/if}
 			<DropdownItem on:click={() => signOut()}>Logout</DropdownItem>
 		</Dropdown>
@@ -61,17 +65,28 @@
 		<NavLi href="/about">About</NavLi>
 		<NavLi href="/contact">Contact</NavLi>
 		{#if session && session.user}
-			<NavLi class="cursor-pointer">
-				AI Dashboard<ChevronDownOutline
-					class="w-3 h-3 ml-2 text-primary-800 dark:text-white inline"
-				/>
-			</NavLi>
-			<Dropdown class="w-44 z-20">
-				<DropdownItem href="/dashboard/scan">Scan Provider</DropdownItem>
-				<DropdownItem href="/dashboard/register">AI Register</DropdownItem>
-			</Dropdown>
-			{#if associatedUser && associatedUser.roles.includes('admin')}
-				<NavLi href="/admin">Admin</NavLi>
+			{#if associatedUser}
+				{#if associatedUser.roles.includes('admin') || associatedUser.roles.includes('user')}
+					<NavLi class="cursor-pointer">
+						AI Dashboard<ChevronDownOutline
+							class="w-3 h-3 ml-2 text-primary-800 dark:text-white inline"
+						/>
+					</NavLi>
+					<Dropdown class="w-44 z-20">
+						<DropdownItem href="/dashboard/scan">Scan Provider</DropdownItem>
+						<DropdownItem href="/dashboard/register">AI Register</DropdownItem>
+					</Dropdown>
+				{/if}
+				{#if associatedUser.roles.includes('admin')}
+					<NavLi class="cursor-pointer">
+						Admin<ChevronDownOutline class="w-3 h-3 ml-2 text-primary-800 dark:text-white inline" />
+					</NavLi>
+					<Dropdown class="w-44 z-20">
+						<DropdownItem href="/admin">Dashboard</DropdownItem>
+						<DropdownItem href="/admin/users">Users</DropdownItem>
+						<DropdownItem href="/admin/approval">System Approval</DropdownItem>
+					</Dropdown>
+				{/if}
 			{/if}
 		{/if}
 	</NavUl>

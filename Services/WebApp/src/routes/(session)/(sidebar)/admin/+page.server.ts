@@ -8,7 +8,9 @@ export const load = (async () => {
 	const pendingSystems: System[] = await getSystemsByStatus('pending');
 
 	return {
-		users: structuredClone(users),
+		users: structuredClone(
+			users.map((user) => ({ ...user, _id: user._id?.toString(), userId: user.userId?.toString() }))
+		),
 		pendingSystems: structuredClone(pendingSystems)
 	};
 }) satisfies PageServerLoad;

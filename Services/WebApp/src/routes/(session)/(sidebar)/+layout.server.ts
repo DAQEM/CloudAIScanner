@@ -17,7 +17,8 @@ export const load = (async ({ parent }) => {
 	if (session === null) {
 		throw redirect(302, '/login');
 	}
-	if (!session.user || !session.user.email || !parentData.associatedUser || !parentData.associatedUser._id) {
+	if (!(parentData.associatedUser?.roles.includes('admin') || parentData.associatedUser?.roles.includes('user'))) {
 		throw redirect(302, `/access-denied/request-access`);
 	}
 }) satisfies LayoutServerLoad;
+ 

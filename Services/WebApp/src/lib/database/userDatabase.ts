@@ -70,7 +70,7 @@ export class UserDatabase {
 			_id: user?._id,
 			userId: account?._id,
 			name: account?.name,
-			email: account?.email,
+			email: user?.email,
 			image: account?.image,
 			roles: user?.roles || []
 		};
@@ -84,7 +84,7 @@ export class UserDatabase {
 			_id: user?._id,
 			userId: account?._id,
 			name: account?.name,
-			email: account?.email,
+			email: user?.email,
 			image: account?.image,
 			roles: user?.roles || []
 		};
@@ -102,7 +102,7 @@ export class UserDatabase {
 				_id: user._id,
 				userId: account?._id,
 				name: account?.name,
-				email: account?.email,
+				email: user?.email,
 				image: account?.image,
 				roles: user.roles
 			};
@@ -121,7 +121,7 @@ export class UserDatabase {
 				_id: user._id,
 				userId: account?._id,
 				name: account?.name,
-				email: account?.email,
+				email: user?.email,
 				image: account?.image,
 				roles: user.roles
 			};
