@@ -37,7 +37,7 @@ namespace AIRegister.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
 
@@ -52,7 +52,7 @@ namespace AIRegister.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
 
@@ -71,7 +71,7 @@ namespace AIRegister.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
  
         }
@@ -97,7 +97,7 @@ namespace AIRegister.Controllers
             }
             catch(Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
 
@@ -112,7 +112,7 @@ namespace AIRegister.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new { Error = e.Message });
             }
         }
 
