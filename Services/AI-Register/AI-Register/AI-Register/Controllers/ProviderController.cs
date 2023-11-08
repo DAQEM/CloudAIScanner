@@ -20,11 +20,11 @@ namespace AIRegister.Controllers
 
         // POST: api/Provider
         [HttpPost]
-        public IActionResult Post([FromServices] IProviderRepository providerRepository, Provider provider)
+        public IActionResult Post([FromBody] Provider provider)
         {
             try
             {
-                ProviderService providerService = new ProviderService(providerRepository);
+                ProviderService providerService = new ProviderService(_provider);
                 Provider returnProvider = providerService.CreateProvider(provider);
                 return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
             }
@@ -38,7 +38,7 @@ namespace AIRegister.Controllers
         // PUT: api/Provider/5
         
         [HttpPut]
-        public IActionResult Put([FromServices] IProviderRepository providerRepository, ProviderUpdateDTO providerUpdateDto)
+        public IActionResult Put([FromBody] ProviderUpdateDTO providerUpdateDto)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace AIRegister.Controllers
                     PhoneNumber = providerUpdateDto.PhoneNumber,
                     Email = providerUpdateDto.Email
                 };
-                ProviderService providerService = new ProviderService(providerRepository);
+                ProviderService providerService = new ProviderService(_provider);
                 Provider returnProvider = providerService.UpdateProvider(provider);
                 return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
             }
