@@ -6,7 +6,6 @@
 	export let data: PageData;
 
 	const session = data.session;
-	const associatedUser = data.associatedUser;
 
 	const users = data.users;
 	const pendingSystems = data.pendingSystems;
@@ -26,7 +25,7 @@
 			/>
 		</div>
 		<div class="flex flex-col gap-4">
-			<UserTable {users} {session} {associatedUser} url="/admin" />
+			<UserTable {users} {session} url="/admin" />
 		</div>
 	</div>
 </div>

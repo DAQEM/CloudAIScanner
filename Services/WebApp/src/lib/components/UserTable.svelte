@@ -28,7 +28,6 @@
 	import { slide } from 'svelte/transition';
 
 	export let session: Session | null;
-	export let associatedUser: User | null;
 	export let users: User[];
     export let url: string;
 
