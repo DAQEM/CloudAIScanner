@@ -11,4 +11,6 @@ public interface IAISystemRepository
     public AISystemEntity GetAiSystemById(Guid id);
     
     public void UpdateAISystem(AISystemEntity aiSystemEntity);
+
+    public void DeleteAiSystem(Guid aiSystemId);
 }

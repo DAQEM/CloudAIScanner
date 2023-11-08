@@ -111,5 +111,22 @@ namespace AIRegister.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        // GET api/<AISystemController>/5
+        [HttpDelete]
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                AISystemService aisystemService = new AISystemService(_aiSystem);
+                aisystemService.DeleteAiSystem(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }

@@ -39,8 +39,7 @@ namespace DAL.Repositories
                 Console.WriteLine(e);
                 throw;
             }
-          
-   
+
         }
 
         public List<AISystemEntity> GetAiSystemsWithProvider()
@@ -60,8 +59,8 @@ namespace DAL.Repositories
                 Console.WriteLine(e);
                 throw;
             }
-
         }
+
         public AISystemEntity AddSystemAI(AISystemEntity aiSystemEntity)
         {
             _context.Add((aiSystemEntity.CertificateEntity));
@@ -100,6 +99,13 @@ namespace DAL.Repositories
                     aiSystemToUpdate.Status = aiSystemEntity.Status;
                 }
             }
+            _context.SaveChanges();
+        }
+
+        public void DeleteAiSystem(Guid aiSystemId)
+        {
+           AISystemEntity aisystem = _context.AISystems.First(a => a.Id == aiSystemId);
+            _context.Remove(aisystem);
             _context.SaveChanges();
         }
     }

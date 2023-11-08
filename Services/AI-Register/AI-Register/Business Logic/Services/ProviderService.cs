@@ -24,4 +24,9 @@ public class ProviderService
         provider.guid = returnProviderEntity.Id;
         return provider;
     }
+
+    public void DeleteProvider(Guid id)
+    {
+        ProviderRepository.DeleteProvider(id);
+    }
 }

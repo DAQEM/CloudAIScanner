@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using BusinessLogic.Classes;
 using BusinessLogic.Interfaces;
@@ -15,6 +16,13 @@ namespace AIRegister.Controllers
     [ApiController]
     public class ProviderController : ControllerBase
     {
+        private readonly IProviderRepository _provider;
+
+        public ProviderController(IProviderRepository provider)
+        {
+            _provider = provider;
+        }
+
         // POST: api/Provider
         [HttpPost]
         public IActionResult Post([FromServices] IProviderRepository providerRepository, Provider provider)
@@ -62,8 +70,18 @@ namespace AIRegister.Controllers
 
         // DELETE: api/Provider/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(Guid id )
         {
+            try
+            {
+                ProviderService providerservice = new ProviderService(_provider); 
+                providerservice.DeleteProvider(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
