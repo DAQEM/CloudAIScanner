@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load = (async () => {
+export const load = (async ({fetch}) => {
 	let users: User[] = await (await UserDatabase.get()).getAllUsers();
 
 	return {
