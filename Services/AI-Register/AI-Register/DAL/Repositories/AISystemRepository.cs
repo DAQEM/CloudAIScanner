@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DAL.Repositories
 {
@@ -39,8 +31,7 @@ namespace DAL.Repositories
                 Console.WriteLine(e);
                 throw;
             }
-          
-   
+
         }
 
         public List<AISystemEntity> GetAiSystemsWithProvider()
@@ -60,8 +51,8 @@ namespace DAL.Repositories
                 Console.WriteLine(e);
                 throw;
             }
-
         }
+
         public AISystemEntity AddSystemAI(AISystemEntity aiSystemEntity)
         {
             _context.Add((aiSystemEntity.CertificateEntity));
@@ -72,6 +63,43 @@ namespace DAL.Repositories
             _context.Add(aiSystemEntity);
             _context.SaveChanges();
             return aiSystemEntity;
+        }
+        public AISystemEntity UpdateAISystem(AISystemEntity aiSystemEntity)
+        {
+            AISystemEntity aiSystemToUpdate = _context.AISystems.First(a => a.Id == aiSystemEntity.Id);
+            if (aiSystemToUpdate != null)
+            {
+                
+                aiSystemToUpdate.Name = aiSystemEntity.Name ?? aiSystemToUpdate.Name;
+                
+                aiSystemToUpdate.URL = aiSystemEntity.URL ?? aiSystemToUpdate.URL;
+                
+                aiSystemToUpdate.TechnicalDocumentationLink = aiSystemEntity.TechnicalDocumentationLink ?? aiSystemToUpdate.TechnicalDocumentationLink;
+                
+                aiSystemToUpdate.Description = aiSystemEntity.Description ?? aiSystemToUpdate.Description;
+
+                if (aiSystemEntity.MemberState != 0)
+                {
+                    aiSystemToUpdate.MemberState = aiSystemEntity.MemberState;
+                    
+                }
+                if (aiSystemEntity.ApprovalStatus != 0)
+                {
+                    aiSystemToUpdate.ApprovalStatus = aiSystemEntity.ApprovalStatus;}
+                if (aiSystemEntity.Status != 0)
+                {
+                    aiSystemToUpdate.Status = aiSystemEntity.Status;
+                }
+            }
+            _context.SaveChanges();
+            return aiSystemToUpdate;
+        }
+
+        public void DeleteAiSystem(Guid aiSystemId)
+        {
+           AISystemEntity aisystem = _context.AISystems.First(a => a.Id == aiSystemId);
+            _context.Remove(aisystem);
+            _context.SaveChanges();
         }
     }
 }
