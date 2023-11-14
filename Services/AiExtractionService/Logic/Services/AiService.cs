@@ -14,9 +14,9 @@ namespace Logic.Services
             _serviceRepository = serviceRepository;
         }
 
-        public List<AiSystem> Get(string accessToken)
+        public List<AiSystem> GetGoogleCloud(string accessToken)
         {
-            List<Service> services = _serviceRepository.Get(accessToken);
+            List<Service> services = _serviceRepository.GetGoogleCloud(accessToken);
 
             List<AiSystem> AiSystems = services.Select(service => new AiSystem
             {
@@ -49,6 +49,13 @@ namespace Logic.Services
             }).ToList();
 
             return AiSystems;
+        }
+
+        public async Task<List<AiSystem>> GetOpenAI(string accessToken)
+        {
+            string response = await _serviceRepository.GetOpenAI(accessToken);
+
+            return new List<AiSystem>();
         }
     }
 }
