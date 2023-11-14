@@ -72,5 +72,44 @@ namespace AIRegister.Controllers
                 return BadRequest(new { Error = e.Message });
             }
         }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                List<ProviderDTO> providerDtos = new List<ProviderDTO>();
+                List<Provider> providers = _providerService.GetProviders();
+                foreach (Provider provider in providers)
+                {
+                    providerDtos.Add(new ProviderDTO(provider));
+                }
+                return Ok(providers);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
+        [HttpGet("{id}")]
+        public IActionResult Get(Guid id)
+        {
+            try
+            {
+               Provider provider = _providerService.GetProviderById(id);
+               ProviderAISystemDTO providerAiSystemDto = new ProviderAISystemDTO(provider);
+               foreach (AISystem system in provider.AISystems)
+               {
+                   GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, provider.Name, system.DateAdded, system.ApprovalStatus, system.Description);
+                   providerAiSystemDto.AiSystemDtos.Add(getAISystemDTO);
+               }
+               return Ok(providerAiSystemDto);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

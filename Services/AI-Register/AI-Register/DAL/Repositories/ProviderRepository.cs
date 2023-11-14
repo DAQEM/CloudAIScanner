@@ -1,5 +1,7 @@
-﻿using BusinessLogic.Entities;
+﻿using BusinessLogic.Classes;
+using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories;
 
@@ -39,5 +41,35 @@ public class ProviderRepository : IProviderRepository
         ProviderEntity provider = _context.Providers.First(a => a.Id == id);
         _context.Remove(provider);
         _context.SaveChanges();
+    }
+    
+    public List<ProviderEntity> GetAllProviderEntities()
+    {
+        try
+        {
+            List<ProviderEntity> providerEntities = _context.Providers
+                .ToList();
+            return providerEntities;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    public ProviderEntity GetProviderById(Guid id)
+    {
+        try
+        {
+            ProviderEntity providerEntity = _context.Providers
+                .Include(p => p.aISystemEntity)
+                .First(p => p.Id == id);
+            return providerEntity;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

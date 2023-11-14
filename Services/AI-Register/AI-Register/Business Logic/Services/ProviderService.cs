@@ -1,16 +1,17 @@
 ﻿using BusinessLogic.Classes;
 using BusinessLogic.Entities;
+using BusinessLogic.Enums;
 using BusinessLogic.Interfaces;
 
 namespace BusinessLogic.Services;
 
 public class ProviderService
 {
-    public IProviderRepository ProviderRepository;
+    private IProviderRepository _providerRepository;
 
     public ProviderService(IProviderRepository providerRepository)
     {
-        ProviderRepository = providerRepository;
+        _providerRepository = providerRepository;
     }
 
     public Provider CreateProvider(Provider provider)
@@ -24,14 +25,14 @@ public class ProviderService
             PhoneNumber = provider.PhoneNumber
         };
         
-        ProviderEntity returnProviderEntity = ProviderRepository.CreateProvider(providerEntity);
+        ProviderEntity returnProviderEntity = _providerRepository.CreateProvider(providerEntity);
         provider.guid = returnProviderEntity.Id;
         return provider;
     }
 
     public void DeleteProvider(Guid id)
     {
-        ProviderRepository.DeleteProvider(id);
+        _providerRepository.DeleteProvider(id);
     }
 
     public Provider UpdateProvider(Provider provider)
@@ -44,8 +45,43 @@ public class ProviderService
             PhoneNumber = provider.PhoneNumber,
             Email = provider.Email
         };
-        ProviderRepository.UpdateProvider(providerEntity);
+        _providerRepository.UpdateProvider(providerEntity);
         Provider _provider = new Provider(providerEntity.Id, providerEntity.Name, providerEntity.Address, providerEntity.Email, providerEntity.PhoneNumber);
         return _provider;
+    }
+
+    public List<Provider> GetProviders()
+    {
+        List<Provider> providers = new List<Provider>();
+        List<ProviderEntity> providerEntities = _providerRepository.GetAllProviderEntities();
+        foreach (ProviderEntity providerEntity in providerEntities)
+        {
+            Provider provider = new Provider(providerEntity.Id, providerEntity.Name, providerEntity.Address, providerEntity.Email,
+                providerEntity.PhoneNumber);
+            providers.Add(provider);
+        }
+
+        return providers;
+    }
+
+    public Provider GetProviderById(Guid id)
+    {
+        ProviderEntity providerEntity = _providerRepository.GetProviderById(id);
+        Provider provider = new Provider()
+        {
+            guid = providerEntity.Id,
+            Name = providerEntity.Name,
+            PhoneNumber = providerEntity.PhoneNumber,
+            Address = providerEntity.Address,
+            Email = providerEntity.Email
+        };
+        foreach (AISystemEntity aiSystemEntity in providerEntity.aISystemEntity)
+        {
+            AISystem aiSystem = new AISystem(aiSystemEntity.Id, aiSystemEntity.Name,
+                (AISystemStatus)aiSystemEntity.Status, aiSystemEntity.URL, aiSystemEntity.Description,
+                aiSystemEntity.TechnicalDocumentationLink, (ApprovalStatus)aiSystemEntity.ApprovalStatus, aiSystemEntity.DateAdded, (MemberStates)aiSystemEntity.MemberState);
+            provider.AISystems.Add(aiSystem);
+        }
+        return provider;
     }
 }

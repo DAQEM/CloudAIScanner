@@ -48,6 +48,19 @@ namespace BusinessLogic.Classes
             MemberState = memberState;
         }
 
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string description, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, MemberStates memberState)
+        {
+            Guid = guid;
+            Name = name;
+            Status = status;
+            URL = url;
+            Description = description;
+            TechnicalDocumentationLink = technicalDocumentationLink;
+            ApprovalStatus = approvalStatus;
+            DateAdded = dateAdded;
+            MemberState = memberState;
+        }
+
         internal void setFiles(AISystemEntity aiSystemEntity)
         {
             Files = new List<AISystemFile>();
