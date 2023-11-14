@@ -22,6 +22,7 @@ const initialize = async () => {
 };
 
 export const defaultHandle: Handle = async ({ event, resolve }) => {
+	initialize();
 	const response = await resolve(event);
 	return response;
 };
@@ -70,5 +71,3 @@ function initializeProvider(provider: Provider, api: AiRegisterAPI) {
 		}
 	});
 }
-
-initialize();

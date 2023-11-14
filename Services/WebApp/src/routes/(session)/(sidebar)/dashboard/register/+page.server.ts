@@ -1,10 +1,17 @@
-import { type System, getSystems } from '$lib/api/systems';
+import AiRegisterAPI from '$lib/api/ai_register';
+import type { AISystem, FetchError } from '$lib/types/types';
 import type { PageServerLoad } from './$types';
 
-export const load = (async () => {
-	const systemList: System[] = await getSystems();
+export const load = (async ({ fetch }) => {
+	const systems: AISystem[] | FetchError = await new AiRegisterAPI(fetch).getAiSystems();
+
+	if ('error' in systems) {
+		return {
+			systems: []
+		};
+	}
 
 	return {
-		systems: systemList
+		systems
 	};
 }) satisfies PageServerLoad;

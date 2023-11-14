@@ -1,4 +1,4 @@
-import type { AISystem, FetchError, Provider } from '$lib/types/types';
+import type { AISystem, ApprovalStatus, FetchError, Provider } from '$lib/types/types';
 
 export default class AiRegisterAPI {
 	private fetch: typeof fetch;
@@ -32,6 +32,28 @@ export default class AiRegisterAPI {
 			});
 	}
 
+	async getAiSystemById(id: string): Promise<AISystem | FetchError> {
+		return await this.fetch(this.getUrl(`AISystem/${id}`))
+			.then((res) => res.json())
+			.then((json) => json as AISystem)
+			.catch((err) => {
+				const error = 'Error fetching AI system';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
+	async getApprovalStatuses(): Promise<ApprovalStatus[] | FetchError> {
+		return await this.fetch(this.getUrl('ApprovalStatus'))
+			.then((res) => res.json())
+			.then((json) => json as ApprovalStatus[])
+			.catch((err) => {
+				const error = 'Error fetching approval statuses';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
 	async createProvider(provider: Provider): Promise<Provider | FetchError> {
 		return await this.fetch(this.getUrl('Provider'), {
 			method: 'POST',
@@ -44,6 +66,26 @@ export default class AiRegisterAPI {
 			.then((json) => json as Provider)
 			.catch((err) => {
 				const error = 'Error creating provider';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
+	async editApprovalStatus(id: string, approvalStatus: number): Promise<AISystem | FetchError> {
+		return await this.fetch(this.getUrl(`AISystem`), {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				guid: id,
+				approvalStatus: approvalStatus
+			})
+		})
+			.then((res) => res.json())
+			.then((json) => json as AISystem)
+			.catch((err) => {
+				const error = 'Error editing approval status';
 				this.logError(error, err);
 				return { error: error };
 			});

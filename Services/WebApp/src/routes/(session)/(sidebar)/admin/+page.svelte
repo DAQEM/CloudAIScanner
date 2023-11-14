@@ -1,13 +1,14 @@
 <script lang="ts">
 	import DeviceTable from '$lib/components/DeviceTable.svelte';
 	import UserTable from '$lib/components/UserTable.svelte';
+	import type { User } from '$lib/database/userDatabase';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	const session = data.session;
 
-	const users = data.users;
+	const users: User[] = data.users ?? [];
 	const pendingSystems = data.pendingSystems;
 </script>
 
@@ -20,6 +21,7 @@
 			<DeviceTable
 				systems={pendingSystems}
 				title="Pending Systems"
+				showId={false}
 				showStatus={false}
 				approvable={true}
 			/>
