@@ -7,6 +7,7 @@ namespace AIRegister.DTOs
     {
         public Guid Guid { get; set; }
         public string Name { get; set; }
+        public string UnambiguousReference { get; set; }
         public AISystemStatus Status { get; set; }
         public string Url { get; set; }
         public string TechnicalDocumentationLink { get; set; }
@@ -18,7 +19,7 @@ namespace AIRegister.DTOs
         public List<AISystemFile> Files { get; set; }
         public MemberStates MemberState { get; set; }
 
-        public AIDetailDTO(Guid guid, string name, AISystemStatus status, string url, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, ProviderDTO provider, CertificateDTO certificate, List<AISystemFile> files, string description, MemberStates memberState)
+        public AIDetailDTO(Guid guid, string name, AISystemStatus status, string url, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, ProviderDTO provider, CertificateDTO certificate, List<AISystemFile> files, string description, MemberStates memberState, string unambiguousReference)
         {
             Guid = guid;
             Name = name;
@@ -32,6 +33,7 @@ namespace AIRegister.DTOs
             Files = files;
             Description = description;
             MemberState = memberState;
+            UnambiguousReference = unambiguousReference;
         }
 
     }

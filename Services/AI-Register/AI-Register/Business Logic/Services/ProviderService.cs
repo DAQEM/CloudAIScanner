@@ -79,7 +79,7 @@ public class ProviderService
         {
             AISystem aiSystem = new AISystem(aiSystemEntity.Id, aiSystemEntity.Name,
                 (AISystemStatus)aiSystemEntity.Status, aiSystemEntity.URL, aiSystemEntity.Description,
-                aiSystemEntity.TechnicalDocumentationLink, (ApprovalStatus)aiSystemEntity.ApprovalStatus, aiSystemEntity.DateAdded, (MemberStates)aiSystemEntity.MemberState);
+                aiSystemEntity.TechnicalDocumentationLink, (ApprovalStatus)aiSystemEntity.ApprovalStatus, aiSystemEntity.DateAdded, (MemberStates)aiSystemEntity.MemberState, aiSystemEntity.UnambiguousReference);
             provider.AISystems.Add(aiSystem);
         }
         return provider;
