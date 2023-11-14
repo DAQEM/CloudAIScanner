@@ -14,6 +14,7 @@ namespace DAL
         public DbSet<CertificateEntity> Certificates { get; set; }
         public DbSet<ProviderEntity> Providers { get; set; }
         public DbSet<ScanCertificateEntity> ScanCertificates { get; set; }
+        public DbSet<AuthorisedRepresentativesEntity> AuthorisedRepresentatives { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +46,10 @@ namespace DAL
                 .HasOne(c => c.ScanCertificate)
                 .WithOne(s => s.Certificate)
                 .HasForeignKey<CertificateEntity>(c => c.ScannedCertificateId);
+            modelBuilder.Entity<ProviderEntity>()
+                .HasMany(p => p.authorisedReperesentitiveEntity)
+                .WithOne(a => a.Provider)
+                .HasForeignKey(a => a.ProviderId);
         }
     }
 }

@@ -101,7 +101,7 @@ namespace AIRegister.Controllers
                ProviderAISystemDTO providerAiSystemDto = new ProviderAISystemDTO(provider);
                foreach (AISystem system in provider.AISystems)
                {
-                   GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, provider.Name, system.DateAdded, system.ApprovalStatus, system.Description);
+                   GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, provider.Name, system.DateAdded, system.ApprovalStatus, system.Description, system.UnambiguousReference);
                    providerAiSystemDto.AiSystemDtos.Add(getAISystemDTO);
                }
                return Ok(providerAiSystemDto);

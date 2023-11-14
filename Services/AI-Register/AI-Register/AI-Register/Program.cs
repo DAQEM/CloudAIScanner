@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+builder.Services.AddScoped<IRepresentativeRepository, RepresentativeRepository>();
 
 IConfigurationRoot config;
 if (builder.Environment.IsDevelopment())
