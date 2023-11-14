@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AWSSDK.Core" Version="3.7.204.14" />
         <PackageReference Include="Google.Apis.Auth" Version="1.62.1" />
         <PackageReference Include="Google.Cloud.ResourceManager.V3" Version="2.2.0" />
         <PackageReference Include="Google.Cloud.ServiceUsage.V1" Version="2.2.0" />
