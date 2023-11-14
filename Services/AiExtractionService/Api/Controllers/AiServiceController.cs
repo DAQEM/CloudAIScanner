@@ -29,7 +29,7 @@ namespace AiExtractionService.Controllers
             HttpClient client = new();
             //get environment dev or prod
             string? environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            client.BaseAddress = environment == "Development" ? new Uri("http://localhost:5052/api/AISystem") : new Uri("http://ai-register-service/api/AISystem");
+            client.BaseAddress = environment == "Development" ? new Uri("http://localhost:5052/api/AISystem") : new Uri("http://ai-register-service:8080/api/AISystem");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             List<HttpResponseMessage> responses = new();
             foreach (AiSystem service in services)

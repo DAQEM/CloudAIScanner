@@ -34,16 +34,20 @@ export const GET: RequestHandler = async ({ params, fetch }) => {
 		await collection.deleteOne({ _id: account._id });
 	}
 
-	if (result === ECONNREFUSED) {
-		throw redirect(
-			302,
-			'/dashboard/scan?' +
-				new URLSearchParams({ success: 'false', provider: provider_slug, data: result })
-		);
-	}
+	// if (result === ECONNREFUSED) {
+	// 	throw redirect(
+	// 		302,
+	// 		'/dashboard/scan?' +
+	// 			new URLSearchParams({ success: 'false', provider: provider_slug, data: result })
+	// 	);
+	// }
+	// throw redirect(
+	// 	302,
+	// 	'/dashboard/scan?' +
+	// 		new URLSearchParams({ success: 'true', provider: provider_slug, data: result })
+	// );
 	throw redirect(
 		302,
-		'/dashboard/scan?' +
-			new URLSearchParams({ success: 'true', provider: provider_slug, data: result })
+		'/dashboard/register'
 	);
 };

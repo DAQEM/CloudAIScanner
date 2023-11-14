@@ -32,7 +32,7 @@ namespace Logic.Services
                 {
                     Type = "Example Certificate",
                     Number = 123456789,
-                    ExpiryDate = new DateTime().AddYears(3),
+                    ExpiryDate = DateTime.Now.AddYears(3),
                     ScanCertificate = new AiSystemScanCertificate
                     {
                         Filename = "example_certificate.pdf",
@@ -42,7 +42,7 @@ namespace Logic.Services
                     NameNotifiedBody = "Example Notified Body"
                 },
                 Files = new List<AISystemFile>(),
-                DateAdded = new DateOnly(),
+                DateAdded = DateOnly.FromDateTime(DateTime.Now),
                 MemberState = MemberStates.Latvia | MemberStates.Lithuania | MemberStates.Luxembourg | MemberStates.Malta | MemberStates.Netherlands | MemberStates.Poland | MemberStates.Portugal | MemberStates.Romania | MemberStates.Slovakia | MemberStates.Slovenia | MemberStates.Spain | MemberStates.Sweden,
                 URL = "https://example.com",
                 TechnicalDocumentationLink = "https://example.com/technical_documentation"

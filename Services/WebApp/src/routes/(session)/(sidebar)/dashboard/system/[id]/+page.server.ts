@@ -1,15 +1,18 @@
-import { getSystem, type System } from "$lib/api/systems";
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import { status } from "$lib/api/status";
+import type { AISystem, FetchError } from "$lib/types/types";
+import AiRegisterAPI from "$lib/api/ai_register";
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, fetch }) => {
 	const id = params.id;
-	const system: System | undefined = await getSystem(id);
-	if (system && status) {
-		return {
-			system
-		};
+	const system: AISystem | FetchError = await new AiRegisterAPI(fetch).getAiSystemById(id);
+
+	if (!("error" in system)) {
+		if (system) {
+			return {
+				system
+			};
+		}
 	}
 	throw redirect(302, '/dashboard/register');
 }) satisfies PageServerLoad;

@@ -1,5 +1,5 @@
 interface AISystem {
-    guid?: string;
+    id?: string;
     name?: string;
     status?: AISystemStatus;
     url?: string;
@@ -9,17 +9,17 @@ interface AISystem {
     dateAdded?: string;
     provider?: Provider;
     certificate?: Certificate;
-    memberStates?: MemberStates;
+    memberState?: MemberStates;
 }
 
 interface AISystemStatus {
-    id?: string;
-    status?: string;
+    id?: number;
+    name?: string;
 }
 
 interface ApprovalStatus {
-    id?: string;
-    status?: string;
+    id?: number;
+    name?: string;
 }
 
 interface Provider {
@@ -48,8 +48,8 @@ interface ScanCertificate {
 };
 
 interface MemberStates {
-    id?: string;
-    names?: string;
+    id?: number;
+    name?: string;
 };
 
 interface FetchError {

@@ -4,10 +4,13 @@
 	import type { System } from '$lib/api/systems';
 	import { Button, Input, Label, Select, Textarea } from 'flowbite-svelte';
 	import type { PageData } from './$types';
+	import type { AISystem, ApprovalStatus } from '$lib/types/types';
 	export let data: PageData;
-	const system: System = data.system;
-	const status: Status[] = data.status;
+	const system: AISystem = data.system;
+	const status: ApprovalStatus[] = data.status;
 	const providers: Provider[] = data.providers;
+
+	console.log(system);
 </script>
 
 <div class="flex justify-center">
@@ -25,21 +28,21 @@
 					</div>
 					<div class="flex-1">
 						<Label for="date">Date</Label>
-						<Input type="date" name="date" value={system.date} />
+						<Input type="date" name="date" value={system.dateAdded} />
 					</div>
 				</div>
 				<div class="flex w-full gap-8">
 					<div class="flex-1">
 						<Label for="status">Status</Label>
-						<Select name="status" value={system.status}>
+						<Select name="status" value={system.approvalStatus?.id}>
 							{#each status as item}
-								<option value={item}>{item}</option>
+								<option value={item.id}>{item.name}</option>
 							{/each}
 						</Select>
 					</div>
 					<div class="flex-1">
 						<Label for="provider">Provider</Label>
-						<Select name="provider" value={system.provider}>
+						<Select name="provider" value={system.provider?.name}>
 							{#each providers as item}
 								<option value={item}>{item}</option>
 							{/each}
@@ -49,10 +52,6 @@
 				<div>
 					<Label for="description">Description</Label>
 					<Textarea name="description" value={system.description} class="h-48" />
-				</div>
-				<div>
-					<Label for="description2">Description 2</Label>
-					<Textarea name="description2" value={system.description2} class="h-48" />
 				</div>
 				<div class="flex w-full gap-8">
 					<Button href="/dashboard/register" color="light" class="w-full border-2	border-primary-500"

@@ -10,7 +10,6 @@ import AiRegisterAPI from '$lib/api/ai_register';
  */
 
 export const load = (async ({ locals, fetch }) => {
-	new AiRegisterAPI(fetch).getAiSystems();
 	const session = await locals.getSession();
 	let associatedUser = await getAssociatedUser(session);
 

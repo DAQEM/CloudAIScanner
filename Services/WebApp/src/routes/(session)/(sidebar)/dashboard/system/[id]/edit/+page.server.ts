@@ -3,23 +3,29 @@ import { getStatus, type Status } from '$lib/api/status';
 import { editSystem, getSystem, type System } from '$lib/api/systems';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import type { AISystem, ApprovalStatus, FetchError } from '$lib/types/types';
+import AiRegisterAPI from '$lib/api/ai_register';
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, fetch }) => {
 	const id = params.id;
-	const system: System | undefined = await getSystem(id);
-	const status: Status[] = await getStatus();
+	const api: AiRegisterAPI = new AiRegisterAPI(fetch);
+	const system: AISystem | FetchError = await api.getAiSystemById(id);
+	const status: ApprovalStatus[] | FetchError = await api.getApprovalStatuses();
 	const providers: Provider[] = await getProviders();
-	if (system && status) {
-		return {
-			system,
-			status,
-			providers
-		};
+	if (!("error" in system) && !("error" in status)) {
+		if (system) {
+			return {
+				system,
+				status,
+				providers
+			};
+		}
 	}
 	throw redirect(302, '/dashboard/register');
 }) satisfies PageServerLoad;
 
 export const actions = {
+	//TODO: This is not working anymore and should be fixed later
 	default: async ({ request, params }) => {
 		const data = await request.formData();
 
