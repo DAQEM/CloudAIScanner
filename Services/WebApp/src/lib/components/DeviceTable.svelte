@@ -1,9 +1,6 @@
 <script lang="ts">
-	import AiRegisterAPI from '$lib/api/ai_register';
-	import { setSystemStatusToApproved, setSystemStatusToRejected } from '$lib/api/systems';
 	import type { AISystem } from '$lib/types/types';
 	import {
-		A,
 		Button,
 		Input,
 		Modal,
@@ -19,6 +16,7 @@
 
 	export let systems: AISystem[];
 	export let title: string = 'AI Register';
+	export let showId: boolean = true;
 	export let showStatus: boolean = true;
 	export let approvable: boolean = false;
 
@@ -69,7 +67,9 @@
 </div>
 <Table hoverable={true} divClass="rounded-lg overflow-hidden w-full">
 	<TableHead class="text-white dark:text-white bg-primary-500 dark:bg-primary-600">
-		<TableHeadCell class="p-0 pl-4 py-2 md:p-4">ID</TableHeadCell>
+		{#if showId}
+			<TableHeadCell class="p-0 pl-4 py-2 md:p-4">ID</TableHeadCell>
+		{/if}
 		<TableHeadCell class="p-0 md:p-4">Name</TableHeadCell>
 		<TableHeadCell class="hidden sm:table-cell p-0 md:p-4">Provider</TableHeadCell>
 		<TableHeadCell class="hidden md:table-cell p-0 md:p-4">Date</TableHeadCell>
@@ -79,8 +79,13 @@
 	</TableHead>
 	<TableBody tableBodyClass="divide-y">
 		{#each filteredItems as item, i}
-			<TableBodyRow class="cursor-pointer md:text-sm text-[10px]" on:click={() => toggleRow(i)}>
-				<TableBodyCell>{item.id}</TableBodyCell>
+			<TableBodyRow
+				class="cursor-pointer md:text-sm text-[10px] dark:bg-gray-900"
+				on:click={() => toggleRow(i)}
+			>
+				{#if showId}
+					<TableBodyCell>{item.id}</TableBodyCell>
+				{/if}
 				<TableBodyCell>{item.name}</TableBodyCell>
 				<TableBodyCell class="hidden sm:table-cell">{item.provider?.name}</TableBodyCell>
 				<TableBodyCell class="hidden md:table-cell">{item.dateAdded}</TableBodyCell>

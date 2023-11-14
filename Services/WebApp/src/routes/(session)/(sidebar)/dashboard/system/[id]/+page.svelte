@@ -30,7 +30,7 @@
 </script>
 
 <div class="p-12">
-	<div class="flex flex-col gap-8 p-8 bg-white rounded-xl">
+	<div class="flex flex-col gap-8 p-8 bg-white dark:bg-gray-900 rounded-xl">
 		<div class="flex gap-8">
 			<div class="w-32 h-32">
 				<img
