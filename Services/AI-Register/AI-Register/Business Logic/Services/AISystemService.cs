@@ -26,7 +26,7 @@ namespace BusinessLogic.Services
             foreach (AISystemEntity aiSystem in aiSystemEntities)
             {
                 Provider newProvider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
-                AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)),aiSystem.Description, (MemberStates)aiSystem.MemberState);
+                AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)),aiSystem.Description, (MemberStates)aiSystem.MemberState, aiSystem.UnambiguousReference);
                 aiSystems.Add(newAISystem);
             }
             return aiSystems;
@@ -36,7 +36,7 @@ namespace BusinessLogic.Services
         {
             AISystemEntity aiSystem = _IaiSystemRepository.GetAiSystemById(id);
             Provider provider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
-            AISystem detailedAiSystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, provider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)), aiSystem.Description, (MemberStates)aiSystem.MemberState);
+            AISystem detailedAiSystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, provider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)), aiSystem.Description, (MemberStates)aiSystem.MemberState, aiSystem.UnambiguousReference);
             detailedAiSystem.setFiles(aiSystem);
 
             return detailedAiSystem;
@@ -54,6 +54,7 @@ namespace BusinessLogic.Services
                 Description = aiSystem.Description,
                 ProviderId = aiSystem.provider.guid,
                 MemberState = (int)aiSystem.MemberState,
+                UnambiguousReference = aiSystem.UnambiguousReference,
                 CertificateEntity = new CertificateEntity()
                 {
                     Number = aiSystem.certificate.Number,

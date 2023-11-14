@@ -7,6 +7,7 @@ namespace BusinessLogic.Classes
     {
         public Guid Guid { get; set; }
         public string Name { get; set; }
+        public string UnambiguousReference {get;set;}
         public AISystemStatus Status { get; set; }
         public string URL { get; set; }
         public string Description { get; set; }
@@ -21,7 +22,7 @@ namespace BusinessLogic.Classes
 
         public AISystem(){ }
         
-        public AISystem(Guid guid, string name, AISystemStatus status, string url, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate, string description, MemberStates memberstate)
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate, string description, MemberStates memberstate, string unambiguousReference)
         {
             Guid = guid;
             Name = name;
@@ -34,6 +35,7 @@ namespace BusinessLogic.Classes
             DateAdded = dateAdded;
             this.provider = provider;
             this.certificate = certificate;
+            UnambiguousReference = unambiguousReference;
         }
 
         public AISystem(Guid guid, string name, AISystemStatus status, string url, string description, string technicalDocumentationLink, ApprovalStatus approvalStatus, MemberStates memberState)
@@ -46,6 +48,20 @@ namespace BusinessLogic.Classes
             TechnicalDocumentationLink = technicalDocumentationLink;
             ApprovalStatus = approvalStatus;
             MemberState = memberState;
+        }
+
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string description, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, MemberStates memberState, string unambiguousReference)
+        {
+            Guid = guid;
+            Name = name;
+            Status = status;
+            URL = url;
+            Description = description;
+            TechnicalDocumentationLink = technicalDocumentationLink;
+            ApprovalStatus = approvalStatus;
+            DateAdded = dateAdded;
+            MemberState = memberState;
+            UnambiguousReference = unambiguousReference;
         }
 
         internal void setFiles(AISystemEntity aiSystemEntity)
