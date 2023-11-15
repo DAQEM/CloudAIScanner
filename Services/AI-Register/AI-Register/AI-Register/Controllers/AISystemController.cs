@@ -4,7 +4,6 @@ using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using AIRegister.DTOs;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace AIRegister.Controllers
 {
@@ -22,13 +21,13 @@ namespace AIRegister.Controllers
         }
         // GET: api/<AISystemController>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get(int page = 1, int pageSize = 20)
         {
             pageSize = Math.Clamp(pageSize, 1, 500);
             
             try
             {
-                Pagination<List<AISystem>> aisystems = _aiSystemService.GetAiSystems(page, pageSize);
+                Pagination<List<AISystem>> aisystems = await _aiSystemService.GetAiSystems(page, pageSize);
                 List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
                 foreach (AISystem system in aisystems.Data)
                 {

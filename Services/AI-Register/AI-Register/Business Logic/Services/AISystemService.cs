@@ -13,10 +13,10 @@ namespace BusinessLogic.Services
             _IaiSystemRepository = iaiSystemRepository;
         }
 
-        public Pagination<List<AISystem>> GetAiSystems(int page, int pageSize)
+        public async Task<Pagination<List<AISystem>>> GetAiSystems(int page, int pageSize)
         {
 
-            Pagination<List<AISystemEntity>> aiSystemEntities = _IaiSystemRepository.GetAiSystemsWithProvider(page, pageSize);
+            Pagination<List<AISystemEntity>> aiSystemEntities = await _IaiSystemRepository.GetAiSystemsWithProvider(page, pageSize);
             List<AISystem> aiSystems = new List<AISystem>();
             
             foreach (AISystemEntity aiSystem in aiSystemEntities.Data)

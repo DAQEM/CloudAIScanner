@@ -35,7 +35,7 @@ namespace DAL.Repositories
 
         }
 
-        public Pagination<List<AISystemEntity>> GetAiSystemsWithProvider(int page, int pageSize)
+        public async Task<Pagination<List<AISystemEntity>>> GetAiSystemsWithProvider(int page, int pageSize)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace DAL.Repositories
                     .Include(a => a.ProviderEntity)
                     .Include(a => a.CertificateEntity)
                     .Include(a => a.CertificateEntity.ScanCertificate)
-                    .ToList();
+                    .ToListAsync();
 
                 int totalAiSystems = _context.AISystems.Count();
                 

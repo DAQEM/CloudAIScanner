@@ -7,7 +7,7 @@ public interface IAISystemRepository
 {
     public Task<AISystemEntity> AddSystemAI(AISystemEntity aiSystemEntity);
     
-    public Pagination<List<AISystemEntity>> GetAiSystemsWithProvider(int page, int pageSize);
+    public Task<Pagination<List<AISystemEntity>>> GetAiSystemsWithProvider(int page, int pageSize);
 
     public Task<AISystemEntity> GetAiSystemById(Guid id);
     
