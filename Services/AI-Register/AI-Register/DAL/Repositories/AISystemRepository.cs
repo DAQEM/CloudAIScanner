@@ -1,3 +1,4 @@
+using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,7 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<List<AISystemEntity>> GetAiSystemsWithProvider()
+        public Pagination<List<AISystemEntity>> GetAiSystemsWithProvider(int page, int pageSize)
         {
             try
             {
@@ -42,9 +43,16 @@ namespace DAL.Repositories
                     .Include(a => a.ProviderEntity)
                     .Include(a => a.CertificateEntity)
                     .Include(a => a.CertificateEntity.ScanCertificate)
-                    .ToListAsync();
+                    .ToList();
 
-                return AISystemList;
+                int totalAiSystems = _context.AISystems.Count();
+                
+                return new Pagination<List<AISystemEntity>> {
+                    Data = AISystemList, 
+                    Page = page, 
+                    PageSize = pageSize, 
+                    TotalPages = (int) Math.Ceiling((double)totalAiSystems / pageSize)
+                };
             }
             catch (Exception e)
             {

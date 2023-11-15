@@ -1,3 +1,4 @@
+using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 
 namespace BusinessLogic.Interfaces;
@@ -6,7 +7,7 @@ public interface IAISystemRepository
 {
     public Task<AISystemEntity> AddSystemAI(AISystemEntity aiSystemEntity);
     
-    public Task<List<AISystemEntity>> GetAiSystemsWithProvider();
+    public Pagination<List<AISystemEntity>> GetAiSystemsWithProvider(int page, int pageSize);
 
     public Task<AISystemEntity> GetAiSystemById(Guid id);
     

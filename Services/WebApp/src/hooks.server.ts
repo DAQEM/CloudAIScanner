@@ -13,7 +13,15 @@ const providers: Provider[] = [
 		name: 'Google Cloud',
 		address: 'Mountain View, Californië, Verenigde Staten',
 		email: 'cloud-support@google.com',
-		phoneNumber: '+1 650-253-0000'
+		phoneNumber: '+1 650-253-0000',
+		authorizedRepresentitives: [
+			{
+				guid: '6147de64-95ee-4040-86e5-a3c0a2b32574',
+				name: 'Google Cloud Employee',
+				email: 'google-employee@google.com',
+				phoneNumber: '+1 650-253-0001'
+			}
+		]
 	}
 ];
 
@@ -59,9 +67,15 @@ export const handle: Handle = sequence(defaultHandle, authHandle);
 
 function initializeProviders() {
 	const api = new AiRegisterAPI(fetch, false);
-	for (const provider of providers) {
-		initializeProvider(provider, api);
-	}
+	api.getProviders().then((res) => {
+		const p = res as Provider[];
+		for (const provider of providers) {
+			if (!p.find((x) => x.guid === provider.guid)) {
+				console.log('Provider ' + provider.name + ' not found, creating...');
+				initializeProvider(provider, api);
+			}
+		}
+	});
 }
 
 function initializeProvider(provider: Provider, api: AiRegisterAPI) {

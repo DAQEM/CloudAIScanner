@@ -22,23 +22,34 @@ namespace AIRegister.Controllers
         }
         // GET: api/<AISystemController>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-            List<AISystem> aisystems = await _aiSystemService.GetAiSystems();
-            List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
-            foreach (AISystem system in aisystems)
-            { 
-                GetAISystemDTO getAISystemDTO = new GetAISystemDTO(
-                    system.Guid, 
-                    system.Name, 
-                    system.provider.Name, 
-                    system.DateAdded, 
-                    system.ApprovalStatus, 
-                    system.Description,
-                    system.UnambiguousReference);
-                getAISystemDTOs.Add(getAISystemDTO);
+            pageSize = Math.Clamp(pageSize, 1, 500);
+            
+            try
+            {
+                Pagination<List<AISystem>> aisystems = _aiSystemService.GetAiSystems(page, pageSize);
+                List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
+                foreach (AISystem system in aisystems.Data)
+                {
+                    GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, system.provider.Name,
+                        system.DateAdded, system.ApprovalStatus, system.Description, system.UnambiguousReference);
+                    getAISystemDTOs.Add(getAISystemDTO);
+                }
+
+                return Ok(new PaginationDTO<List<GetAISystemDTO>>
+                {
+                    Data = getAISystemDTOs,
+                    Page = aisystems.Page,
+                    PageSize = aisystems.PageSize,
+                    TotalPages = aisystems.TotalPages
+                });
+
             }
-            return  Ok(getAISystemDTOs);
+            catch (Exception e)
+            {
+                return BadRequest(new { Error = e.Message });
+            }
         }
 
         // POST: api/AISystem

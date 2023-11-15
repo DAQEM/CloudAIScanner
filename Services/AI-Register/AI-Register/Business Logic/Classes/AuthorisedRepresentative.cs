@@ -6,7 +6,7 @@ public class AuthorisedRepresentative
     public string? Name { get; set; }
     public string? Email { get; set; }
     public string? PhoneNumber { get; set; }
-    public Provider Provider { get; set; }
+    public Provider? Provider { get; set; }
 
     public AuthorisedRepresentative(Guid guid, string? name, string? email, string? phoneNumber, Provider provider)
     {

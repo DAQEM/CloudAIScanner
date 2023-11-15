@@ -21,10 +21,11 @@ namespace Logic.Services
             List<AiSystem> AiSystems = services.Select(service => new AiSystem
             {
                 Name = service.Config.Title,
+                UnambiguousReference = service.Name,
                 Description = service.Config.Documentation.Summary,
                 Provider = new AiSystemProvider
                 {
-                    Guid = Guid.Parse("6147de64-95ee-4040-86e5-a3c0a2b32573") //Google Cloud Id
+                    Guid = Guid.Parse("6147de64-95ee-4040-86e5-a3c0a2b32573")
                 },
                 Status = AiStatus.InService,
                 ApprovalStatus = ApprovalStatus.Pending,

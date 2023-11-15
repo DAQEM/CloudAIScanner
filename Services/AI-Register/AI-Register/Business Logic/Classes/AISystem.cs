@@ -7,7 +7,7 @@ namespace BusinessLogic.Classes
     {
         public Guid Guid { get; set; }
         public string Name { get; set; }
-        public string UnambiguousReference {get;set;}
+        public string UnambiguousReference {get; set;}
         public AISystemStatus Status { get; set; }
         public string URL { get; set; }
         public string Description { get; set; }

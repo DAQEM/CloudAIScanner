@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLogic.Classes;
+﻿using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 using BusinessLogic.Enums;
 using BusinessLogic.Interfaces;
@@ -18,18 +13,26 @@ namespace BusinessLogic.Services
             _IaiSystemRepository = iaiSystemRepository;
         }
 
-        public async Task<List<AISystem>> GetAiSystems()
+        public Pagination<List<AISystem>> GetAiSystems(int page, int pageSize)
         {
 
-            List<AISystemEntity> aiSystemEntities = await _IaiSystemRepository.GetAiSystemsWithProvider();
+            Pagination<List<AISystemEntity>> aiSystemEntities = _IaiSystemRepository.GetAiSystemsWithProvider(page, pageSize);
             List<AISystem> aiSystems = new List<AISystem>();
-            foreach (AISystemEntity aiSystem in aiSystemEntities)
+            
+            foreach (AISystemEntity aiSystem in aiSystemEntities.Data)
             {
                 Provider newProvider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
                 AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)),aiSystem.Description, (MemberStates)aiSystem.MemberState, aiSystem.UnambiguousReference);
                 aiSystems.Add(newAISystem);
             }
-            return aiSystems;
+
+            return new Pagination<List<AISystem>>
+            {
+                Data = aiSystems,
+                Page = aiSystemEntities.Page,
+                PageSize = aiSystemEntities.PageSize,
+                TotalPages = aiSystemEntities.TotalPages
+            };
         }
 
         public async Task<AISystem> getAISystemById(Guid id)
