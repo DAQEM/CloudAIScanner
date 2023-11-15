@@ -43,6 +43,17 @@ export default class AiRegisterAPI {
 			});
 	}
 
+	async getProviders(): Promise<Provider[] | FetchError> {
+		return await this.fetch(this.getUrl('Provider'))
+			.then((res) => res.json())
+			.then((json) => json as Provider[])
+			.catch((err) => {
+				const error = 'Error fetching providers';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
 	async getApprovalStatuses(): Promise<ApprovalStatus[] | FetchError> {
 		return await this.fetch(this.getUrl('ApprovalStatus'))
 			.then((res) => res.json())

@@ -7,4 +7,5 @@ public class AiSystemProvider
     public string Address { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
+    public List<AuthorisedRepresentative> AuthorizedRepresentitives { get; set; }
 }

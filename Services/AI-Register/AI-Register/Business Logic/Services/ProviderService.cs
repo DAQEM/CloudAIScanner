@@ -22,8 +22,22 @@ public class ProviderService
             Name = provider.Name,
             Address = provider.Address,
             Email = provider.Email,
-            PhoneNumber = provider.PhoneNumber
+            PhoneNumber = provider.PhoneNumber,
         };
+
+        if (provider.AuthorizedRepresentitives.Any())
+        {
+            provider.AuthorizedRepresentitives.ForEach(authorizedRepresentative =>
+            {
+                providerEntity.authorisedReperesentitiveEntity.Add(new AuthorisedRepresentativesEntity()
+                {
+                    Name = authorizedRepresentative.Name,
+                    Email = authorizedRepresentative.Email,
+                    PhoneNumber = authorizedRepresentative.PhoneNumber,
+                    ProviderId = providerEntity.Id
+                });
+            });
+        }
         
         ProviderEntity returnProviderEntity = _providerRepository.CreateProvider(providerEntity);
         provider.guid = returnProviderEntity.Id;

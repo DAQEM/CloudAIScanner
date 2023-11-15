@@ -68,7 +68,7 @@
 <Table hoverable={true} divClass="rounded-lg overflow-hidden w-full">
 	<TableHead class="text-white dark:text-white bg-primary-500 dark:bg-primary-600">
 		{#if showId}
-			<TableHeadCell class="p-0 pl-4 py-2 md:p-4">ID</TableHeadCell>
+			<TableHeadCell class="p-0 pl-4 py-2 md:p-4">Unambiguous Reference</TableHeadCell>
 		{/if}
 		<TableHeadCell class="p-0 md:p-4">Name</TableHeadCell>
 		<TableHeadCell class="hidden sm:table-cell p-0 md:p-4">Provider</TableHeadCell>
@@ -84,7 +84,7 @@
 				on:click={() => toggleRow(i)}
 			>
 				{#if showId}
-					<TableBodyCell>{item.id}</TableBodyCell>
+					<TableBodyCell class="max-w-xs">{item.unambiguousReference}</TableBodyCell>
 				{/if}
 				<TableBodyCell>{item.name}</TableBodyCell>
 				<TableBodyCell class="hidden sm:table-cell">{item.provider?.name}</TableBodyCell>
