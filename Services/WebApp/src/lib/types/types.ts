@@ -64,6 +64,13 @@ interface FetchError {
 	error: string;
 }
 
+interface Pagination<T> {
+    data: T;
+	page: number;
+	pageSize: number;
+	totalPages: number;
+}
+
 export type {
 	AISystem,
 	AISystemStatus,
@@ -72,5 +79,6 @@ export type {
 	FetchError,
 	MemberStates,
 	Provider,
-	ScanCertificate
+	ScanCertificate,
+    Pagination
 };
