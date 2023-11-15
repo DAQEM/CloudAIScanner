@@ -228,9 +228,9 @@
 			<input
 				type="number"
 				min="1"
-				max={1000}
+				max="500"
 				bind:value={pageSize}
-				class="border-none h-8 focus:ring-0 p-0 w-14"
+				class="border-none h-8 focus:ring-0 p-0 w-12"
 			/>
 		</div>
 		<Button color="primary" href={'?page=' + page + '&pageSize=' + pageSize} data-sveltekit-reload>
