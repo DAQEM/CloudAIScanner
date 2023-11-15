@@ -12,7 +12,7 @@ public class RepresentativeService
     {
         _authorisedRepresentativeRepository = representativeRepository;
     }
-    public AuthorisedRepresentative CreateAuthorisedRepresentative(AuthorisedRepresentative authorisedRepresentative)
+    public async Task<AuthorisedRepresentative> CreateAuthorisedRepresentative(AuthorisedRepresentative authorisedRepresentative)
     {
         AuthorisedRepresentativesEntity authorisedRepresentativesEntity = new AuthorisedRepresentativesEntity()
         {
@@ -23,15 +23,15 @@ public class RepresentativeService
             ProviderId = authorisedRepresentative.Provider.guid
 
         };
-        AuthorisedRepresentativesEntity returnAuthorisedRepresentativesEntity = _authorisedRepresentativeRepository.AddRepresentative(authorisedRepresentativesEntity);
+        AuthorisedRepresentativesEntity returnAuthorisedRepresentativesEntity = await _authorisedRepresentativeRepository.AddRepresentative(authorisedRepresentativesEntity);
         return new AuthorisedRepresentative(returnAuthorisedRepresentativesEntity.Id,
             returnAuthorisedRepresentativesEntity.Name, returnAuthorisedRepresentativesEntity.Email,
             returnAuthorisedRepresentativesEntity.PhoneNumber);
     }
-    public List<AuthorisedRepresentative> GetAuthorisedRepresentatives()
+    public async Task<List<AuthorisedRepresentative>> GetAuthorisedRepresentatives()
     {
         List<AuthorisedRepresentative> authorisedRepresentatives = new List<AuthorisedRepresentative>();
-        List<AuthorisedRepresentativesEntity> authorisedRepresentativesEntities = _authorisedRepresentativeRepository.GetRepresentatives();
+        List<AuthorisedRepresentativesEntity> authorisedRepresentativesEntities = await _authorisedRepresentativeRepository.GetRepresentatives();
         foreach (AuthorisedRepresentativesEntity authorisedRepresentativesEntity in authorisedRepresentativesEntities)
         {
             authorisedRepresentatives.Add(new AuthorisedRepresentative(authorisedRepresentativesEntity.Id,
@@ -41,9 +41,9 @@ public class RepresentativeService
 
         return authorisedRepresentatives;
     }
-    public AuthorisedRepresentative GetAuthorisedRepresentativeById(Guid id)
+    public async Task<AuthorisedRepresentative> GetAuthorisedRepresentativeById(Guid id)
     {
-        AuthorisedRepresentativesEntity authorisedRepresentativesEntity = _authorisedRepresentativeRepository.GetRepresentativeById(id);
+        AuthorisedRepresentativesEntity authorisedRepresentativesEntity = await _authorisedRepresentativeRepository.GetRepresentativeById(id);
         AuthorisedRepresentative returnAuthorisedRepresentative = new AuthorisedRepresentative(authorisedRepresentativesEntity.Id,
             authorisedRepresentativesEntity.Name, authorisedRepresentativesEntity.Email,
             authorisedRepresentativesEntity.PhoneNumber, new Provider(authorisedRepresentativesEntity.Provider.Id,
@@ -51,7 +51,7 @@ public class RepresentativeService
                 authorisedRepresentativesEntity.Provider.Email, authorisedRepresentativesEntity.Provider.PhoneNumber));
         return returnAuthorisedRepresentative;
     }
-    public AuthorisedRepresentative UpdateAuthorisedRepresentative(AuthorisedRepresentative authorisedRepresentative)
+    public async Task<AuthorisedRepresentative>UpdateAuthorisedRepresentative(AuthorisedRepresentative authorisedRepresentative)
     {
         AuthorisedRepresentativesEntity authorisedRepresentativesEntity = new AuthorisedRepresentativesEntity()
         {
@@ -60,13 +60,13 @@ public class RepresentativeService
             Name = authorisedRepresentative.Name,
             PhoneNumber = authorisedRepresentative.PhoneNumber
         };
-        AuthorisedRepresentativesEntity returnAuthorisedRepresentativesEntity = _authorisedRepresentativeRepository.UpdateRepresentative(authorisedRepresentativesEntity);
+        AuthorisedRepresentativesEntity returnAuthorisedRepresentativesEntity = await _authorisedRepresentativeRepository.UpdateRepresentative(authorisedRepresentativesEntity);
         return new AuthorisedRepresentative(returnAuthorisedRepresentativesEntity.Id,
             returnAuthorisedRepresentativesEntity.Name, returnAuthorisedRepresentativesEntity.Email,
             returnAuthorisedRepresentativesEntity.PhoneNumber);
     }
-    public void DeleteAuthorisedRepresentative(Guid id)
+    public async Task DeleteAuthorisedRepresentative(Guid id)
     {
-        _authorisedRepresentativeRepository.DeleteRepresentative(id);
+        await _authorisedRepresentativeRepository.DeleteRepresentative(id);
     }
 }

@@ -9,6 +9,7 @@ namespace AIRegister.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [HttpExceptionHandling]
     public class RepresentativeController : ControllerBase
     {
         private RepresentativeService _representativeService;
@@ -19,94 +20,66 @@ namespace AIRegister.Controllers
         }
         // GET: api/Representative
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            try
-            {
-                List<AuthorisedRepresentative> authorisedRepresentatives =
-                    _representativeService.GetAuthorisedRepresentatives();
+            List<AuthorisedRepresentative> authorisedRepresentatives = await _representativeService.GetAuthorisedRepresentatives();
                 List<AuthorisedRepresentativeDTO> RepresentativeDTOs = new List<AuthorisedRepresentativeDTO>();
                 foreach (AuthorisedRepresentative representative in authorisedRepresentatives)
                 {
-                    AuthorisedRepresentativeDTO RepresentativeDTO = new AuthorisedRepresentativeDTO(representative.guid,
-                        representative.Name, representative.Email, representative.PhoneNumber);
+                    AuthorisedRepresentativeDTO RepresentativeDTO = new AuthorisedRepresentativeDTO(
+                        representative.guid,
+                        representative.Name, 
+                        representative.Email, 
+                        representative.PhoneNumber);
                     RepresentativeDTOs.Add(RepresentativeDTO);
                 }
                 return Ok(RepresentativeDTOs);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
         }
 
         // GET: api/Representative/5
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            try
-            {
-                AuthorisedRepresentative authorisedRepresentative = _representativeService.GetAuthorisedRepresentativeById(id);
-                AuthorisedRepresentativeProviderDTO RepresentativeDTO = new AuthorisedRepresentativeProviderDTO(authorisedRepresentative.guid,
-                    authorisedRepresentative.Name, authorisedRepresentative.Email, authorisedRepresentative.PhoneNumber, new ProviderDTO(authorisedRepresentative.Provider));
-                return Ok(RepresentativeDTO);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
+            AuthorisedRepresentative authorisedRepresentative = await _representativeService.GetAuthorisedRepresentativeById(id);
+            AuthorisedRepresentativeProviderDTO RepresentativeDTO = new AuthorisedRepresentativeProviderDTO(
+                authorisedRepresentative.guid, 
+                authorisedRepresentative.Name,
+                authorisedRepresentative.Email,
+                authorisedRepresentative.PhoneNumber, 
+                new ProviderDTO(authorisedRepresentative.Provider));
+
+            return Ok(RepresentativeDTO);
         }
 
         // POST: api/Representative
         [HttpPost]
-        public IActionResult Post([FromBody] AuthorisedRepresentative authorisedRepresentative)
+        public async Task<IActionResult> Post([FromBody] AuthorisedRepresentative authorisedRepresentative)
         {
-            try
-            {
-               AuthorisedRepresentative returnAuthorisedRepresentative = _representativeService.CreateAuthorisedRepresentative(authorisedRepresentative);
-               return Created(new Uri(Request.GetDisplayUrl()), returnAuthorisedRepresentative);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
+            AuthorisedRepresentative returnAuthorisedRepresentative = await _representativeService.CreateAuthorisedRepresentative(authorisedRepresentative);
+            return Created(new Uri(Request.GetDisplayUrl()), returnAuthorisedRepresentative);
         }
 
         // PUT: api/Representative/5
         [HttpPut("{id}")]
-        public IActionResult Put(Guid id, [FromBody] UpdateAuthorisedRepresentativeDTO authorisedRepresentativeDto)
+        public async Task<IActionResult> Put(Guid id, [FromBody] UpdateAuthorisedRepresentativeDTO authorisedRepresentativeDto)
         {
-            try
-            {
-                AuthorisedRepresentative authorisedRepresentative = new AuthorisedRepresentative()
-                {   
-                    guid = id,
-                    Name = authorisedRepresentativeDto.Name,
-                    Email = authorisedRepresentativeDto.Email,
-                    PhoneNumber = authorisedRepresentativeDto.PhoneNumber
-                };
-                AuthorisedRepresentative returnAuthorisedRepresentative = _representativeService.UpdateAuthorisedRepresentative(authorisedRepresentative);
-                return Created(new Uri(Request.GetDisplayUrl()), returnAuthorisedRepresentative);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
+            AuthorisedRepresentative authorisedRepresentative = new AuthorisedRepresentative()
+            {   
+                guid = id,
+                Name = authorisedRepresentativeDto.Name,
+                Email = authorisedRepresentativeDto.Email,
+                PhoneNumber = authorisedRepresentativeDto.PhoneNumber
+            };
+            AuthorisedRepresentative returnAuthorisedRepresentative = await _representativeService.UpdateAuthorisedRepresentative(authorisedRepresentative);
+            return Created(new Uri(Request.GetDisplayUrl()), returnAuthorisedRepresentative);
         }
 
         // DELETE: api/Representative/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async  Task<IActionResult> Delete(Guid id)
         {
-            try
-            {
-                 _representativeService.DeleteAuthorisedRepresentative(id);
-                 return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
+            await _representativeService.DeleteAuthorisedRepresentative(id);
+            return Ok();
         }
     }
 }

@@ -4,10 +4,10 @@ namespace BusinessLogic.Interfaces;
 
 public interface IRepresentativeRepository
 {
-    public List<AuthorisedRepresentativesEntity> GetRepresentatives();
-    public AuthorisedRepresentativesEntity GetRepresentativeById(Guid id);
-    public AuthorisedRepresentativesEntity UpdateRepresentative(AuthorisedRepresentativesEntity authorisedRepresentativesEntity);
-    public AuthorisedRepresentativesEntity AddRepresentative(AuthorisedRepresentativesEntity authorisedRepresentativesEntity);
-    public void DeleteRepresentative(Guid id);
+    public Task<List<AuthorisedRepresentativesEntity>> GetRepresentatives();
+    public Task<AuthorisedRepresentativesEntity> GetRepresentativeById(Guid id);
+    public Task<AuthorisedRepresentativesEntity> UpdateRepresentative(AuthorisedRepresentativesEntity authorisedRepresentativesEntity);
+    public Task<AuthorisedRepresentativesEntity> AddRepresentative(AuthorisedRepresentativesEntity authorisedRepresentativesEntity);
+    public Task DeleteRepresentative(Guid id);
     
 }
