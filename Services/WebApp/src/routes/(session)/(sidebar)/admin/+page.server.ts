@@ -2,20 +2,31 @@ import AiRegisterAPI from '$lib/api/ai_register';
 import { getSystemsByStatus, type System } from '$lib/api/systems';
 import clientPromise from '$lib/database/clientPromise';
 import { UserDatabase, type User } from '$lib/database/userDatabase';
-import type { AISystem, FetchError } from '$lib/types/types';
+import type { AISystem, FetchError, Pagination } from '$lib/types/types';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ fetch }) => {
+export const load = (async ({ fetch, url: { searchParams } }) => {
+	const page: string | null = searchParams.get('page');
+	const pageSize: string | null = searchParams.get('pageSize');
+
+	const pageInt: number = page ? parseInt(page) : 1;
+	const pageSizeInt: number = pageSize ? parseInt(pageSize) : 20;
+	
 	const users: User[] = await (await UserDatabase.fromClient(clientPromise)).getAllUsersLimited(10);
-	let pendingSystems: AISystem[] | FetchError = await new AiRegisterAPI(fetch).getAiSystems();
+	let pendingSystems: Pagination<AISystem[]> | FetchError = await new AiRegisterAPI(fetch).getAiSystems(pageInt, pageSizeInt);
 
 	if ('error' in pendingSystems) {
 		return {
-			pendingSystems: []
+			pendingSystems: {
+				data: [],
+				page: 1,
+				pageSize: 20,
+				totalPages: 1
+			}
 		};
 	}
 
-	pendingSystems = pendingSystems.filter((system) => system.approvalStatus?.name?.toLocaleLowerCase() === 'pending').slice(0, 10);
+	pendingSystems.data = pendingSystems.data.filter((system) => system.approvalStatus?.name?.toLocaleLowerCase() === 'pending').slice(0, 10);
 
 	return {
 		users: structuredClone(

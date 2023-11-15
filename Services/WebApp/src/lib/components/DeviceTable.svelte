@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AISystem } from '$lib/types/types';
+	import type { AISystem, Pagination } from '$lib/types/types';
 	import {
 		Button,
 		Input,
@@ -14,17 +14,21 @@
 	import { PlusSolid, SearchOutline } from 'flowbite-svelte-icons';
 	import { slide } from 'svelte/transition';
 
-	export let systems: AISystem[];
+	export let systems: Pagination<AISystem[]>;
 	export let title: string = 'AI Register';
 	export let showId: boolean = true;
 	export let showStatus: boolean = true;
 	export let approvable: boolean = false;
 
-	let filteredItems: AISystem[] = systems;
+	const page = systems.page;
+	let pageSize = systems.pageSize;
+	const totalPages = systems.totalPages;
+
+	let filteredItems: AISystem[] = systems.data;
 
 	let search = '';
 
-	$: filteredItems = systems.filter((system) => {
+	$: filteredItems = systems.data.filter((system) => {
 		return Object.values(system).some((value) =>
 			value.toString().toLowerCase().includes(search.toLowerCase())
 		);
@@ -41,6 +45,20 @@
 	let showRejectModal = false;
 	let showApproveModal = false;
 	let selectedSystem: AISystem | null = null;
+
+	function pages(): Array<number> {
+		if (totalPages <= 5) {
+			return Array.from({ length: totalPages }, (x, i) => i + 1);
+		} else {
+			if (page <= 2) {
+				return [1, 2, 3, 4, totalPages];
+			} else if (page >= totalPages - 2) {
+				return [1, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+			} else {
+				return [1, page - 1, page, page + 1, totalPages];
+			}
+		}
+	}
 </script>
 
 <div class="flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between">
@@ -174,6 +192,52 @@
 		{/each}
 	</TableBody>
 </Table>
+<section class="flex justify-center gap-8">
+	<nav aria-label="Page navigation">
+		<ul
+			class="inline-flex -space-x-px items-center border-[1px] border-gray-200 bg-white rounded-lg"
+		>
+			{#if page - 1 > 0}
+				<li class="w-28 h-10 flex justify-center items-center">
+					<a href={'?page=' + (page - 1).toString() + '&pageSize=' + pageSize} data-sveltekit-reload
+						>Previous</a
+					>
+				</li>
+			{/if}
+			{#each pages() as pge}
+				<li class="w-10 h-10 border-x-[1px] border-gray-200 flex justify-center items-center">
+					<a href={'?page=' + pge + '&pageSize=' + pageSize} data-sveltekit-reload>{pge}</a>
+				</li>
+			{/each}
+			{#if page + 1 <= totalPages}
+				<li class="w-28 h-10 flex justify-center items-center">
+					<a href={'?page=' + (page + 1).toString() + '&pageSize=' + pageSize} data-sveltekit-reload
+						>Next</a
+					>
+				</li>
+			{/if}
+		</ul>
+	</nav>
+	<div class="flex gap-4">
+		<div
+			class="h-10 flex gap-4 justify-center items-center bg-white rounded-lg border-[1px] border-gray-200 py-2"
+		>
+			<div class="h-10 border-r-[1px] border-gray-200 flex items-center">
+				<p class="px-4">Page size:</p>
+			</div>
+			<input
+				type="number"
+				min="1"
+				max="500"
+				bind:value={pageSize}
+				class="border-none h-8 focus:ring-0 p-0 w-12"
+			/>
+		</div>
+		<Button color="primary" href={'?page=' + page + '&pageSize=' + pageSize} data-sveltekit-reload>
+			Apply
+		</Button>
+	</div>
+</section>
 <Modal title="Confirm Reject" open={showRejectModal} on:close={() => (showRejectModal = false)}>
 	{#if selectedSystem}
 		<div transition:slide={{ duration: 150, axis: 'y' }}>

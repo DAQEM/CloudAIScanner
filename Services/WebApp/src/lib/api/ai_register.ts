@@ -1,4 +1,4 @@
-import type { AISystem, ApprovalStatus, FetchError, Provider } from '$lib/types/types';
+import type { AISystem, ApprovalStatus, FetchError, Pagination, Provider } from '$lib/types/types';
 
 export default class AiRegisterAPI {
 	private fetch: typeof fetch;
@@ -21,10 +21,14 @@ export default class AiRegisterAPI {
 		}
 	}
 
-	async getAiSystems(): Promise<AISystem[] | FetchError> {
-		return await this.fetch(this.getUrl('AISystem'))
+	async getAiSystems(page: number, pageSize: number): Promise<Pagination<AISystem[]> | FetchError> {
+		return await this.fetch(
+			this.getUrl(
+				'AISystem?' + new URLSearchParams({ page: page.toString(), pageSize: pageSize.toString() })
+			)
+		)
 			.then((res) => res.json())
-			.then((json) => json as AISystem[])
+			.then((json) => json as Pagination<AISystem[]>)
 			.catch((err) => {
 				const error = 'Error fetching AI systems';
 				this.logError(error, err);

@@ -19,20 +19,28 @@ namespace AIRegister.Controllers
         }
         // GET: api/<AISystemController>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int page = 1, int pageSize = 20)
         {
+            pageSize = Math.Clamp(pageSize, 1, 500);
+            
             try
             {
-                List<AISystem> aisystems = _aiSystemService.GetAiSystems();
+                Pagination<List<AISystem>> aisystems = _aiSystemService.GetAiSystems(page, pageSize);
                 List<GetAISystemDTO> getAISystemDTOs = new List<GetAISystemDTO>();
-                foreach (AISystem system in aisystems)
+                foreach (AISystem system in aisystems.Data)
                 {
                     GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, system.provider.Name,
                         system.DateAdded, system.ApprovalStatus, system.Description, system.UnambiguousReference);
                     getAISystemDTOs.Add(getAISystemDTO);
                 }
 
-                return Ok(getAISystemDTOs);
+                return Ok(new PaginationDTO<List<GetAISystemDTO>>
+                {
+                    Data = getAISystemDTOs,
+                    Page = aisystems.Page,
+                    PageSize = aisystems.PageSize,
+                    TotalPages = aisystems.TotalPages
+                });
 
             }
             catch (Exception e)
