@@ -85,6 +85,8 @@ function initializeProvider(provider: Provider, api: AiRegisterAPI) {
 	api.createProvider(provider).then((res) => {
 		if ((res as Provider).guid) {
 			console.info('Provider ' + provider.name + ' created');
+		} else {
+			console.error('Error creating provider ' + provider.name);
 		}
 	});
 }
