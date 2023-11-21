@@ -87,6 +87,7 @@ function initializeProvider(provider: Provider, api: AiRegisterAPI) {
 			console.info('Provider ' + provider.name + ' created');
 		} else {
 			console.error('Error creating provider ' + provider.name);
+			console.error('result', res);
 		}
 	});
 }
