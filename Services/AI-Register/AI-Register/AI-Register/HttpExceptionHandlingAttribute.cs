@@ -15,23 +15,23 @@ namespace AIRegister
 
             if (!context.ExceptionHandled)
             {
-                var exception = context.Exception;
-                int statusCode;
+                Exception exception = context.Exception;
+                HttpStatusCode statusCode;
 
                 switch (true)
                 {
                     case bool when exception is UnauthorizedAccessException:
-                        statusCode = (int)HttpStatusCode.Unauthorized;
+                        statusCode = HttpStatusCode.Unauthorized;
                         break;
 
 
                     case bool when exception is InvalidOperationException:
-                        statusCode = (int)HttpStatusCode.BadRequest;
+                        statusCode = HttpStatusCode.BadRequest;
                         break;
 
 
                     default:
-                        statusCode = (int)HttpStatusCode.InternalServerError;
+                        statusCode = HttpStatusCode.InternalServerError;
                         break;
                 }
 
@@ -39,14 +39,14 @@ namespace AIRegister
             }
         }
 
-        private static void SetHttpException(ExceptionContext context, int statusCode)
+        private static void SetHttpException(ExceptionContext context, HttpStatusCode statusCode)
         {
             context.HttpContext.Response.ContentType = "application/json";
             context.HttpContext.Response.StatusCode = (int)statusCode;
+            Console.Write(context.Exception.StackTrace);
             context.Result = new JsonResult(new
             {
                 error = new[] { context.Exception.Message },
-                stackTrace = context.Exception.StackTrace
             });
         }
     }
