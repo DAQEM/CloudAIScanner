@@ -69,7 +69,7 @@ function initializeProviders() {
 	const api = new AiRegisterAPI(fetch, false);
 	api.getProviders().then((res) => {
 		const p = res as Provider[];
-		if (!Arrays.isArray(p)) {
+		if (!Array.isArray(p)) {
 			p = [];
 		}
 		for (const provider of providers) {
