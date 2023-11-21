@@ -66,7 +66,7 @@ export const authHandle: Handle = SvelteKitAuth(async () => {
 export const handle: Handle = sequence(defaultHandle, authHandle);
 
 function initializeProviders() {
-	const api = new AiRegisterAPI(fetch, false);
+	const api = new AiRegisterAPI(fetch, true);
 	api.getProviders().then((res) => {
 		let p = res as Provider[];
 		if (!Array.isArray(p)) {
