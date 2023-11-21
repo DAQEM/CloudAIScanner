@@ -68,7 +68,10 @@ export const handle: Handle = sequence(defaultHandle, authHandle);
 function initializeProviders() {
 	const api = new AiRegisterAPI(fetch, false);
 	api.getProviders().then((res) => {
-		const p = res as Provider[] ?? [];
+		const p = res as Provider[];
+		if (!Arrays.isArray(p)) {
+			p = [];
+		}
 		for (const provider of providers) {
 			if (!p.find((x) => x.guid === provider.guid)) {
 				console.info('Provider ' + provider.name + ' not found, creating...');

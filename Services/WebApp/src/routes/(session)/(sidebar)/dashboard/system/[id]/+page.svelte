@@ -10,8 +10,6 @@
 	export let data: PageData;
 	const system: AISystem = data.system;
 
-	console.log(system);
-
 	function getImage(name: string): string {
 		if (name === 'Google Cloud') {
 			return google_logo;

@@ -1,7 +1,5 @@
 <script lang="ts">
 	import type { Provider } from '$lib/api/provider';
-	import type { Status } from '$lib/api/status';
-	import type { System } from '$lib/api/systems';
 	import { Button, Input, Label, Select, Textarea } from 'flowbite-svelte';
 	import type { PageData } from './$types';
 	import type { AISystem, ApprovalStatus } from '$lib/types/types';
@@ -9,8 +7,6 @@
 	const system: AISystem = data.system;
 	const status: ApprovalStatus[] = data.status;
 	const providers: Provider[] = data.providers;
-
-	console.log(system);
 </script>
 
 <div class="flex justify-center">
