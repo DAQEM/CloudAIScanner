@@ -30,7 +30,7 @@ const initialize = async () => {
 };
 
 export const defaultHandle: Handle = async ({ event, resolve }) => {
-	initialize();
+	await initialize();
 	const response = await resolve(event);
 	return response;
 };
@@ -68,10 +68,10 @@ export const handle: Handle = sequence(defaultHandle, authHandle);
 function initializeProviders() {
 	const api = new AiRegisterAPI(fetch, false);
 	api.getProviders().then((res) => {
-		const p = res as Provider[];
+		const p = res as Provider[] ?? [];
 		for (const provider of providers) {
 			if (!p.find((x) => x.guid === provider.guid)) {
-				console.log('Provider ' + provider.name + ' not found, creating...');
+				console.info('Provider ' + provider.name + ' not found, creating...');
 				initializeProvider(provider, api);
 			}
 		}
@@ -81,7 +81,7 @@ function initializeProviders() {
 function initializeProvider(provider: Provider, api: AiRegisterAPI) {
 	api.createProvider(provider).then((res) => {
 		if ((res as Provider).guid) {
-			console.log('Provider ' + provider.name + ' created');
+			console.info('Provider ' + provider.name + ' created');
 		}
 	});
 }

@@ -45,8 +45,6 @@ export const actions = {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;
 
-		console.log(id);
-
 		await new AiRegisterAPI(fetch).editApprovalStatus(id, 1);
 
 		return {

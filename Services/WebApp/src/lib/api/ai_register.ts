@@ -12,12 +12,12 @@ export default class AiRegisterAPI {
 	getUrl(url: string): string {
 		return process.env.NODE_ENV === 'development'
 			? `http://localhost:5052/api/${url}`
-			: `http://ai-register-service/api/${url}`;
+			: `http://ai-register:8080/api/${url}`;
 	}
 
 	logError(error: string, err: any) {
 		if (this.logErrors) {
-			console.log(error, err);
+			console.error(error, err);
 		}
 	}
 
