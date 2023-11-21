@@ -77,7 +77,10 @@ export default class AiRegisterAPI {
 			},
 			body: JSON.stringify(provider)
 		})
-			.then((res) => res.json())
+			.then((res) => {
+				consoe.log('test:', res);
+				return res.json();
+			})
 			.then((json) => json as Provider)
 			.catch((err) => {
 				const error = 'Error creating provider';
