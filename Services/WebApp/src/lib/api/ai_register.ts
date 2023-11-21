@@ -78,7 +78,7 @@ export default class AiRegisterAPI {
 			body: JSON.stringify(provider)
 		})
 			.then((res) => {
-				consoe.log('test:', res);
+				console.log('test:', res);
 				return res.json();
 			})
 			.then((json) => json as Provider)
