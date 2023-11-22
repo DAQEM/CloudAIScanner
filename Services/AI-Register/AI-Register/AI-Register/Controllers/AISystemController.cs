@@ -21,7 +21,7 @@ namespace AIRegister.Controllers
         [HttpGet]
         public IActionResult Get(int page = 1, int pageSize = 20)
         {
-            pageSize = Math.Clamp(pageSize, 1, 500);
+            pageSize = Math.Clamp(pageSize, 20, 500);
             
             try
             {
