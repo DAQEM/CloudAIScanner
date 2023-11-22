@@ -13,13 +13,13 @@ public class RepresentativeRepository: IRepresentativeRepository
         _context = context;
     }
 
-    public List<AuthorisedRepresentativesEntity> GetRepresentatives()
+    public async Task<List<AuthorisedRepresentativesEntity>> GetRepresentatives()
     {
         try
         {
-            List<AuthorisedRepresentativesEntity> representatives = _context.AuthorisedRepresentatives
+            List<AuthorisedRepresentativesEntity> representatives = await _context.AuthorisedRepresentatives
                 .Include(a => a.Provider)
-                .ToList();
+                .ToListAsync();
 
             return representatives;
         }
@@ -30,13 +30,13 @@ public class RepresentativeRepository: IRepresentativeRepository
         }
     }
 
-    public AuthorisedRepresentativesEntity GetRepresentativeById(Guid id)
+    public async Task<AuthorisedRepresentativesEntity> GetRepresentativeById(Guid id)
     {
         try
         {
-            AuthorisedRepresentativesEntity representative = _context.AuthorisedRepresentatives
+            AuthorisedRepresentativesEntity representative = await _context.AuthorisedRepresentatives
                 .Include(a => a.Provider)
-                .Where(a => a.Id == id).First();
+                .Where(a => a.Id == id).FirstAsync();
 
             return representative;
         }
@@ -47,16 +47,16 @@ public class RepresentativeRepository: IRepresentativeRepository
         }
     }
 
-    public AuthorisedRepresentativesEntity AddRepresentative(AuthorisedRepresentativesEntity representative)
+    public async Task<AuthorisedRepresentativesEntity> AddRepresentative(AuthorisedRepresentativesEntity representative)
     {
-        _context.Add(representative);
-        _context.SaveChanges();
+        await _context.AddAsync(representative);
+        await _context.SaveChangesAsync();
         return representative;
     }
 
-    public AuthorisedRepresentativesEntity UpdateRepresentative(AuthorisedRepresentativesEntity representative)
+    public async Task<AuthorisedRepresentativesEntity> UpdateRepresentative(AuthorisedRepresentativesEntity representative)
     {
-        AuthorisedRepresentativesEntity authorisedRepresentativesEntityEntityToUpdate = _context.AuthorisedRepresentatives.First(p => p.Id == representative.Id);
+        AuthorisedRepresentativesEntity authorisedRepresentativesEntityEntityToUpdate = await _context.AuthorisedRepresentatives.FirstAsync(p => p.Id == representative.Id);
         if (authorisedRepresentativesEntityEntityToUpdate != null)
         {
             authorisedRepresentativesEntityEntityToUpdate.Name = representative.Name ?? authorisedRepresentativesEntityEntityToUpdate.Name;
@@ -68,10 +68,10 @@ public class RepresentativeRepository: IRepresentativeRepository
         return authorisedRepresentativesEntityEntityToUpdate;
     }
 
-    public void DeleteRepresentative(Guid id)
+    public async Task DeleteRepresentative(Guid id)
     {
         AuthorisedRepresentativesEntity representativeToDelete = _context.AuthorisedRepresentatives.First(a => a.Id == id);
         _context.Remove(representativeToDelete);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

@@ -1,11 +1,16 @@
+using AIRegister;
 using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using DAL.Repositories;
+using System.Web.Http;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<HttpExceptionHandlingAttribute>();
+});
 
 builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
@@ -25,6 +30,7 @@ else
         .Build();
 }
 
+
 string? connectionString = config.GetConnectionString("MySqlConnection");
 
 builder.Services.AddDbContext<AIRegisterDBContext>(options =>
@@ -36,7 +42,6 @@ builder.Services.AddDbContext<AIRegisterDBContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
 
 WebApplication app = builder.Build();
 

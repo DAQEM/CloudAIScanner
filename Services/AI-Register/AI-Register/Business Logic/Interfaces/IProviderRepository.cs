@@ -4,13 +4,13 @@ namespace BusinessLogic.Interfaces;
 
 public interface IProviderRepository
 {
-    public ProviderEntity CreateProvider(ProviderEntity providerEntity);
+    public Task<ProviderEntity> CreateProvider(ProviderEntity providerEntity);
 
-    public ProviderEntity UpdateProvider(ProviderEntity providerEntity);
+    public Task<ProviderEntity> UpdateProvider(ProviderEntity providerEntity);
 
-    public void DeleteProvider(Guid id);
+    public Task DeleteProvider(Guid id);
     
-    public List<ProviderEntity> GetAllProviderEntities();
+    public Task<List<ProviderEntity>> GetAllProviderEntities();
 
-    public ProviderEntity GetProviderById(Guid id);
+    public Task<ProviderEntity> GetProviderById(Guid id);
 }

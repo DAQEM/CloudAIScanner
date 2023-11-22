@@ -9,6 +9,7 @@ namespace AIRegister.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [HttpExceptionHandling]
     public class AISystemStatusController : ControllerBase
     {
         // GET: api/<AISystemStatus>
