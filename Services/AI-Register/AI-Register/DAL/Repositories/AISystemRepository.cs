@@ -14,16 +14,16 @@ namespace DAL.Repositories
             _context = context;
         }
 
-        public AISystemEntity GetAiSystemById(Guid id)
+        public async Task<AISystemEntity> GetAiSystemById(Guid id)
         {
             try
             {
-                AISystemEntity aisystem = _context.AISystems
+                AISystemEntity aisystem = await _context.AISystems
                     .Include(a => a.ProviderEntity)
                     .Include(a => a.CertificateEntity)
                     .Include(a => a.CertificateEntity.ScanCertificate)
                     .Include(a => a.FileEntities)
-                    .Where(a => a.Id == id).First();
+                    .Where(a => a.Id == id).FirstAsync();
 
                 return aisystem;
             }
@@ -35,17 +35,15 @@ namespace DAL.Repositories
 
         }
 
-        public Pagination<List<AISystemEntity>> GetAiSystemsWithProvider(int page, int pageSize)
+        public async Task<Pagination<List<AISystemEntity>>> GetAiSystemsWithProvider(int page, int pageSize)
         {
             try
             {
-                List<AISystemEntity> AISystemList = _context.AISystems
+                List<AISystemEntity> AISystemList = await _context.AISystems
                     .Include(a => a.ProviderEntity)
                     .Include(a => a.CertificateEntity)
                     .Include(a => a.CertificateEntity.ScanCertificate)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
+                    .ToListAsync();
 
                 int totalAiSystems = _context.AISystems.Count();
                 
@@ -63,7 +61,7 @@ namespace DAL.Repositories
             }
         }
 
-        public AISystemEntity AddSystemAI(AISystemEntity aiSystemEntity)
+        public async Task<AISystemEntity> AddSystemAI(AISystemEntity aiSystemEntity)
         {
             _context.Add((aiSystemEntity.CertificateEntity));
             foreach (AISystemFileEntity aiSystemFileEntity in aiSystemEntity.FileEntities)
@@ -71,12 +69,12 @@ namespace DAL.Repositories
                 _context.Add(aiSystemFileEntity);
             }
             _context.Add(aiSystemEntity);
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
             return aiSystemEntity;
         }
-        public AISystemEntity UpdateAISystem(AISystemEntity aiSystemEntity)
+        public async Task<AISystemEntity> UpdateAISystem(AISystemEntity aiSystemEntity)
         {
-            AISystemEntity aiSystemToUpdate = _context.AISystems.First(a => a.Id == aiSystemEntity.Id);
+            AISystemEntity aiSystemToUpdate = await _context.AISystems.FirstAsync(a => a.Id == aiSystemEntity.Id);
             if (aiSystemToUpdate != null)
             {
                 
@@ -105,11 +103,12 @@ namespace DAL.Repositories
             return aiSystemToUpdate;
         }
 
-        public void DeleteAiSystem(Guid aiSystemId)
+        public Task DeleteAiSystem(Guid aiSystemId)
         {
            AISystemEntity aisystem = _context.AISystems.First(a => a.Id == aiSystemId);
-            _context.Remove(aisystem);
-            _context.SaveChanges();
+           _context.Remove(aisystem);
+           _context.SaveChanges();
+           return Task.CompletedTask;
         }
     }
 }
