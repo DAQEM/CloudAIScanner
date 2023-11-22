@@ -1,23 +1,20 @@
-import { getProviders, type Provider } from '$lib/api/provider';
-import { getStatus, type Status } from '$lib/api/status';
-import { editSystem, getSystem, type System } from '$lib/api/systems';
+import AiRegisterAPI from '$lib/api/ai_register';
+import type { AISystem, AISystemStatus, FetchError } from '$lib/types/types';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import type { AISystem, ApprovalStatus, FetchError } from '$lib/types/types';
-import AiRegisterAPI from '$lib/api/ai_register';
 
 export const load = (async ({ params, fetch }) => {
 	const id = params.id;
 	const api: AiRegisterAPI = new AiRegisterAPI(fetch);
 	const system: AISystem | FetchError = await api.getAiSystemById(id);
-	const status: ApprovalStatus[] | FetchError = await api.getApprovalStatuses();
-	const providers: Provider[] = await getProviders();
-	if (!("error" in system) && !("error" in status)) {
+	const statuses: AISystemStatus[] | FetchError = await api.getAISystemStatuses();
+	const memberStates = await api.getMemberStates();
+	if (!('error' in system) && !('error' in statuses) && !('error' in memberStates)) {
 		if (system) {
 			return {
 				system,
-				status,
-				providers
+				statuses,
+				memberStates
 			};
 		}
 	}
@@ -31,22 +28,33 @@ export const actions = {
 
 		const id = params.id;
 		const name = data.get('name') as string;
-		const provider = data.get('provider') as string;
+		const status = data.get('status') as string;
 		const date = data.get('date') as string;
-		const status = data.get('status') as 'Pending' | 'Approved' | 'Rejected';
 		const description = data.get('description') as string;
-		const description2 = data.get('description2') as string;
+		const url = data.get('url') as string;
+		const technicalDocumentationLink = data.get('technicalDocumentationLink') as string;
+		const memberStates: number = data
+			.getAll('memberStates')
+			.map((memberState) => parseInt(memberState.toString()))
+			.filter((memberState) => !isNaN(memberState))
+			.reduce((a, b) => a + b, 0);
 
-		const system: System = {
+		const api: AiRegisterAPI = new AiRegisterAPI(fetch);
+
+		console.log(memberStates);
+
+		const result = await api.editAiSystem(
 			id,
 			name,
-			provider,
-			date,
-			status,
+			parseInt(status),
 			description,
-			description2
-		};
+			url,
+			technicalDocumentationLink,
+			memberStates
+		);
 
-		await editSystem(system);
+		console.log(result);
+
+		throw redirect(302, `/dashboard/register`);
 	}
 } satisfies Actions;
