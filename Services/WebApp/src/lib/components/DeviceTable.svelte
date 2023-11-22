@@ -195,7 +195,7 @@
 <section class="flex justify-center gap-8">
 	<nav aria-label="Page navigation">
 		<ul
-			class="inline-flex -space-x-px items-center border-[1px] border-gray-200 bg-white rounded-lg"
+			class="inline-flex -space-x-px items-center border-[1px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-lg"
 		>
 			{#if page - 1 > 0}
 				<li class="w-28 h-10 flex justify-center items-center">
@@ -205,7 +205,9 @@
 				</li>
 			{/if}
 			{#each pages() as pge}
-				<li class="w-10 h-10 border-x-[1px] border-gray-200 flex justify-center items-center">
+				<li
+					class="w-10 h-10 border-x-[1px] border-gray-200 dark:border-gray-800 flex justify-center items-center"
+				>
 					<a href={'?page=' + pge + '&pageSize=' + pageSize} data-sveltekit-reload>{pge}</a>
 				</li>
 			{/each}
@@ -220,9 +222,9 @@
 	</nav>
 	<div class="flex gap-4">
 		<div
-			class="h-10 flex gap-4 justify-center items-center bg-white rounded-lg border-[1px] border-gray-200 py-2"
+			class="h-10 flex gap-4 justify-center items-center bg-white dark:bg-gray-900 rounded-lg border-[1px] border-gray-200 dark:border-gray-800 py-2"
 		>
-			<div class="h-10 border-r-[1px] border-gray-200 flex items-center">
+			<div class="h-10 border-r-[1px] border-gray-200 dark:border-gray-800 flex items-center">
 				<p class="px-4">Page size:</p>
 			</div>
 			<input
@@ -230,7 +232,7 @@
 				min="1"
 				max="500"
 				bind:value={pageSize}
-				class="border-none h-8 focus:ring-0 p-0 w-12"
+				class="border-none h-8 focus:ring-0 p-0 w-12 dark:bg-gray-900"
 			/>
 		</div>
 		<Button color="primary" href={'?page=' + page + '&pageSize=' + pageSize} data-sveltekit-reload>
