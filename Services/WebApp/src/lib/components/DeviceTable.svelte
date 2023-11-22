@@ -264,7 +264,7 @@
 		</div>
 	{/if}
 </Modal>
-<Modal title="Confirm Reject" open={showApproveModal} on:close={() => (showApproveModal = false)}>
+<Modal title="Confirm Approve" open={showApproveModal} on:close={() => (showApproveModal = false)}>
 	{#if selectedSystem}
 		<div transition:slide={{ duration: 150, axis: 'y' }}>
 			<form
