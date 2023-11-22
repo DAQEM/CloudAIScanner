@@ -43,7 +43,7 @@ namespace AIRegister
         {
             context.HttpContext.Response.ContentType = "application/json";
             context.HttpContext.Response.StatusCode = (int)statusCode;
-            Console.Write(context.Exception.StackTrace);
+            Console.WriteLine(context.Exception.StackTrace);
             context.Result = new JsonResult(new
             {
                 error = new[] { context.Exception.Message },
