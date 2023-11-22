@@ -8,5 +8,5 @@
 </script>
 
 <div class="grid grid-rows-[max-content,1fr] text-xs md:text-base lg:text-lg p-4 md:p-16 gap-4">
-	<DeviceTable {systems} />
+	<DeviceTable {systems} showCheckboxes={true} />
 </div>

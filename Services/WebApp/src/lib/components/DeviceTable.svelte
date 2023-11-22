@@ -2,7 +2,12 @@
 	import type { AISystem, Pagination } from '$lib/types/types';
 	import {
 		Button,
+		Checkbox,
+		Dropdown,
+		DropdownDivider,
+		DropdownItem,
 		Input,
+		Label,
 		Modal,
 		Table,
 		TableBody,
@@ -11,13 +16,14 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { PlusSolid, SearchOutline } from 'flowbite-svelte-icons';
+	import { ChevronDownSolid, PlusSolid, SearchOutline } from 'flowbite-svelte-icons';
 	import { slide } from 'svelte/transition';
 
 	export let systems: Pagination<AISystem[]>;
 	export let title: string = 'AI Register';
 	export let showId: boolean = true;
 	export let showStatus: boolean = true;
+	export let showCheckboxes: boolean = false;
 	export let approvable: boolean = false;
 
 	const page = systems.page;
@@ -34,6 +40,8 @@
 		);
 	});
 
+	let checkedRows: boolean[] = filteredItems.map((item) => false);
+
 	let openRow: number | null = null;
 	let details: any = null;
 
@@ -44,6 +52,10 @@
 
 	let showRejectModal = false;
 	let showApproveModal = false;
+	let showDeleteModal = false;
+	let showBulkDeleteModal = false;
+	let showBulkApproveModal = false;
+	let showBulkRejectModal = false;
 	let selectedSystem: AISystem | null = null;
 
 	function pages(): Array<number> {
@@ -58,6 +70,30 @@
 				return [1, page - 1, page, page + 1, totalPages];
 			}
 		}
+	}
+
+	function checkOne(event: Event, i: number) {
+		checkedRows[i] = (event.target as HTMLInputElement).checked;
+		console.log(checkedRows);
+	}
+
+	function checkAll(event: Event) {
+		checkedRows = checkedRows.map(() => (event.target as HTMLInputElement).checked);
+	}
+
+	function getCheckedSystems(): AISystem[] {
+		let checkedSystems: AISystem[] = [];
+		for (let i = 0; i < checkedRows.length; i++) {
+			if (checkedRows[i]) {
+				checkedSystems.push(filteredItems[i]);
+			}
+		}
+		return checkedSystems;
+	}
+
+	function handleDelete(system: AISystem) {
+		selectedSystem = system;
+		showDeleteModal = true;
 	}
 </script>
 
@@ -77,14 +113,62 @@
 				<SearchOutline slot="right" class="w-4 h-4 text-gray-500 dark:text-gray-400" />
 			</Input>
 		</div>
-		<Button href="/dashboard/scan" color="primary">
-			<PlusSolid class="w-4 h-4 mr-4 text-white" />
-			Add New
-		</Button>
+		<Button>Actions<ChevronDownSolid class="w-3 h-3 ml-2 text-white dark:text-white" /></Button>
+		<Dropdown>
+			<DropdownItem>
+				<Button class="w-full" href="/dashboard/scan" color="primary">
+					<PlusSolid class="w-4 h-4 mr-4 text-white" />
+					Add New
+				</Button>
+			</DropdownItem>
+			{#if showCheckboxes}
+				<DropdownDivider class="my-4" />
+				<Label class="px-4">Delete Actions</Label>
+				<DropdownItem>
+					<Button
+						class="w-full"
+						color="red"
+						disabled={checkedRows.every((row) => !row)}
+						on:click={() => (showBulkDeleteModal = true)}
+					>
+						Delete Selected
+					</Button>
+				</DropdownItem>
+			{/if}
+			{#if approvable}
+				<DropdownDivider class="my-4" />
+				<Label class="px-4">Status Actions</Label>
+				<DropdownItem>
+					<Button
+						class="w-full"
+						color="green"
+						disabled={checkedRows.every((row) => !row)}
+						on:click={() => (showBulkApproveModal = true)}
+					>
+						Approve Selected
+					</Button>
+				</DropdownItem>
+				<DropdownItem>
+					<Button
+						class="w-full"
+						color="red"
+						disabled={checkedRows.every((row) => !row)}
+						on:click={() => (showBulkRejectModal = true)}
+					>
+						Reject Selected
+					</Button>
+				</DropdownItem>
+			{/if}
+		</Dropdown>
 	</div>
 </div>
 <Table hoverable={true} divClass="rounded-lg overflow-hidden w-full">
 	<TableHead class="text-white dark:text-white bg-primary-500 dark:bg-primary-600">
+		{#if showCheckboxes}
+			<TableHeadCell class="!p-4">
+				<Checkbox on:change={(e) => checkAll(e)} />
+			</TableHeadCell>
+		{/if}
 		{#if showId}
 			<TableHeadCell class="p-0 pl-4 py-2 md:p-4">Unambiguous Reference</TableHeadCell>
 		{/if}
@@ -97,16 +181,26 @@
 	</TableHead>
 	<TableBody tableBodyClass="divide-y">
 		{#each filteredItems as item, i}
-			<TableBodyRow
-				class="cursor-pointer md:text-sm text-[10px] dark:bg-gray-900"
-				on:click={() => toggleRow(i)}
-			>
-				{#if showId}
-					<TableBodyCell class="max-w-xs">{item.unambiguousReference}</TableBodyCell>
+			<TableBodyRow class="cursor-pointer md:text-sm text-[10px] dark:bg-gray-900">
+				{#if showCheckboxes}
+					<TableBodyCell class="!p-4">
+						<Checkbox checked={checkedRows[i]} on:change={(e) => checkOne(e, i)} />
+					</TableBodyCell>
 				{/if}
-				<TableBodyCell>{item.name}</TableBodyCell>
-				<TableBodyCell class="hidden sm:table-cell">{item.provider?.name}</TableBodyCell>
-				<TableBodyCell class="hidden md:table-cell">{item.dateAdded}</TableBodyCell>
+				{#if showId}
+					<TableBodyCell on:click={() => toggleRow(i)} class="max-w-xs truncate">
+						{item.unambiguousReference}
+					</TableBodyCell>
+				{/if}
+				<TableBodyCell on:click={() => toggleRow(i)} class="truncate">
+					{item.name}
+				</TableBodyCell>
+				<TableBodyCell on:click={() => toggleRow(i)} class="hidden sm:table-cell truncate">
+					{item.provider?.name}
+				</TableBodyCell>
+				<TableBodyCell on:click={() => toggleRow(i)} class="hidden md:table-cell">
+					{item.dateAdded}
+				</TableBodyCell>
 				{#if showStatus}
 					<TableBodyCell>
 						<Button
@@ -125,7 +219,10 @@
 			</TableBodyRow>
 			{#if openRow === i && selectedSystem?.id === item.id}
 				<TableBodyRow on:dblclick={() => (details = item)}>
-					<TableBodyCell colspan="5" class="p-0">
+					{#if showCheckboxes}
+						<TableBodyCell colspan="1"></TableBodyCell>
+					{/if}
+					<TableBodyCell colspan="50" class="p-0">
 						<div
 							class="p-6 grid grid-rows-[max-content,max-content,max-content] lg:grid-cols-[12rem,1fr,1fr] gap-8"
 							transition:slide={{ duration: 300, axis: 'y' }}
@@ -143,9 +240,9 @@
 											<Button class="w-full" color="blue" href="/dashboard/system/{item.id}/edit"
 												>Edit</Button
 											>
-											<Button class="w-full" color="red" href="/dashboard/system/{item.id}/delete"
-												>Delete</Button
-											>
+											<Button class="w-full" color="red" on:click={() => handleDelete(item)}>
+												Delete
+											</Button>
 										</div>
 									</div>
 								</div>
@@ -238,6 +335,36 @@
 		</Button>
 	</div>
 </section>
+<Modal title="Confirm Delete" open={showDeleteModal} on:close={() => (showDeleteModal = false)}>
+	{#if selectedSystem}
+		<div transition:slide={{ duration: 150, axis: 'y' }}>
+			<form
+				class="flex items-center flex-col gap-4"
+				method="POST"
+				action="/dashboard/register?/delete"
+			>
+				<p>Are you sure you want to delete this system?</p>
+				<Input type="hidden" name="id" bind:value={selectedSystem.id} />
+				<div class="flex gap-2">
+					<p class="font-bold">Name:</p>
+					<p>{selectedSystem.name}</p>
+				</div>
+				<div class="flex gap-2">
+					<p class="font-bold">Provider:</p>
+					<p>{selectedSystem.provider?.name}</p>
+				</div>
+				<div class="flex gap-2">
+					<p class="font-bold">Date:</p>
+					<p>{selectedSystem.dateAdded}</p>
+				</div>
+				<div class="flex gap-4">
+					<Button color="primary" type="submit">Yes</Button>
+					<Button color="red" on:click={() => (showDeleteModal = false)}>No</Button>
+				</div>
+			</form>
+		</div>
+	{/if}
+</Modal>
 <Modal title="Confirm Reject" open={showRejectModal} on:close={() => (showRejectModal = false)}>
 	{#if selectedSystem}
 		<div transition:slide={{ duration: 150, axis: 'y' }}>
@@ -293,4 +420,82 @@
 			</form>
 		</div>
 	{/if}
+</Modal>
+<Modal
+	title="Confirm Bulk Delete"
+	open={showBulkDeleteModal}
+	on:close={() => (showBulkDeleteModal = false)}
+>
+	<div transition:slide={{ duration: 150, axis: 'y' }}>
+		<form
+			class="flex items-center flex-col gap-4"
+			method="POST"
+			action="/dashboard/register?/bulk_delete"
+		>
+			{#if checkedRows.filter((row) => row).length == 1}
+				<p>Are you sure you want to delete {checkedRows.filter((row) => row).length} system?</p>
+			{:else}
+				<p>Are you sure you want to delete {checkedRows.filter((row) => row).length} systems?</p>
+			{/if}
+			{#each getCheckedSystems() as system}
+				<Input type="hidden" name="ids" bind:value={system.id} />
+			{/each}
+			<div class="flex gap-4">
+				<Button color="primary" type="submit">Yes</Button>
+				<Button color="red" on:click={() => (showBulkDeleteModal = false)}>No</Button>
+			</div>
+		</form>
+	</div>
+</Modal>
+<Modal
+	title="Confirm Bulk Approve"
+	open={showBulkApproveModal}
+	on:close={() => (showBulkApproveModal = false)}
+>
+	<div transition:slide={{ duration: 150, axis: 'y' }}>
+		<form
+			class="flex items-center flex-col gap-4"
+			method="POST"
+			action="/admin/approval?/bulk_approve"
+		>
+			{#if checkedRows.filter((row) => row).length == 1}
+				<p>Are you sure you want to approve {checkedRows.filter((row) => row).length} system?</p>
+			{:else}
+				<p>Are you sure you want to approve {checkedRows.filter((row) => row).length} systems?</p>
+			{/if}
+			{#each getCheckedSystems() as system}
+				<Input type="hidden" name="ids" bind:value={system.id} />
+			{/each}
+			<div class="flex gap-4">
+				<Button color="primary" type="submit">Yes</Button>
+				<Button color="red" on:click={() => (showBulkApproveModal = false)}>No</Button>
+			</div>
+		</form>
+	</div>
+</Modal>
+<Modal
+	title="Confirm Bulk Reject"
+	open={showBulkRejectModal}
+	on:close={() => (showBulkRejectModal = false)}
+>
+	<div transition:slide={{ duration: 150, axis: 'y' }}>
+		<form
+			class="flex items-center flex-col gap-4"
+			method="POST"
+			action="/admin/approval?/bulk_reject"
+		>
+			{#if checkedRows.filter((row) => row).length == 1}
+				<p>Are you sure you want to reject {checkedRows.filter((row) => row).length} system?</p>
+			{:else}
+				<p>Are you sure you want to reject {checkedRows.filter((row) => row).length} systems?</p>
+			{/if}
+			{#each getCheckedSystems() as system}
+				<Input type="hidden" name="ids" bind:value={system.id} />
+			{/each}
+			<div class="flex gap-4">
+				<Button color="primary" type="submit">Yes</Button>
+				<Button color="red" on:click={() => (showBulkRejectModal = false)}>No</Button>
+			</div>
+		</form>
+	</div>
 </Modal>
