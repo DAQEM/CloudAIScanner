@@ -1,4 +1,12 @@
-import type { AISystem, ApprovalStatus, FetchError, Pagination, Provider } from '$lib/types/types';
+import type {
+	AISystem,
+	AISystemStatus,
+	ApprovalStatus,
+	FetchError,
+	MemberStates,
+	Pagination,
+	Provider
+} from '$lib/types/types';
 
 export default class AiRegisterAPI {
 	private fetch: typeof fetch;
@@ -69,6 +77,28 @@ export default class AiRegisterAPI {
 			});
 	}
 
+	async getAISystemStatuses(): Promise<AISystemStatus[] | FetchError> {
+		return await this.fetch(this.getUrl('AISystemStatus'))
+			.then((res) => res.json())
+			.then((json) => json as AISystemStatus[])
+			.catch((err) => {
+				const error = 'Error fetching AI system statuses';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
+	async getMemberStates(): Promise<MemberStates[] | FetchError> {
+		return await this.fetch(this.getUrl('MemberState'))
+			.then((res) => res.json())
+			.then((json) => json as MemberStates[])
+			.catch((err) => {
+				const error = 'Error fetching member states';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
 	async createProvider(provider: Provider): Promise<Provider | FetchError> {
 		return await this.fetch(this.getUrl('Provider'), {
 			method: 'POST',
@@ -84,6 +114,39 @@ export default class AiRegisterAPI {
 			.then((json) => json as Provider)
 			.catch((err) => {
 				const error = 'Error creating provider';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
+	async editAiSystem(
+		id: string,
+		name: string,
+		status: number,
+		description: string,
+		url: string,
+		technicalDocumentationLink: string,
+		memberStates: number
+	): Promise<AISystem | FetchError> {
+		return await this.fetch(this.getUrl(`AISystem`), {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				guid: id,
+				name: name,
+				status: status,
+				url: url,
+				technicalDocumentationLink: technicalDocumentationLink,
+				description: description,
+				memberState: memberStates
+			})
+		})
+			.then((res) => res.json())
+			.then((json) => json as AISystem)
+			.catch((err) => {
+				const error = 'Error editing AI system';
 				this.logError(error, err);
 				return { error: error };
 			});
