@@ -227,7 +227,7 @@
 			</div>
 			<input
 				type="number"
-				min="1"
+				min="20"
 				max="500"
 				bind:value={pageSize}
 				class="border-none h-8 focus:ring-0 p-0 w-12"
