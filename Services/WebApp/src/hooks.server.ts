@@ -13,7 +13,15 @@ const providers: Provider[] = [
 		name: 'Google Cloud',
 		address: 'Mountain View, Californië, Verenigde Staten',
 		email: 'cloud-support@google.com',
-		phoneNumber: '+1 650-253-0000'
+		phoneNumber: '+1 650-253-0000',
+		authorizedRepresentitives: [
+			{
+				guid: '6147de64-95ee-4040-86e5-a3c0a2b32574',
+				name: 'Google Cloud Employee',
+				email: 'google-employee@google.com',
+				phoneNumber: '+1 650-253-0001'
+			}
+		]
 	}
 ];
 
@@ -22,6 +30,7 @@ const initialize = async () => {
 };
 
 export const defaultHandle: Handle = async ({ event, resolve }) => {
+	await initialize();
 	const response = await resolve(event);
 	return response;
 };
@@ -57,18 +66,28 @@ export const authHandle: Handle = SvelteKitAuth(async () => {
 export const handle: Handle = sequence(defaultHandle, authHandle);
 
 function initializeProviders() {
-	const api = new AiRegisterAPI(fetch, false);
-	for (const provider of providers) {
-		initializeProvider(provider, api);
-	}
+	const api = new AiRegisterAPI(fetch, true);
+	api.getProviders().then((res) => {
+		let p = res as Provider[];
+		if (!Array.isArray(p)) {
+			p = [];
+		}
+		for (const provider of providers) {
+			if (!p.find((x) => x.guid === provider.guid)) {
+				console.info('Provider ' + provider.name + ' not found, creating...');
+				initializeProvider(provider, api);
+			}
+		}
+	});
 }
 
 function initializeProvider(provider: Provider, api: AiRegisterAPI) {
 	api.createProvider(provider).then((res) => {
 		if ((res as Provider).guid) {
-			console.log('Provider ' + provider.name + ' created');
+			console.info('Provider ' + provider.name + ' created');
+		} else {
+			console.error('Error creating provider ' + provider.name);
+			console.error('result', res);
 		}
 	});
 }
-
-initialize();

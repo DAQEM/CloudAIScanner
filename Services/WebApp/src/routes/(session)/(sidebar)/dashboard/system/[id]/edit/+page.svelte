@@ -1,49 +1,70 @@
 <script lang="ts">
-	import type { Provider } from '$lib/api/provider';
-	import type { Status } from '$lib/api/status';
-	import type { System } from '$lib/api/systems';
-	import { Button, Input, Label, Select, Textarea } from 'flowbite-svelte';
+	import type { AISystem, AISystemStatus, MemberStates } from '$lib/types/types';
+	import { Button, Input, Label, MultiSelect, Select, Textarea } from 'flowbite-svelte';
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	export let data: PageData;
-	const system: System = data.system;
-	const status: Status[] = data.status;
-	const providers: Provider[] = data.providers;
+	const system: AISystem = data.system;
+	const statuses: AISystemStatus[] = data.statuses;
+	const memberStates: MemberStates[] = data.memberStates;
+	let memberStatesFromDevice: number[] = getMemberStatesFromDevice().map(
+		(memberState) => memberState.id ?? 0
+	);
+
+	let init = false;
+
+	onMount(() => {
+		init = true;
+	});
+
+	function addSpaces(inputString: string) {
+		var spacedString = inputString.replace(/([A-Z])/g, ' $1');
+		return spacedString.trim();
+	}
+
+	function getMemberStatesFromDevice(): MemberStates[] {
+		let returnValue: MemberStates[] = [];
+		let id: number = system.memberState?.id ?? 0;
+		let members: MemberStates[] = memberStates;
+
+		members.sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+		for (let i = 0; i < members.length; i++) {
+			let memberStateValue: number = members[i].id ?? 0;
+			if (id - memberStateValue >= 0) {
+				returnValue.push(members[i]);
+				id -= memberStateValue;
+			}
+		}
+
+		return returnValue;
+	}
 </script>
 
 <div class="flex justify-center">
 	<div class="p-12 max-w-4xl w-full">
 		<h1 class="text-2xl font-bold">Edit AI System: {system.name}</h1>
 		<div class="flex flex-col justify-center">
-			<form method="post" class="flex flex-col gap-4">
+			<form method="post" class="flex flex-col gap-6">
 				<div>
 					<Input type="hidden" name="id" value={system.id} />
 				</div>
-				<div class="flex w-full gap-8">
-					<div class="flex-1">
-						<Label for="name">Name</Label>
-						<Input type="text" name="name" value={system.name} />
-					</div>
-					<div class="flex-1">
-						<Label for="date">Date</Label>
-						<Input type="date" name="date" value={system.date} />
-					</div>
+				<div>
+					<Label for="name">Name</Label>
+					<Input type="text" name="name" value={system.name} />
 				</div>
 				<div class="flex w-full gap-8">
 					<div class="flex-1">
 						<Label for="status">Status</Label>
-						<Select name="status" value={system.status}>
-							{#each status as item}
-								<option value={item}>{item}</option>
+						<Select name="status" value={system.status?.id} itemValue="id" itemName="name">
+							{#each statuses as status}
+								<option value={status.id}>{addSpaces(status.name ?? '')}</option>
 							{/each}
 						</Select>
 					</div>
 					<div class="flex-1">
-						<Label for="provider">Provider</Label>
-						<Select name="provider" value={system.provider}>
-							{#each providers as item}
-								<option value={item}>{item}</option>
-							{/each}
-						</Select>
+						<Label for="date">Date</Label>
+						<Input type="date" name="date" value={system.dateAdded} />
 					</div>
 				</div>
 				<div>
@@ -51,10 +72,35 @@
 					<Textarea name="description" value={system.description} class="h-48" />
 				</div>
 				<div>
-					<Label for="description2">Description 2</Label>
-					<Textarea name="description2" value={system.description2} class="h-48" />
+					<Label for="url">URL</Label>
+					<Input type="text" name="url" value={system.url} />
 				</div>
-				<div class="flex w-full gap-8">
+				<div>
+					<Label for="technicalDocumentationLink">Technical Documentation Link</Label>
+					<Input
+						type="text"
+						name="technicalDocumentationLink"
+						value={system.technicalDocumentationLink}
+					/>
+				</div>
+				{#if init}
+					<div>
+						<Label for="memberStates">Member States</Label>
+						<MultiSelect
+							size="lg"
+							class="dark:bg-gray-700"
+							name="memberStates"
+							items={memberStates.map((memberState) => {
+								return {
+									value: memberState.id ?? '',
+									name: memberState.name ?? ''
+								};
+							})}
+							bind:value={memberStatesFromDevice}
+						/>
+					</div>
+				{/if}
+				<div class="flex w-full gap-8 mt-4">
 					<Button href="/dashboard/register" color="light" class="w-full border-2	border-primary-500"
 						>Back</Button
 					>

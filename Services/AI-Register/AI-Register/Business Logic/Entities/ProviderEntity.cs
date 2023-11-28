@@ -12,6 +12,7 @@ namespace BusinessLogic.Entities
         public string PhoneNumber { get; set; }
 
         public ICollection<AISystemEntity> aISystemEntity{ get; set;}
+        public ICollection<AuthorisedRepresentativesEntity> authorisedReperesentitiveEntity{ get; set;} = new List<AuthorisedRepresentativesEntity>();
         
     }
 }

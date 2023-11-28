@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLogic.Classes;
+﻿using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 using BusinessLogic.Enums;
 using BusinessLogic.Interfaces;
@@ -18,30 +13,38 @@ namespace BusinessLogic.Services
             _IaiSystemRepository = iaiSystemRepository;
         }
 
-        public List<AISystem> GetAiSystems()
+        public async Task<Pagination<List<AISystem>>> GetAiSystems(int page, int pageSize)
         {
 
-            List<AISystemEntity> aiSystemEntities = _IaiSystemRepository.GetAiSystemsWithProvider();
+            Pagination<List<AISystemEntity>> aiSystemEntities = await _IaiSystemRepository.GetAiSystemsWithProvider(page, pageSize);
             List<AISystem> aiSystems = new List<AISystem>();
-            foreach (AISystemEntity aiSystem in aiSystemEntities)
+            
+            foreach (AISystemEntity aiSystem in aiSystemEntities.Data)
             {
                 Provider newProvider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
-                AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)),aiSystem.Description, (MemberStates)aiSystem.MemberState);
+                AISystem newAISystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, newProvider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)),aiSystem.Description, (MemberStates)aiSystem.MemberState, aiSystem.UnambiguousReference);
                 aiSystems.Add(newAISystem);
             }
-            return aiSystems;
+
+            return new Pagination<List<AISystem>>
+            {
+                Data = aiSystems,
+                Page = aiSystemEntities.Page,
+                PageSize = aiSystemEntities.PageSize,
+                TotalPages = aiSystemEntities.TotalPages
+            };
         }
 
-        public AISystem getAISystemById(Guid id)
+        public async Task<AISystem> getAISystemById(Guid id)
         {
-            AISystemEntity aiSystem = _IaiSystemRepository.GetAiSystemById(id);
+            AISystemEntity aiSystem = await _IaiSystemRepository.GetAiSystemById(id);
             Provider provider = new Provider(aiSystem.ProviderEntity.Id, aiSystem.ProviderEntity.Name, aiSystem.ProviderEntity.Address, aiSystem.ProviderEntity.Email, aiSystem.ProviderEntity.PhoneNumber);
-            AISystem detailedAiSystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, provider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)), aiSystem.Description, (MemberStates)aiSystem.MemberState);
+            AISystem detailedAiSystem = new AISystem(aiSystem.Id, aiSystem.Name, (AISystemStatus)aiSystem.Status, aiSystem.URL, aiSystem.TechnicalDocumentationLink, (ApprovalStatus)aiSystem.ApprovalStatus, aiSystem.DateAdded, provider, new Certificate(aiSystem.CertificateEntity.Id, aiSystem.CertificateEntity.Type, aiSystem.CertificateEntity.Number, aiSystem.CertificateEntity.ExpiryDate, aiSystem.CertificateEntity.NameNotifiedBody, aiSystem.CertificateEntity.IdNotifiedBody, new ScanCertificate(aiSystem.CertificateEntity.ScanCertificate.Id, aiSystem.CertificateEntity.ScanCertificate.Filename, aiSystem.CertificateEntity.ScanCertificate.Filepath)), aiSystem.Description, (MemberStates)aiSystem.MemberState, aiSystem.UnambiguousReference);
             detailedAiSystem.setFiles(aiSystem);
 
             return detailedAiSystem;
         }
-        public AISystem AddAiSystem(AISystem aiSystem)
+        public async Task<AISystem> AddAiSystem(AISystem aiSystem)
         {
             AISystemEntity aiSystemEntity = new AISystemEntity()
             {
@@ -54,6 +57,7 @@ namespace BusinessLogic.Services
                 Description = aiSystem.Description,
                 ProviderId = aiSystem.provider.guid,
                 MemberState = (int)aiSystem.MemberState,
+                UnambiguousReference = aiSystem.UnambiguousReference,
                 CertificateEntity = new CertificateEntity()
                 {
                     Number = aiSystem.certificate.Number,
@@ -80,13 +84,13 @@ namespace BusinessLogic.Services
                 aiSystemEntity.FileEntities.Add(aiSystemFileEntity);
 
             }
-            AISystemEntity returnAISystem = _IaiSystemRepository.AddSystemAI(aiSystemEntity);
+            AISystemEntity returnAISystem = await _IaiSystemRepository.AddSystemAI(aiSystemEntity);
             aiSystem.Guid = returnAISystem.Id;
             aiSystem.ApprovalStatus = (ApprovalStatus)returnAISystem.ApprovalStatus;
             aiSystem.DateAdded = returnAISystem.DateAdded;
             return aiSystem;
         }
-        public AISystem UpdateAISystem(AISystem aiSystem)
+        public async Task<AISystem> UpdateAISystem(AISystem aiSystem)
         {
 
             AISystemEntity aiSystemEntity = new AISystemEntity()
@@ -101,16 +105,16 @@ namespace BusinessLogic.Services
                 MemberState = (int)aiSystem.MemberState
             };
           
-            AISystemEntity returnAiSystemEntity = _IaiSystemRepository.UpdateAISystem(aiSystemEntity);
+            AISystemEntity returnAiSystemEntity = await _IaiSystemRepository.UpdateAISystem(aiSystemEntity);
 
             return  new AISystem(returnAiSystemEntity.Id, returnAiSystemEntity.Name, (AISystemStatus)returnAiSystemEntity.Status,
                 returnAiSystemEntity.URL, returnAiSystemEntity.Description, returnAiSystemEntity.TechnicalDocumentationLink,
                 (ApprovalStatus)returnAiSystemEntity.ApprovalStatus, (MemberStates)returnAiSystemEntity.MemberState);
         }
 
-        public void DeleteAiSystem(Guid id)
+        public async Task DeleteAiSystem(Guid id)
         {
-            _IaiSystemRepository.DeleteAiSystem(id);
+           await _IaiSystemRepository.DeleteAiSystem(id);
         }
     }
 }

@@ -21,10 +21,11 @@ namespace Logic.Services
             List<AiSystem> AiSystems = services.Select(service => new AiSystem
             {
                 Name = service.Config.Title,
+                UnambiguousReference = service.Name,
                 Description = service.Config.Documentation.Summary,
                 Provider = new AiSystemProvider
                 {
-                    Guid = Guid.Parse("6147de64-95ee-4040-86e5-a3c0a2b32573") //Google Cloud Id
+                    Guid = Guid.Parse("6147de64-95ee-4040-86e5-a3c0a2b32573")
                 },
                 Status = AiStatus.InService,
                 ApprovalStatus = ApprovalStatus.Pending,
@@ -32,7 +33,7 @@ namespace Logic.Services
                 {
                     Type = "Example Certificate",
                     Number = 123456789,
-                    ExpiryDate = new DateTime().AddYears(3),
+                    ExpiryDate = DateTime.Now.AddYears(3),
                     ScanCertificate = new AiSystemScanCertificate
                     {
                         Filename = "example_certificate.pdf",
@@ -42,7 +43,7 @@ namespace Logic.Services
                     NameNotifiedBody = "Example Notified Body"
                 },
                 Files = new List<AISystemFile>(),
-                DateAdded = new DateOnly(),
+                DateAdded = DateOnly.FromDateTime(DateTime.Now),
                 MemberState = MemberStates.Latvia | MemberStates.Lithuania | MemberStates.Luxembourg | MemberStates.Malta | MemberStates.Netherlands | MemberStates.Poland | MemberStates.Portugal | MemberStates.Romania | MemberStates.Slovakia | MemberStates.Slovenia | MemberStates.Spain | MemberStates.Sweden,
                 URL = "https://example.com",
                 TechnicalDocumentationLink = "https://example.com/technical_documentation"
