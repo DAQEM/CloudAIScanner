@@ -61,7 +61,7 @@ namespace AIRegister.Migrations
 
                     b.Property<string>("UnambiguousReference")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -69,6 +69,9 @@ namespace AIRegister.Migrations
                         .IsUnique();
 
                     b.HasIndex("ProviderId");
+
+                    b.HasIndex("UnambiguousReference")
+                        .IsUnique();
 
                     b.ToTable("AISystems");
                 });

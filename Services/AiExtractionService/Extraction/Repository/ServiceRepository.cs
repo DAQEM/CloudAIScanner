@@ -4,6 +4,11 @@ using Google.Cloud.ResourceManager.V3;
 using Google.Cloud.ServiceUsage.V1;
 using Logic.Interfaces;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
+using logic.Dtos;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Extraction.Repository
 {
@@ -42,20 +47,25 @@ namespace Extraction.Repository
             return aiServices;
         }
 
-        public async Task<string> GetOpenAI(string accessToken)
+        public async Task<List<OpenAiModelDto>> GetOpenAI(string apiKey)
         {
-            string responseBody = string.Empty;
-
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                     HttpResponseMessage response = await client.GetAsync("https://api.openai.com/v1/models");
                     response.EnsureSuccessStatusCode();
-                    //var credential = open
-                    responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine(responseBody);
+
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    OpenAiResponseDto? openAiResponse = JsonSerializer.Deserialize<OpenAiResponseDto>(responseBody, options);
+
+                    return openAiResponse?.Data ?? new List<OpenAiModelDto>();
                 }
                 catch (HttpRequestException e)
                 {
@@ -63,7 +73,13 @@ namespace Extraction.Repository
                 }
             }
 
-            return responseBody;
+            return new List<OpenAiModelDto>();
         }
+    }
+    
+    public class OpenAiResponseDto
+    {
+        public string Object { get; set; }
+        public List<OpenAiModelDto> Data { get; set; }
     }
 }
