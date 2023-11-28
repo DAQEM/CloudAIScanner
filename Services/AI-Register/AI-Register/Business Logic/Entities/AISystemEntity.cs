@@ -8,6 +8,7 @@ namespace BusinessLogic.Entities
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
+        public string UnambiguousReference { get; set; }
         public int Status { get; set; }
         public string URL { get; set; }
         public string TechnicalDocumentationLink { get; set; }

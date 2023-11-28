@@ -91,7 +91,7 @@
 				</Toast>
 			{/if}
 		{/if}
-		<div class="bg-white rounded-xl p-16">
+		<div class="bg-white dark:bg-gray-900 rounded-xl p-16">
 			<div class="mb-8">
 				<h1 class="text-2xl font-bold text-center mb-4">Login to an AI provider</h1>
 				<p>

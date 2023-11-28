@@ -9,6 +9,7 @@ namespace AIRegister.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [HttpExceptionHandling]
     public class ProviderController : ControllerBase
     {
         private readonly ProviderService _providerService;
@@ -21,64 +22,48 @@ namespace AIRegister.Controllers
 
         // POST: api/Provider
         [HttpPost]
-        public IActionResult Post([FromBody] Provider provider)
+        public async Task<IActionResult> Post([FromBody] Provider provider)
         {
-            try
-            {
-                Provider returnProvider = _providerService.CreateProvider(provider);
-                return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
+            Provider returnProvider = await _providerService.CreateProvider(provider);
+            return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
         }
 
         // PUT: api/Provider/5
         
         [HttpPut]
-        public IActionResult Put([FromBody] ProviderUpdateDTO providerUpdateDto)
+        public async Task<IActionResult> Put([FromBody] ProviderUpdateDTO providerUpdateDto)
         {
-            try
+
+            Provider provider = new Provider()
             {
-                Provider provider = new Provider()
-                {
-                    Name = providerUpdateDto.Name,
-                    Address = providerUpdateDto.Address,
-                    guid = providerUpdateDto.Guid,
-                    PhoneNumber = providerUpdateDto.PhoneNumber,
-                    Email = providerUpdateDto.Email
-                };
-                Provider returnProvider = _providerService.UpdateProvider(provider);
-                return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
-            }
-            catch(Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
+                Name = providerUpdateDto.Name,
+                Address = providerUpdateDto.Address,
+                guid = providerUpdateDto.Guid,
+                PhoneNumber = providerUpdateDto.PhoneNumber,
+                Email = providerUpdateDto.Email
+            };
+            Provider returnProvider = await _providerService.UpdateProvider(provider);
+            return Created(new Uri(Request.GetDisplayUrl()), returnProvider);
+
+
         }
 
         // DELETE: api/Provider/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id )
-        {
-            try
-            {
-                _providerService.DeleteProvider(id);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Error = e.Message });
-            }
+        public async Task<IActionResult> Delete(Guid id )
+        { 
+            await _providerService.DeleteProvider(id);
+            return Ok();
+         
+      
         }
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
                 List<ProviderDTO> providerDtos = new List<ProviderDTO>();
-                List<Provider> providers = _providerService.GetProviders();
+                List<Provider> providers = await _providerService.GetProviders();
                 foreach (Provider provider in providers)
                 {
                     providerDtos.Add(new ProviderDTO(provider));
@@ -93,15 +78,15 @@ namespace AIRegister.Controllers
         }
         
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             try
             {
-               Provider provider = _providerService.GetProviderById(id);
+               Provider provider = await _providerService.GetProviderById(id);
                ProviderAISystemDTO providerAiSystemDto = new ProviderAISystemDTO(provider);
                foreach (AISystem system in provider.AISystems)
                {
-                   GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, provider.Name, system.DateAdded, system.ApprovalStatus, system.Description);
+                   GetAISystemDTO getAISystemDTO = new GetAISystemDTO(system.Guid, system.Name, provider.Name, system.DateAdded, system.ApprovalStatus, system.Description, system.UnambiguousReference);
                    providerAiSystemDto.AiSystemDtos.Add(getAISystemDTO);
                }
                return Ok(providerAiSystemDto);

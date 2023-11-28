@@ -14,6 +14,7 @@ namespace DAL
         public DbSet<CertificateEntity> Certificates { get; set; }
         public DbSet<ProviderEntity> Providers { get; set; }
         public DbSet<ScanCertificateEntity> ScanCertificates { get; set; }
+        public DbSet<AuthorisedRepresentativesEntity> AuthorisedRepresentatives { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,7 +24,8 @@ namespace DAL
             modelBuilder.Entity<ProviderEntity>()
                 .HasMany(p => p.aISystemEntity)
                 .WithOne(a => a.ProviderEntity)
-                .HasForeignKey(a => a.ProviderId);
+                .HasForeignKey(a => a.ProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ScanCertificateEntity>()
                 .HasKey(m => m.Id);
@@ -31,7 +33,8 @@ namespace DAL
             modelBuilder.Entity<CertificateEntity>()
                 .HasOne(c => c.AISystemEntity)
                 .WithOne(a => a.CertificateEntity)
-                .HasForeignKey<AISystemEntity>(a => a.CertificateId);
+                .HasForeignKey<AISystemEntity>(a => a.CertificateId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<AISystemEntity>()
                 .HasKey(a => a.Id);
@@ -39,12 +42,24 @@ namespace DAL
             modelBuilder.Entity<AISystemEntity>()
                 .HasMany(a => a.FileEntities)
                 .WithOne(f => f.AISystemEntity)
-                .HasForeignKey(f => f.AISystemId);
+                .HasForeignKey(f => f.AISystemId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CertificateEntity>()
                 .HasOne(c => c.ScanCertificate)
                 .WithOne(s => s.Certificate)
-                .HasForeignKey<CertificateEntity>(c => c.ScannedCertificateId);
+                .HasForeignKey<CertificateEntity>(c => c.ScannedCertificateId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<ProviderEntity>()
+                .HasMany(p => p.authorisedReperesentitiveEntity)
+                .WithOne(a => a.Provider)
+                .HasForeignKey(a => a.ProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AISystemEntity>()
+                .HasIndex(a => a.UnambiguousReference)
+                .IsUnique();
         }
     }
 }

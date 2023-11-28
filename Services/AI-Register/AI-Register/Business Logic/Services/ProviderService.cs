@@ -14,7 +14,7 @@ public class ProviderService
         _providerRepository = providerRepository;
     }
 
-    public Provider CreateProvider(Provider provider)
+    public async Task<Provider> CreateProvider(Provider provider)
     {
         ProviderEntity providerEntity = new()
         {
@@ -22,20 +22,34 @@ public class ProviderService
             Name = provider.Name,
             Address = provider.Address,
             Email = provider.Email,
-            PhoneNumber = provider.PhoneNumber
+            PhoneNumber = provider.PhoneNumber,
         };
+
+        if (provider.AuthorizedRepresentitives.Any())
+        {
+            provider.AuthorizedRepresentitives.ForEach(authorizedRepresentative =>
+            {
+                providerEntity.authorisedReperesentitiveEntity.Add(new AuthorisedRepresentativesEntity()
+                {
+                    Name = authorizedRepresentative.Name,
+                    Email = authorizedRepresentative.Email,
+                    PhoneNumber = authorizedRepresentative.PhoneNumber,
+                    ProviderId = providerEntity.Id
+                });
+            });
+        }
         
-        ProviderEntity returnProviderEntity = _providerRepository.CreateProvider(providerEntity);
+        ProviderEntity returnProviderEntity = await _providerRepository.CreateProvider(providerEntity);
         provider.guid = returnProviderEntity.Id;
         return provider;
     }
 
-    public void DeleteProvider(Guid id)
+    public async Task DeleteProvider(Guid id)
     {
-        _providerRepository.DeleteProvider(id);
+       await _providerRepository.DeleteProvider(id);
     }
 
-    public Provider UpdateProvider(Provider provider)
+    public async Task<Provider> UpdateProvider(Provider provider)
     {
         ProviderEntity providerEntity = new ProviderEntity()
         {
@@ -45,15 +59,15 @@ public class ProviderService
             PhoneNumber = provider.PhoneNumber,
             Email = provider.Email
         };
-        _providerRepository.UpdateProvider(providerEntity);
+        await _providerRepository.UpdateProvider(providerEntity);
         Provider _provider = new Provider(providerEntity.Id, providerEntity.Name, providerEntity.Address, providerEntity.Email, providerEntity.PhoneNumber);
         return _provider;
     }
 
-    public List<Provider> GetProviders()
+    public async Task<List<Provider>> GetProviders()
     {
         List<Provider> providers = new List<Provider>();
-        List<ProviderEntity> providerEntities = _providerRepository.GetAllProviderEntities();
+        List<ProviderEntity> providerEntities = await _providerRepository.GetAllProviderEntities();
         foreach (ProviderEntity providerEntity in providerEntities)
         {
             Provider provider = new Provider(providerEntity.Id, providerEntity.Name, providerEntity.Address, providerEntity.Email,
@@ -64,9 +78,9 @@ public class ProviderService
         return providers;
     }
 
-    public Provider GetProviderById(Guid id)
+    public async Task<Provider> GetProviderById(Guid id)
     {
-        ProviderEntity providerEntity = _providerRepository.GetProviderById(id);
+        ProviderEntity providerEntity = await _providerRepository.GetProviderById(id);
         Provider provider = new Provider()
         {
             guid = providerEntity.Id,
@@ -79,7 +93,7 @@ public class ProviderService
         {
             AISystem aiSystem = new AISystem(aiSystemEntity.Id, aiSystemEntity.Name,
                 (AISystemStatus)aiSystemEntity.Status, aiSystemEntity.URL, aiSystemEntity.Description,
-                aiSystemEntity.TechnicalDocumentationLink, (ApprovalStatus)aiSystemEntity.ApprovalStatus, aiSystemEntity.DateAdded, (MemberStates)aiSystemEntity.MemberState);
+                aiSystemEntity.TechnicalDocumentationLink, (ApprovalStatus)aiSystemEntity.ApprovalStatus, aiSystemEntity.DateAdded, (MemberStates)aiSystemEntity.MemberState, aiSystemEntity.UnambiguousReference);
             provider.AISystems.Add(aiSystem);
         }
         return provider;
