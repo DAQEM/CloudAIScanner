@@ -10,11 +10,11 @@ namespace AiExtractionService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AiServiceController : ControllerBase
+    public class GoogleCloudController : ControllerBase
     {
         private IAiService _aiService;
 
-        public AiServiceController(IAiService aiService)
+        public GoogleCloudController(IAiService aiService)
         {
             _aiService = aiService;
         }
@@ -24,7 +24,7 @@ namespace AiExtractionService.Controllers
         {
             List<AiSystem> services = new();
 
-            services.AddRange(_aiService.Get(accessToken));
+            services.AddRange(_aiService.GetGoogleCloud(accessToken));
             
             HttpClient client = new();
             //get environment dev or prod

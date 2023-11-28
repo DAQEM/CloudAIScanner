@@ -4,6 +4,7 @@ namespace Logic.Interfaces
 {
     public interface IServiceRepository
     {
-        List<Service> Get(string accessToken);
+        List<Service> GetGoogleCloud(string accessToken);
+        Task<string> GetOpenAI(string accessToken);
     }
 }
