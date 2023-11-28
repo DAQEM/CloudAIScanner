@@ -41,8 +41,6 @@ export const actions = {
 
 		const api: AiRegisterAPI = new AiRegisterAPI(fetch);
 
-		console.log(memberStates);
-
 		const result = await api.editAiSystem(
 			id,
 			name,
@@ -52,8 +50,6 @@ export const actions = {
 			technicalDocumentationLink,
 			memberStates
 		);
-
-		console.log(result);
 
 		throw redirect(302, `/dashboard/register`);
 	}

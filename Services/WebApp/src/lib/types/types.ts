@@ -65,10 +65,22 @@ interface FetchError {
 }
 
 interface Pagination<T> {
-    data: T;
+	data: T;
 	page: number;
 	pageSize: number;
 	totalPages: number;
+}
+
+interface OpenAiModel {
+	id: string,
+	object: string,
+	created: number,
+	owned_by: string
+}
+
+interface Account {
+	id: string;
+	access_token: string;
 }
 
 export type {
@@ -80,5 +92,7 @@ export type {
 	MemberStates,
 	Provider,
 	ScanCertificate,
-    Pagination
+	Pagination,
+	OpenAiModel,
+	Account
 };

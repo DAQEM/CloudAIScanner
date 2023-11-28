@@ -19,28 +19,38 @@
 		name: string;
 		logo: string;
 		slug: string;
+		loginType: LoginType;
+	}
+
+	enum LoginType {
+		OAuth,
+		APIKey
 	}
 
 	const providers: Provider[] = [
 		{
 			name: 'Google',
 			logo: google_logo,
-			slug: 'google'
+			slug: 'google',
+			loginType: LoginType.OAuth
 		},
 		{
 			name: 'Open AI',
 			logo: openai_logo,
-			slug: 'openai'
+			slug: 'openai',
+			loginType: LoginType.APIKey
 		},
 		{
 			name: 'Azure',
 			logo: azure_logo,
-			slug: 'azure'
+			slug: 'azure',
+			loginType: LoginType.OAuth
 		},
 		{
 			name: 'AWS',
 			logo: aws_logo,
-			slug: 'aws'
+			slug: 'aws',
+			loginType: LoginType.OAuth
 		}
 	];
 </script>
@@ -106,24 +116,40 @@
 				</div>
 				<div id="login_buttons" class="grid grid-cols-2 gap-4">
 					{#each providers as provider}
-						<Button
-							on:click={() =>
-								signIn(provider.slug + '-aiextraction', {
-									callbackUrl: '/hook/extraction/' + provider.name + '/callback',
-									redirect: true
-								})}
-							color="primary"
-							class="text-lg"
-						>
-							<div class="m-4">
-								<img
-									src={provider.logo}
-									alt="{provider.name} logo"
-									class="w-24 h-24 p-4 rounded-full bg-white object-contain mb-4"
-								/>
-								<span class="font-bold text-xl">{provider.name}</span>
-							</div>
-						</Button>
+						{#if provider.loginType === LoginType.OAuth}
+							<Button
+								on:click={() =>
+									signIn(provider.slug + '-aiextraction', {
+										callbackUrl: '/hook/extraction/' + provider.name + '/callback',
+										redirect: true
+									})}
+								color="primary"
+								class="text-lg"
+							>
+								<div class="m-4">
+									<img
+										src={provider.logo}
+										alt="{provider.name} logo"
+										class="w-24 h-24 p-4 rounded-full bg-white object-contain mb-4"
+									/>
+									<span class="font-bold text-xl">{provider.name}</span>
+								</div>
+							</Button>
+						{:else}
+							<a
+								class="bg-primary-700 flex justify-center items-center rounded-lg text-lg text-white text-center dark:bg-primary-600 hover:bg-primary-800 dark:hover:bg-primary-700 cursor-pointer"
+								href="/dashboard/scan/{provider.slug}"
+							>
+								<div class="m-4">
+									<img
+										src={provider.logo}
+										alt="{provider.name} logo"
+										class="w-24 h-24 p-4 rounded-full bg-white object-contain mb-4"
+									/>
+									<span class="font-bold text-xl">{provider.name}</span>
+								</div>
+							</a>
+						{/if}
 					{/each}
 				</div>
 			</div>

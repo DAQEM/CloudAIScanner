@@ -74,7 +74,6 @@
 
 	function checkOne(event: Event, i: number) {
 		checkedRows[i] = (event.target as HTMLInputElement).checked;
-		console.log(checkedRows);
 	}
 
 	function checkAll(event: Event) {
