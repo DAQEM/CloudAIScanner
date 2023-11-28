@@ -171,4 +171,10 @@ export default class AiRegisterAPI {
 				return { error: error };
 			});
 	}
+
+	async deleteAiSystem(id: string): Promise<void> {
+		await this.fetch(this.getUrl(`AISystem?id=${id}`), {
+			method: 'DELETE'
+		})
+	}
 }
