@@ -23,7 +23,6 @@ namespace AIRegister.Controllers
                 approvalStatusDTO.Name = approval;
                 approvalStatusDTO.id = EnumHelper.EnumParse<ApprovalStatus>(approval);
                 approvalStatusCollection.Add(approvalStatusDTO);
-                
             }
 
             return Ok(approvalStatusCollection);
