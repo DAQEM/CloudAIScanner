@@ -76,10 +76,4 @@ namespace Extraction.Repository
             return new List<OpenAiModelDto>();
         }
     }
-    
-    public class OpenAiResponseDto
-    {
-        public string Object { get; set; }
-        public List<OpenAiModelDto> Data { get; set; }
-    }
 }
