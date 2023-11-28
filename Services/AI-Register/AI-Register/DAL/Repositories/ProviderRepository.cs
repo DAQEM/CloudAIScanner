@@ -10,20 +10,20 @@ public class ProviderRepository : IProviderRepository
     private AIRegisterDBContext _context;
 
     public ProviderRepository(AIRegisterDBContext aiRegisterDbContext)
-    {
+    { 
         _context = aiRegisterDbContext;
     }
 
-    public ProviderEntity CreateProvider(ProviderEntity providerEntity)
+    public async Task<ProviderEntity> CreateProvider(ProviderEntity providerEntity)
     {
-        _context.Add(providerEntity);
-        _context.SaveChanges();
+        await _context.AddAsync(providerEntity);
+        await _context.SaveChangesAsync();
         return providerEntity;
     }
 
-    public ProviderEntity UpdateProvider(ProviderEntity providerEntity)
+    public async Task<ProviderEntity> UpdateProvider(ProviderEntity providerEntity)
     {
-        ProviderEntity providerEntityToUpdate = _context.Providers.First(p => p.Id == providerEntity.Id);
+        ProviderEntity providerEntityToUpdate = await _context.Providers.FirstAsync(p => p.Id == providerEntity.Id);
         if (providerEntityToUpdate != null)
         {
             providerEntityToUpdate.Name = providerEntity.Name ?? providerEntityToUpdate.Name;
@@ -32,23 +32,22 @@ public class ProviderRepository : IProviderRepository
             providerEntityToUpdate.Email = providerEntity.Email ?? providerEntityToUpdate.Email;
         }
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return providerEntityToUpdate;
     }
 
-    public void DeleteProvider(Guid id)
+    public async Task DeleteProvider(Guid id)
     {
         ProviderEntity provider = _context.Providers.First(a => a.Id == id);
         _context.Remove(provider);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
     
-    public List<ProviderEntity> GetAllProviderEntities()
+    public async Task<List<ProviderEntity>> GetAllProviderEntities()
     {
         try
         {
-            List<ProviderEntity> providerEntities = _context.Providers
-                .ToList();
+            List<ProviderEntity> providerEntities = await _context.Providers.ToListAsync();
             return providerEntities;
         }
         catch (Exception e)
@@ -57,13 +56,13 @@ public class ProviderRepository : IProviderRepository
             throw;
         }
     }
-    public ProviderEntity GetProviderById(Guid id)
+    public async Task<ProviderEntity> GetProviderById(Guid id)
     {
         try
         {
-            ProviderEntity providerEntity = _context.Providers
+            ProviderEntity providerEntity = await _context.Providers
                 .Include(p => p.aISystemEntity)
-                .First(p => p.Id == id);
+                .FirstAsync(p => p.Id == id);
             return providerEntity;
         }
         catch (Exception e)

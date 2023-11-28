@@ -17,12 +17,12 @@ export const GET: RequestHandler = async ({ params, fetch }) => {
 	const db: Db = client.db('accounts');
 	const collection: Collection = db.collection('accounts');
 	const regex = /.*-aiextraction/;
-	var result: string = '';
 	const accounts: Account[] = (await collection
 		.find({ provider: { $regex: regex } })
 		.toArray()) as Account[];
+	let result = '';
 	for (const account of accounts) {
-		var url = 'http://ai-extraction-service/api/AiService?';
+		var url = 'http://ai-extraction-service:80/api/AiService?';
 		if (process.env.NODE_ENV === 'development') {
 			url = 'http://localhost:5001/api/AiService?';
 		}

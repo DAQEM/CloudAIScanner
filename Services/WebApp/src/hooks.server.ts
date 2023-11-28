@@ -30,7 +30,7 @@ const initialize = async () => {
 };
 
 export const defaultHandle: Handle = async ({ event, resolve }) => {
-	initialize();
+	await initialize();
 	const response = await resolve(event);
 	return response;
 };
@@ -66,12 +66,15 @@ export const authHandle: Handle = SvelteKitAuth(async () => {
 export const handle: Handle = sequence(defaultHandle, authHandle);
 
 function initializeProviders() {
-	const api = new AiRegisterAPI(fetch, false);
+	const api = new AiRegisterAPI(fetch, true);
 	api.getProviders().then((res) => {
-		const p = res as Provider[];
+		let p = res as Provider[];
+		if (!Array.isArray(p)) {
+			p = [];
+		}
 		for (const provider of providers) {
 			if (!p.find((x) => x.guid === provider.guid)) {
-				console.log('Provider ' + provider.name + ' not found, creating...');
+				console.info('Provider ' + provider.name + ' not found, creating...');
 				initializeProvider(provider, api);
 			}
 		}
@@ -81,7 +84,10 @@ function initializeProviders() {
 function initializeProvider(provider: Provider, api: AiRegisterAPI) {
 	api.createProvider(provider).then((res) => {
 		if ((res as Provider).guid) {
-			console.log('Provider ' + provider.name + ' created');
+			console.info('Provider ' + provider.name + ' created');
+		} else {
+			console.error('Error creating provider ' + provider.name);
+			console.error('result', res);
 		}
 	});
 }
