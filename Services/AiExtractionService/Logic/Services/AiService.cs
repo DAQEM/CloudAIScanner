@@ -1,4 +1,5 @@
 ﻿using Google.Cloud.ServiceUsage.V1;
+using logic.Dtos;
 using logic.Entities;
 using Logic.Interfaces;
 using logic.Models;
@@ -52,11 +53,9 @@ namespace Logic.Services
             return AiSystems;
         }
 
-        public async Task<List<AiSystem>> GetOpenAI(string accessToken)
+        public async Task<List<OpenAiModelDto>> GetOpenAI(string apiKey)
         {
-            string response = await _serviceRepository.GetOpenAI(accessToken);
-
-            return new List<AiSystem>();
+            return await _serviceRepository.GetOpenAI(apiKey);
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System.Net.Http.Headers;
-using AiExtractionService.Dtos;
 using Logic.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.InteropServices;
 using logic.Entities;
 
 namespace AiExtractionService.Controllers
