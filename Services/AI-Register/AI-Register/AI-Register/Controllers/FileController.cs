@@ -16,20 +16,7 @@ namespace AIRegister.Controllers
         {
             _fileService = new FileService(fileRepository);
         }
-        // GET: api/File
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/File/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+       
         // POST: api/File
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file, string fileType, Guid aiSystemId)
@@ -47,11 +34,6 @@ namespace AIRegister.Controllers
             AISystemFile returnAiSystemFile = await _fileService.AddAiSystemFile(aiSystemFile, aiSystemId);
             return Created(new Uri(Request.GetDisplayUrl()), returnAiSystemFile);
         }
-
-        // DELETE: api/File/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }
