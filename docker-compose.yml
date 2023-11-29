@@ -10,7 +10,7 @@ services:
     environment:
       NODE_ENV: production
 
-  ai-extraction-service:
+ ai-extraction-service:
     build:
       context: ./
       dockerfile: ./Services/AiExtractionService/Api/Dockerfile
@@ -59,6 +59,10 @@ services:
   ai-register:
     build: Services\AI-Register\AI-Register
     container_name: ai-register-service
+    volumes:
+      - type: bind
+        source: ./pdfs
+        target: /path/in/container
     environment:
       - ASPNETCORE_URLS=http://+:8080
     ports:

@@ -15,6 +15,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 builder.Services.AddScoped<IRepresentativeRepository, RepresentativeRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
 
 IConfigurationRoot config;
 if (builder.Environment.IsDevelopment())

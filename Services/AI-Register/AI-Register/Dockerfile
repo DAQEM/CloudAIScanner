@@ -17,5 +17,6 @@ RUN dotnet publish "AIRegister.csproj" -c Release -o /app/publish /p:UseAppHost=
 
 FROM base AS final
 WORKDIR /app
+VOLUME /app/pdfs
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AIRegister.dll"]
