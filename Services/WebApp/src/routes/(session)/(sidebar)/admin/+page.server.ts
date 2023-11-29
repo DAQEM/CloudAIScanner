@@ -1,5 +1,4 @@
 import AiRegisterAPI from '$lib/api/ai_register';
-import { getSystemsByStatus, type System } from '$lib/api/systems';
 import clientPromise from '$lib/database/clientPromise';
 import { UserDatabase, type User } from '$lib/database/userDatabase';
 import type { AISystem, FetchError, Pagination } from '$lib/types/types';
