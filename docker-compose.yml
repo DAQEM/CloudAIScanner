@@ -10,6 +10,17 @@ services:
     environment:
       NODE_ENV: production
 
+ ai-extraction-service:
+    build:
+      context: ./
+      dockerfile: ./Services/AiExtractionService/Api/Dockerfile
+    container_name: ai-extraction-service
+    environment:
+      - ENV=production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5001:80"
+
   account-db:
     image: mongo
     container_name: account-db
