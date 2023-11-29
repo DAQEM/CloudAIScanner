@@ -1,11 +1,8 @@
 <script lang="ts">
 	import { Button, DropdownDivider, Input, Label, Toast, Tooltip } from 'flowbite-svelte';
-	import type { PageData } from './$types';
-	import { CheckCircleSolid, FireOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
+	import { CheckCircleSolid, InfoCircleSolid } from 'flowbite-svelte-icons';
 	import { slide } from 'svelte/transition';
 	import { page } from '$app/stores';
-
-	export let data: PageData;
 
 	let apiKey: string = '';
 

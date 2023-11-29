@@ -1,11 +1,7 @@
 import AiExtractionAPI from '$lib/api/ai_extraction';
 import type { FetchError, OpenAiModel } from '$lib/types/types';
 import { redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
-
-export const load = (async () => {
-	return {};
-}) satisfies PageServerLoad;
+import type { Actions } from './$types';
 
 export const actions: Actions = {
 	submit_api_key: async ({ request, fetch }) => {
