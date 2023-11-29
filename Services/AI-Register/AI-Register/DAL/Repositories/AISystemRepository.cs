@@ -43,9 +43,11 @@ namespace DAL.Repositories
                     .Include(a => a.ProviderEntity)
                     .Include(a => a.CertificateEntity)
                     .Include(a => a.CertificateEntity.ScanCertificate)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
                     .ToListAsync();
 
-                int totalAiSystems = _context.AISystems.Count();
+                int totalAiSystems = await _context.AISystems.CountAsync();
                 
                 return new Pagination<List<AISystemEntity>> {
                     Data = AISystemList, 

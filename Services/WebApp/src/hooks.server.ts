@@ -11,7 +11,7 @@ const providers: Provider[] = [
 	{
 		guid: '6147de64-95ee-4040-86e5-a3c0a2b32573',
 		name: 'Google Cloud',
-		address: 'Mountain View, Californië, Verenigde Staten',
+		address: 'Mountain View, California, USA',
 		email: 'cloud-support@google.com',
 		phoneNumber: '+1 650-253-0000',
 		authorizedRepresentitives: [
@@ -20,6 +20,21 @@ const providers: Provider[] = [
 				name: 'Google Cloud Employee',
 				email: 'google-employee@google.com',
 				phoneNumber: '+1 650-253-0001'
+			}
+		]
+	},
+	{
+		guid: '15085208-a80f-42c8-8a75-c39c87384941',
+		name: 'OpenAI',
+		address: '3180 18th Street, San Francisco, USA',
+		email: 'openai-support@openai.com',
+		phoneNumber: '(800) 217-3145',
+		authorizedRepresentitives: [
+			{
+				guid: '15085208-a80f-42c8-8a75-c39c87384942',
+				name: 'Google Cloud Employee',
+				email: 'openai-employee@openai.com',
+				phoneNumber: '(800) 217-3146'
 			}
 		]
 	}
