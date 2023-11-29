@@ -85,10 +85,6 @@ namespace AIRegister.Migrations
                     b.Property<Guid>("AISystemId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Filename")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Filepath")
                         .IsRequired()
                         .HasColumnType("longtext");

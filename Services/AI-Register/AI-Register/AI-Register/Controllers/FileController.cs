@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessLogic.Classes;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIRegister.Controllers
@@ -11,6 +15,12 @@ namespace AIRegister.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
+        private FileService _fileService;
+
+        public FileController(IFileRepository fileRepository)
+        {
+            _fileService = new FileService(fileRepository);
+        }
         // GET: api/File
         [HttpGet]
         public IEnumerable<string> Get()
@@ -27,24 +37,20 @@ namespace AIRegister.Controllers
 
         // POST: api/File
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file, string fileType, Guid aiSystemId)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("Please select a file");
         
-            var filePath = Path.Combine("pdfs", file.FileName);
+            string filePath = Path.Combine("pdfs", file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-        
-            return Ok(filePath);
-        }
-
-        // PUT: api/File/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            
+            AISystemFile aiSystemFile = new AISystemFile(filePath, fileType);
+            AISystemFile returnAiSystemFile = await _fileService.AddAiSystemFile(aiSystemFile, aiSystemId);
+            return Created(new Uri(Request.GetDisplayUrl()), returnAiSystemFile);
         }
 
         // DELETE: api/File/5

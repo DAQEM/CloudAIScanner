@@ -69,7 +69,7 @@ namespace BusinessLogic.Classes
             Files = new List<AISystemFile>();
             foreach (AISystemFileEntity fileEntity in aiSystemEntity.FileEntities)
             {
-                AISystemFile aiSystemFile = new AISystemFile(fileEntity.Id, fileEntity.Filename, fileEntity.Filepath,
+                AISystemFile aiSystemFile = new AISystemFile(fileEntity.Id, fileEntity.Filepath,
                     fileEntity.Filetype);
                 Files.Add(aiSystemFile);
             }

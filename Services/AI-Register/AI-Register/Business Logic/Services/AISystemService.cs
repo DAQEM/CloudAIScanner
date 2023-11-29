@@ -77,7 +77,6 @@ namespace BusinessLogic.Services
             {
                 AISystemFileEntity aiSystemFileEntity = new AISystemFileEntity()
                 {
-                    Filename = aiSystemFile.Filename,
                     Filetype = aiSystemFile.Filetype,
                     Filepath = string.Empty
                 };
