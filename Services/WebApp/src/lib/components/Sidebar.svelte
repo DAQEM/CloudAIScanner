@@ -14,7 +14,21 @@
 		SidebarItem,
 		SidebarWrapper
 	} from 'flowbite-svelte';
-	import { BarsSolid, GearSolid, SearchOutline } from 'flowbite-svelte-icons';
+	import {
+		BarsSolid,
+		BuildingOutline,
+		BuildingSolid,
+		CheckCircleOutline,
+		CheckSolid,
+		GearSolid,
+		GridOutline,
+		GridSolid,
+		SearchOutline,
+		StoreOutline,
+		StoreSolid,
+		UserOutline,
+		UserSolid
+	} from 'flowbite-svelte-icons';
 	import { slide } from 'svelte/transition';
 
 	export let session: Session | null;
@@ -44,20 +58,38 @@
 					/>
 				</svelte:fragment>
 			</SidebarItem>
+			<SidebarItem label="Providers" href="/dashboard/provider">
+				<svelte:fragment slot="icon">
+					<StoreOutline
+						class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+					/>
+				</svelte:fragment>
+			</SidebarItem>
 		</SidebarGroup>
 		{#if associatedUser && associatedUser.roles.includes('admin')}
 			<SidebarGroup class="p-4">
 				<h1 class="text-sm font-bold text-gray-500 uppercase">Admin</h1>
-				<SidebarDropdownWrapper label="Admin" isOpen>
+				<SidebarItem label="Dashboard" href="/admin">
 					<svelte:fragment slot="icon">
-						<GearSolid
+						<GridOutline
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
-					<SidebarDropdownItem label="Dashboard" href="/admin" />
-					<SidebarDropdownItem label="Users" href="/admin/users" />
-					<SidebarDropdownItem label="System Approval" href="/admin/approval" />
-				</SidebarDropdownWrapper>
+				</SidebarItem>
+				<SidebarItem label="Users" href="/admin/users">
+					<svelte:fragment slot="icon">
+						<UserOutline
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
+				<SidebarItem label="System Approval" href="/admin/approval">
+					<svelte:fragment slot="icon">
+						<CheckCircleOutline
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
 			</SidebarGroup>
 		{/if}
 		<SidebarGroup class="flex h-full items-end">

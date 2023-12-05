@@ -51,6 +51,7 @@
 				{#if associatedUser.roles.includes('admin') || associatedUser.roles.includes('user')}
 					<DropdownItem href="/dashboard/scan">Scan Provider</DropdownItem>
 					<DropdownItem href="/dashboard/register">AI Register</DropdownItem>
+					<DropdownItem href="/dashboard/provider">Providers</DropdownItem>
 					<DropdownDivider />
 				{/if}
 				{#if associatedUser.roles.includes('admin')}
@@ -75,6 +76,7 @@
 					<Dropdown class="w-44 z-20">
 						<DropdownItem href="/dashboard/scan">Scan Provider</DropdownItem>
 						<DropdownItem href="/dashboard/register">AI Register</DropdownItem>
+						<DropdownItem href="/dashboard/provider">Providers</DropdownItem>
 					</Dropdown>
 				{/if}
 				{#if associatedUser.roles.includes('admin')}

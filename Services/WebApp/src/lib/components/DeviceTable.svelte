@@ -25,6 +25,8 @@
 	export let showStatus: boolean = true;
 	export let showCheckboxes: boolean = false;
 	export let approvable: boolean = false;
+	export let showPagination: boolean = true;
+	export let showActions: boolean = true;
 
 	const page = systems.page;
 	let pageSize = systems.pageSize;
@@ -100,66 +102,68 @@
 	<div class="flex items-center">
 		<h1 class="text-lg md:text-2xl font-bold">{title}</h1>
 	</div>
-	<div class="flex flex-col md:flex-row gap-4 md:gap-8">
-		<div>
-			<Input
-				size="lg"
-				type="text"
-				placeholder="Search"
-				class="bg-white border-0"
-				bind:value={search}
-			>
-				<SearchOutline slot="right" class="w-4 h-4 text-gray-500 dark:text-gray-400" />
-			</Input>
+	{#if showActions}
+		<div class="flex flex-col md:flex-row gap-4 md:gap-8">
+			<div>
+				<Input
+					size="lg"
+					type="text"
+					placeholder="Search"
+					class="bg-white border-0"
+					bind:value={search}
+				>
+					<SearchOutline slot="right" class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+				</Input>
+			</div>
+			<Button>Actions<ChevronDownSolid class="w-3 h-3 ml-2 text-white dark:text-white" /></Button>
+			<Dropdown>
+				<DropdownItem>
+					<Button class="w-full" href="/dashboard/scan" color="primary">
+						<PlusSolid class="w-4 h-4 mr-4 text-white" />
+						Add New
+					</Button>
+				</DropdownItem>
+				{#if showCheckboxes}
+					<DropdownDivider class="my-4" />
+					<Label class="px-4">Delete Actions</Label>
+					<DropdownItem>
+						<Button
+							class="w-full"
+							color="red"
+							disabled={checkedRows.every((row) => !row)}
+							on:click={() => (showBulkDeleteModal = true)}
+						>
+							Delete Selected
+						</Button>
+					</DropdownItem>
+				{/if}
+				{#if approvable}
+					<DropdownDivider class="my-4" />
+					<Label class="px-4">Status Actions</Label>
+					<DropdownItem>
+						<Button
+							class="w-full"
+							color="green"
+							disabled={checkedRows.every((row) => !row)}
+							on:click={() => (showBulkApproveModal = true)}
+						>
+							Approve Selected
+						</Button>
+					</DropdownItem>
+					<DropdownItem>
+						<Button
+							class="w-full"
+							color="red"
+							disabled={checkedRows.every((row) => !row)}
+							on:click={() => (showBulkRejectModal = true)}
+						>
+							Reject Selected
+						</Button>
+					</DropdownItem>
+				{/if}
+			</Dropdown>
 		</div>
-		<Button>Actions<ChevronDownSolid class="w-3 h-3 ml-2 text-white dark:text-white" /></Button>
-		<Dropdown>
-			<DropdownItem>
-				<Button class="w-full" href="/dashboard/scan" color="primary">
-					<PlusSolid class="w-4 h-4 mr-4 text-white" />
-					Add New
-				</Button>
-			</DropdownItem>
-			{#if showCheckboxes}
-				<DropdownDivider class="my-4" />
-				<Label class="px-4">Delete Actions</Label>
-				<DropdownItem>
-					<Button
-						class="w-full"
-						color="red"
-						disabled={checkedRows.every((row) => !row)}
-						on:click={() => (showBulkDeleteModal = true)}
-					>
-						Delete Selected
-					</Button>
-				</DropdownItem>
-			{/if}
-			{#if approvable}
-				<DropdownDivider class="my-4" />
-				<Label class="px-4">Status Actions</Label>
-				<DropdownItem>
-					<Button
-						class="w-full"
-						color="green"
-						disabled={checkedRows.every((row) => !row)}
-						on:click={() => (showBulkApproveModal = true)}
-					>
-						Approve Selected
-					</Button>
-				</DropdownItem>
-				<DropdownItem>
-					<Button
-						class="w-full"
-						color="red"
-						disabled={checkedRows.every((row) => !row)}
-						on:click={() => (showBulkRejectModal = true)}
-					>
-						Reject Selected
-					</Button>
-				</DropdownItem>
-			{/if}
-		</Dropdown>
-	</div>
+	{/if}
 </div>
 <Table hoverable={true} divClass="rounded-lg overflow-hidden w-full">
 	<TableHead class="text-white dark:text-white bg-primary-500 dark:bg-primary-600">
@@ -288,54 +292,62 @@
 		{/each}
 	</TableBody>
 </Table>
-<section class="flex justify-center gap-8">
-	<nav aria-label="Page navigation">
-		<ul
-			class="inline-flex -space-x-px items-center border-[1px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-lg"
-		>
-			{#if page - 1 > 0}
-				<li class="w-28 h-10 flex justify-center items-center">
-					<a href={'?page=' + (page - 1).toString() + '&pageSize=' + pageSize} data-sveltekit-reload
-						>Previous</a
+{#if showPagination && totalPages > 1}
+	<section class="flex justify-center gap-8">
+		<nav aria-label="Page navigation">
+			<ul
+				class="inline-flex -space-x-px items-center border-[1px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-lg"
+			>
+				{#if page - 1 > 0}
+					<li class="w-28 h-10 flex justify-center items-center">
+						<a
+							href={'?page=' + (page - 1).toString() + '&pageSize=' + pageSize}
+							data-sveltekit-reload>Previous</a
+						>
+					</li>
+				{/if}
+				{#each pages() as pge}
+					<li
+						class="w-10 h-10 border-x-[1px] border-gray-200 dark:border-gray-800 flex justify-center items-center"
 					>
-				</li>
-			{/if}
-			{#each pages() as pge}
-				<li
-					class="w-10 h-10 border-x-[1px] border-gray-200 dark:border-gray-800 flex justify-center items-center"
-				>
-					<a href={'?page=' + pge + '&pageSize=' + pageSize} data-sveltekit-reload>{pge}</a>
-				</li>
-			{/each}
-			{#if page + 1 <= totalPages}
-				<li class="w-28 h-10 flex justify-center items-center">
-					<a href={'?page=' + (page + 1).toString() + '&pageSize=' + pageSize} data-sveltekit-reload
-						>Next</a
-					>
-				</li>
-			{/if}
-		</ul>
-	</nav>
-	<div class="flex gap-4">
-		<div
-			class="h-10 flex gap-4 justify-center items-center bg-white dark:bg-gray-900 rounded-lg border-[1px] border-gray-200 dark:border-gray-800 py-2"
-		>
-			<div class="h-10 border-r-[1px] border-gray-200 dark:border-gray-800 flex items-center">
-				<p class="px-4">Page size:</p>
+						<a href={'?page=' + pge + '&pageSize=' + pageSize} data-sveltekit-reload>{pge}</a>
+					</li>
+				{/each}
+				{#if page + 1 <= totalPages}
+					<li class="w-28 h-10 flex justify-center items-center">
+						<a
+							href={'?page=' + (page + 1).toString() + '&pageSize=' + pageSize}
+							data-sveltekit-reload>Next</a
+						>
+					</li>
+				{/if}
+			</ul>
+		</nav>
+		<div class="flex gap-4">
+			<div
+				class="h-10 flex gap-4 justify-center items-center bg-white dark:bg-gray-900 rounded-lg border-[1px] border-gray-200 dark:border-gray-800 py-2"
+			>
+				<div class="h-10 border-r-[1px] border-gray-200 dark:border-gray-800 flex items-center">
+					<p class="px-4">Page size:</p>
+				</div>
+				<input
+					type="number"
+					min="20"
+					max="500"
+					bind:value={pageSize}
+					class="border-none h-8 focus:ring-0 p-0 w-12 dark:bg-gray-900"
+				/>
 			</div>
-			<input
-				type="number"
-				min="20"
-				max="500"
-				bind:value={pageSize}
-				class="border-none h-8 focus:ring-0 p-0 w-12 dark:bg-gray-900"
-			/>
+			<Button
+				color="primary"
+				href={'?page=' + page + '&pageSize=' + pageSize}
+				data-sveltekit-reload
+			>
+				Apply
+			</Button>
 		</div>
-		<Button color="primary" href={'?page=' + page + '&pageSize=' + pageSize} data-sveltekit-reload>
-			Apply
-		</Button>
-	</div>
-</section>
+	</section>
+{/if}
 <Modal title="Confirm Delete" open={showDeleteModal} on:close={() => (showDeleteModal = false)}>
 	{#if selectedSystem}
 		<div transition:slide={{ duration: 150, axis: 'y' }}>

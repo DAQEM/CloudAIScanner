@@ -29,6 +29,7 @@ interface Provider {
 	address?: string;
 	email?: string;
 	phoneNumber?: string;
+	aiSystemDtos?: AISystem[];
 	authorizedRepresentitives: AuthorizedRepresentitive[];
 }
 

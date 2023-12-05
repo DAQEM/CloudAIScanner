@@ -40,18 +40,18 @@
 			slug: 'openai',
 			loginType: LoginType.APIKey
 		},
-		{
-			name: 'Azure',
-			logo: azure_logo,
-			slug: 'azure',
-			loginType: LoginType.OAuth
-		},
-		{
-			name: 'AWS',
-			logo: aws_logo,
-			slug: 'aws',
-			loginType: LoginType.OAuth
-		}
+		// {
+		// 	name: 'Azure',
+		// 	logo: azure_logo,
+		// 	slug: 'azure',
+		// 	loginType: LoginType.OAuth
+		// },
+		// {
+		// 	name: 'AWS',
+		// 	logo: aws_logo,
+		// 	slug: 'aws',
+		// 	loginType: LoginType.OAuth
+		// }
 	];
 </script>
 

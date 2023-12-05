@@ -1,11 +1,10 @@
 <script lang="ts">
-	import type { AISystem, AISystemStatus, MemberStates } from '$lib/types/types';
-	import { Button, Input, Label, MultiSelect, Select, Textarea } from 'flowbite-svelte';
+	import type { AISystem, MemberStates } from '$lib/types/types';
+	import { Button, Input, Label, MultiSelect, Textarea } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	export let data: PageData;
 	const system: AISystem = data.system;
-	const statuses: AISystemStatus[] = data.statuses;
 	const memberStates: MemberStates[] = data.memberStates;
 	let memberStatesFromDevice: number[] = getMemberStatesFromDevice().map(
 		(memberState) => memberState.id ?? 0
@@ -54,14 +53,6 @@
 					<Input type="text" name="name" value={system.name} />
 				</div>
 				<div class="flex w-full gap-8">
-					<div class="flex-1">
-						<Label for="status">Status</Label>
-						<Select name="status" value={system.status?.id} itemValue="id" itemName="name">
-							{#each statuses as status}
-								<option value={status.id}>{addSpaces(status.name ?? '')}</option>
-							{/each}
-						</Select>
-					</div>
 					<div class="flex-1">
 						<Label for="date">Date</Label>
 						<Input type="date" name="date" value={system.dateAdded} />
