@@ -10,7 +10,7 @@ services:
     environment:
       NODE_ENV: production
 
- ai-extraction-service:
+  ai-extraction-service:
     build:
       context: ./
       dockerfile: ./Services/AiExtractionService/Api/Dockerfile
