@@ -30,4 +30,11 @@ public class FileRepository : IFileRepository
             throw;
         }
     }
+    public async Task<AISystemFileEntity> DeleteAiSystemFile(Guid aiSystemFileId)
+    {
+        AISystemFileEntity aiSystemFileEntity = await _context.AISystemFiles.FindAsync(aiSystemFileId);
+        _context.AISystemFiles.Remove(aiSystemFileEntity);
+        await _context.SaveChangesAsync();
+        return aiSystemFileEntity;
+    }
 }

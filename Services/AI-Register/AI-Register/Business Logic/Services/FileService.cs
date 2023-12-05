@@ -33,4 +33,9 @@ public class FileService
         AISystemFileEntity aiSystemFileEntity = await _fileRepository.GetAiSystemFile(id);
         return new AISystemFile(aiSystemFileEntity.Id, aiSystemFileEntity.Filepath, aiSystemFileEntity.Filetype);
     }
+    public async Task<AISystemFile> DeleteAiSystemFile(Guid aiSystemFileId)
+    {
+        AISystemFileEntity aiSystemFileEntity = await _fileRepository.DeleteAiSystemFile(aiSystemFileId);
+        return new AISystemFile(aiSystemFileEntity.Id, aiSystemFileEntity.Filepath, aiSystemFileEntity.Filetype);
+    }
 }

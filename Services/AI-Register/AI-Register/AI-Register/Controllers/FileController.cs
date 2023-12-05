@@ -46,9 +46,19 @@ namespace AIRegister.Controllers
             {
                 return NotFound();
             }
-            HttpContext.Response.Headers["Content-Disposition"] = $"inline; filename={aiSystemFile.Filepath}.pdf";
+            HttpContext.Response.Headers["Content-Disposition"] = $"inline; filename={stream}";
             HttpContext.Response.Headers["Content-Type"] = "application/pdf";
             return File(stream, "application/pdf", aiSystemFile.Filepath);
+        }
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            AISystemFile aiSystemFile = await _fileService.DeleteAiSystemFile(id);
+            if (aiSystemFile == null)
+            {return NotFound();}
+            System.IO.File.Delete(aiSystemFile.Filepath);
+            return Ok();
         }
     }
 }
