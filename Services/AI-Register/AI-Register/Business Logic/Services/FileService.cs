@@ -1,6 +1,8 @@
-﻿using BusinessLogic.Classes;
+﻿using System.Diagnostics.CodeAnalysis;
+using BusinessLogic.Classes;
 using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace BusinessLogic.Services;
 
@@ -25,5 +27,10 @@ public class FileService
         AISystemFileEntity returnAiSystemFileEntity = await _fileRepository.AddAiSystemFile(aiSystemFileEntity);
         return new AISystemFile(returnAiSystemFileEntity.Id, returnAiSystemFileEntity.Filepath,
             returnAiSystemFileEntity.Filetype);
+    }
+    public async Task<AISystemFile> GetAiSystemFile(Guid id)
+    {
+        AISystemFileEntity aiSystemFileEntity = await _fileRepository.GetAiSystemFile(id);
+        return new AISystemFile(aiSystemFileEntity.Id, aiSystemFileEntity.Filepath, aiSystemFileEntity.Filetype);
     }
 }

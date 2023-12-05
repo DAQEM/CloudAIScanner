@@ -18,4 +18,16 @@ public class FileRepository : IFileRepository
         await _context.SaveChangesAsync();
         return aiSystemFileEntity;
     }
+    public async Task<AISystemFileEntity> GetAiSystemFile(Guid id)
+    {
+        try
+        {
+            return await _context.AISystemFiles.FindAsync(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

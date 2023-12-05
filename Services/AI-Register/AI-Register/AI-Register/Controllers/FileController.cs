@@ -35,5 +35,20 @@ namespace AIRegister.Controllers
             return Created(new Uri(Request.GetDisplayUrl()), returnAiSystemFile);
         }
         
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            AISystemFile aiSystemFile = await _fileService.GetAiSystemFile(id);
+            if (aiSystemFile == null)
+            {return NotFound();}
+            Stream stream = new FileStream(aiSystemFile.Filepath, FileMode.Open);
+            if (stream == null)
+            {
+                return NotFound();
+            }
+            HttpContext.Response.Headers["Content-Disposition"] = $"inline; filename={aiSystemFile.Filepath}.pdf";
+            HttpContext.Response.Headers["Content-Type"] = "application/pdf";
+            return File(stream, "application/pdf", aiSystemFile.Filepath);
+        }
     }
 }
