@@ -2,21 +2,45 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogic.Classes;
 using BusinessLogic.Services;
+using BusinessLogic.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AIRegister.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/AISystem/[controller]")]
     [ApiController]
     public class CsvController : ControllerBase
     {
-        // POST api/<ValuesController>
+        private readonly CsvService _csvService;
+
+        public CsvController(IProviderRepository provider, IAISystemRepository aiSystemRepository)
+        {
+            _csvService = new CsvService(provider, aiSystemRepository);
+
+        }
+
+        // POST api/AISystem/<ValuesController>
         [HttpPost]
         public FileContentResult Post([FromBody] List<CreateCsvDTO> AISystemList)
         {
             var csvAiSystemCreationObjectList = CsvAiSystemCreationObjectList(AISystemList);
             Byte[] content = CsvService.FileContentResult(csvAiSystemCreationObjectList);
+            return File(content, "text/csv", "AISystemList.csv");
+        }
+
+        [HttpGet]
+        public FileContentResult Get()
+        {
+            return null;
+        }
+
+        [HttpGet("{provider}")]
+
+        public async Task<FileContentResult> Get(Guid provider)
+        {
+            
+            Byte[] content = await _csvService.getFileByProvider(provider);
             return File(content, "text/csv", "AISystemList.csv");
         }
 

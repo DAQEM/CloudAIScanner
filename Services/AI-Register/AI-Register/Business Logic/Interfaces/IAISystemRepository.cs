@@ -9,6 +9,8 @@ public interface IAISystemRepository
     
     public Task<Pagination<List<AISystemEntity>>> GetAiSystemsWithProvider(int page, int pageSize);
 
+    public Task<List<AISystemEntity>> GetAiSystemEntities();
+
     public Task<AISystemEntity> GetAiSystemById(Guid id);
     
     public Task<AISystemEntity> UpdateAISystem(AISystemEntity aiSystemEntity);

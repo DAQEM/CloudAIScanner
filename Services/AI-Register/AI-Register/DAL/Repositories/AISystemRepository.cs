@@ -39,22 +39,37 @@ namespace DAL.Repositories
         {
             try
             {
-                List<AISystemEntity> AISystemList = await _context.AISystems
-                    .Include(a => a.ProviderEntity)
-                    .Include(a => a.CertificateEntity)
-                    .Include(a => a.CertificateEntity.ScanCertificate)
+                var AISystemList = await AiSystemEntities();
+                var PaginationAiSystemList = AISystemList
                     .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
+                    .Take(pageSize).ToList();
 
                 int totalAiSystems = await _context.AISystems.CountAsync();
                 
                 return new Pagination<List<AISystemEntity>> {
-                    Data = AISystemList, 
+                    Data = PaginationAiSystemList, 
                     Page = page, 
                     PageSize = pageSize, 
                     TotalPages = (int) Math.Ceiling((double)totalAiSystems / pageSize)
                 };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private async Task<List<AISystemEntity>> AiSystemEntities()
+        {
+            try
+            {
+                List<AISystemEntity> AISystemList = await _context.AISystems
+                    .Include(a => a.ProviderEntity)
+                    .Include(a => a.CertificateEntity)
+                    .Include(a => a.CertificateEntity.ScanCertificate)
+                    .ToListAsync();
+                return AISystemList;
             }
             catch (Exception e)
             {
