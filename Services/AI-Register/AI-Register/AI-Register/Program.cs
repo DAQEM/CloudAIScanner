@@ -7,6 +7,14 @@ using System.Web.Http;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<HttpExceptionHandlingAttribute>();
@@ -46,11 +54,7 @@ builder.Services.AddSwaggerGen();
 
 WebApplication app = builder.Build();
 
-app.UseCors(corsPolicyBuilder =>
-    corsPolicyBuilder
-        .WithOrigins("http://localhost:5050/")
-        .AllowAnyMethod()
-        .AllowAnyHeader());
+app.UseCors("CorsPolicy");
 
 app.UseSwagger();
 app.UseSwaggerUI();

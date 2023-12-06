@@ -10,6 +10,7 @@ interface AISystem {
 	dateAdded?: string;
 	provider?: Provider;
 	certificate?: Certificate;
+	files?: File[];
 	memberState?: MemberStates;
 }
 
@@ -84,6 +85,12 @@ interface Account {
 	access_token: string;
 }
 
+interface File {
+	guid?: string;
+	filepath?: string;
+	filetype?: string;
+}
+
 export type {
 	AISystem,
 	AISystemStatus,
@@ -91,6 +98,7 @@ export type {
 	ApprovalStatus,
 	Certificate,
 	FetchError,
+	File,
 	MemberStates,
 	OpenAiModel,
 	Pagination,

@@ -127,7 +127,13 @@ export default class AiRegisterAPI {
 			});
 	}
 
-	async editProvider(guid: string, name: string, address: string, email: string, phoneNumber: string) {
+	async editProvider(
+		guid: string,
+		name: string,
+		address: string,
+		email: string,
+		phoneNumber: string
+	) {
 		return await this.fetch(this.getUrl('Provider'), {
 			method: 'PUT',
 			headers: {
@@ -204,6 +210,29 @@ export default class AiRegisterAPI {
 	async deleteAiSystem(id: string): Promise<void> {
 		await this.fetch(this.getUrl(`AISystem?id=${id}`), {
 			method: 'DELETE'
+		});
+	}
+
+	async downloadFile(id: string) {
+		return await this.fetch(this.getUrl(`File/${id}`));
+	}
+
+	async deleteFile(id: string): Promise<void> {
+		await this.fetch(this.getUrl(`File/${id}`), {
+			method: 'DELETE'
+		});
+	}
+
+	async uploadFile(fileType: string, aiSystemId: string, file: File): Promise<any> {
+		const formData = new FormData();
+
+		console.log(file);
+
+		formData.append('file', file);
+
+		return await this.fetch(this.getUrl(`File?fileType=${fileType}&aiSystemId=${aiSystemId}`), {
+			method: 'POST',
+			body: formData
 		});
 	}
 }
