@@ -213,7 +213,7 @@ export default class AiRegisterAPI {
 		});
 	}
 
-	async downloadFile(id: string) {
+	async downloadFile(id: string): Promise<Response> {
 		return await this.fetch(this.getUrl(`File/${id}`));
 	}
 
@@ -223,14 +223,12 @@ export default class AiRegisterAPI {
 		});
 	}
 
-	async uploadFile(fileType: string, aiSystemId: string, file: File): Promise<any> {
+	async uploadFile(fileType: string, aiSystemId: string, file: File): Promise<void> {
 		const formData = new FormData();
-
-		console.log(file);
 
 		formData.append('file', file);
 
-		return await this.fetch(this.getUrl(`File?fileType=${fileType}&aiSystemId=${aiSystemId}`), {
+		await this.fetch(this.getUrl(`File?fileType=${fileType}&aiSystemId=${aiSystemId}`), {
 			method: 'POST',
 			body: formData
 		});

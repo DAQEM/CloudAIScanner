@@ -30,9 +30,6 @@ export const actions = {
 		const name = formData.get('name') as string;
 		const file = formData.get('file') as File;
 
-		console.log(name, id, file);
-
-		const response = await new AiRegisterAPI(fetch).uploadFile(name, id, file);
-		console.log(await response.json());
+		await new AiRegisterAPI(fetch).uploadFile(name, id, file);
 	}
 };
