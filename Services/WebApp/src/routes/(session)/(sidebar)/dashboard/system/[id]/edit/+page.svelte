@@ -16,11 +16,6 @@
 		init = true;
 	});
 
-	function addSpaces(inputString: string) {
-		var spacedString = inputString.replace(/([A-Z])/g, ' $1');
-		return spacedString.trim();
-	}
-
 	function getMemberStatesFromDevice(): MemberStates[] {
 		let returnValue: MemberStates[] = [];
 		let id: number = system.memberState?.id ?? 0;
@@ -45,9 +40,6 @@
 		<h1 class="text-2xl font-bold">Edit AI System: {system.name}</h1>
 		<div class="flex flex-col justify-center">
 			<form method="post" class="flex flex-col gap-6">
-				<div>
-					<Input type="hidden" name="id" value={system.id} />
-				</div>
 				<div>
 					<Label for="name">Name</Label>
 					<Input type="text" name="name" value={system.name} />

@@ -1,8 +1,4 @@
 <script lang="ts">
-	import google_logo from '$lib/images/icon/google_logo.svg';
-	import openai_logo from '$lib/images/icon/openai.svg';
-	import azure_logo from '$lib/images/icon/azure.png';
-	import aws_logo from '$lib/images/icon/aws.png';
 	import { goto } from '$app/navigation';
 	import type { Provider } from '$lib/types/types';
 	import {
@@ -13,24 +9,9 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
+	import ProviderLogo from './ProviderLogo.svelte';
 
 	export let providers: Provider[];
-
-	function getImage(name: string): string {
-		if (name === 'Google Cloud') {
-			return google_logo;
-		}
-		if (name === 'OpenAI') {
-			return openai_logo;
-		}
-		if (name === 'Azure') {
-			return azure_logo;
-		}
-		if (name === 'AWS') {
-			return aws_logo;
-		}
-		return '';
-	}
 </script>
 
 <div class="flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between">
@@ -53,11 +34,7 @@
 				on:click={() => goto(`/dashboard/provider/${provider.guid}`)}
 			>
 				<TableBodyCell class="p-0 pl-4 py-2 md:p-4">
-					<img
-						src={getImage(provider.name || '')}
-						alt={provider.name}
-						class="w-8 h-8 md:w-12 md:h-12"
-					/>
+					<ProviderLogo {provider} size={160} />
 				</TableBodyCell>
 				<TableBodyCell class="p-0 pl-4 py-2 md:p-4">{provider.name}</TableBodyCell>
 				<TableBodyCell class="p-0 pl-4 py-2 md:p-4">{provider.address}</TableBodyCell>

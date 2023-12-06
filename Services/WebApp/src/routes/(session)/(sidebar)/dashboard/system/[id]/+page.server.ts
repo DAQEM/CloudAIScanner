@@ -7,6 +7,8 @@ export const load = (async ({ params, fetch }) => {
 	const id = params.id;
 	const system: AISystem | FetchError = await new AiRegisterAPI(fetch).getAiSystemById(id);
 
+	console.log(system);
+
 	if (!('error' in system)) {
 		if (system) {
 			return {

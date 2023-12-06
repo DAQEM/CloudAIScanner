@@ -35,7 +35,7 @@ export default class AiRegisterAPI {
 				'AISystem?' + new URLSearchParams({ page: page.toString(), pageSize: pageSize.toString() })
 			)
 		)
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as Pagination<AISystem[]>)
 			.catch((err) => {
 				const error = 'Error fetching AI systems';
@@ -46,7 +46,7 @@ export default class AiRegisterAPI {
 
 	async getAiSystemById(id: string): Promise<AISystem | FetchError> {
 		return await this.fetch(this.getUrl(`AISystem/${id}`))
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as AISystem)
 			.catch((err) => {
 				const error = 'Error fetching AI system';
@@ -57,7 +57,7 @@ export default class AiRegisterAPI {
 
 	async getProviders(): Promise<Provider[] | FetchError> {
 		return await this.fetch(this.getUrl('Provider'))
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as Provider[])
 			.catch((err) => {
 				const error = 'Error fetching providers';
@@ -68,7 +68,7 @@ export default class AiRegisterAPI {
 
 	async getProviderById(id: string): Promise<Provider | FetchError> {
 		return await this.fetch(this.getUrl(`Provider/${id}`))
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as Provider)
 			.catch((err) => {
 				const error = 'Error fetching provider';
@@ -79,7 +79,7 @@ export default class AiRegisterAPI {
 
 	async getApprovalStatuses(): Promise<ApprovalStatus[] | FetchError> {
 		return await this.fetch(this.getUrl('ApprovalStatus'))
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as ApprovalStatus[])
 			.catch((err) => {
 				const error = 'Error fetching approval statuses';
@@ -90,7 +90,7 @@ export default class AiRegisterAPI {
 
 	async getAISystemStatuses(): Promise<AISystemStatus[] | FetchError> {
 		return await this.fetch(this.getUrl('AISystemStatus'))
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as AISystemStatus[])
 			.catch((err) => {
 				const error = 'Error fetching AI system statuses';
@@ -101,7 +101,7 @@ export default class AiRegisterAPI {
 
 	async getMemberStates(): Promise<MemberStates[] | FetchError> {
 		return await this.fetch(this.getUrl('MemberState'))
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as MemberStates[])
 			.catch((err) => {
 				const error = 'Error fetching member states';
@@ -118,7 +118,7 @@ export default class AiRegisterAPI {
 			},
 			body: JSON.stringify(provider)
 		})
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as Provider)
 			.catch((err) => {
 				const error = 'Error creating provider';
@@ -127,10 +127,32 @@ export default class AiRegisterAPI {
 			});
 	}
 
+	async editProvider(guid: string, name: string, address: string, email: string, phoneNumber: string) {
+		return await this.fetch(this.getUrl('Provider'), {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				guid: guid,
+				name: name,
+				address: address,
+				email: email,
+				phoneNumber: phoneNumber
+			})
+		})
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
+			.then((json) => json as Provider)
+			.catch((err) => {
+				const error = 'Error editing provider';
+				this.logError(error, err);
+				return { error: error };
+			});
+	}
+
 	async editAiSystem(
 		id: string,
 		name: string,
-		status: number,
 		description: string,
 		url: string,
 		technicalDocumentationLink: string,
@@ -144,14 +166,13 @@ export default class AiRegisterAPI {
 			body: JSON.stringify({
 				guid: id,
 				name: name,
-				status: status,
 				url: url,
 				technicalDocumentationLink: technicalDocumentationLink,
 				description: description,
 				memberState: memberStates
 			})
 		})
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as AISystem)
 			.catch((err) => {
 				const error = 'Error editing AI system';
@@ -171,7 +192,7 @@ export default class AiRegisterAPI {
 				approvalStatus: approvalStatus
 			})
 		})
-			.then((res) => res.ok ? res.json() : Promise.reject(res))
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
 			.then((json) => json as AISystem)
 			.catch((err) => {
 				const error = 'Error editing approval status';
@@ -183,6 +204,6 @@ export default class AiRegisterAPI {
 	async deleteAiSystem(id: string): Promise<void> {
 		await this.fetch(this.getUrl(`AISystem?id=${id}`), {
 			method: 'DELETE'
-		})
+		});
 	}
 }
