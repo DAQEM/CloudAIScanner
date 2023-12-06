@@ -1,63 +1,49 @@
 <script lang="ts">
-	import google_logo from '$lib/images/icon/google_logo.svg';
-	import openai_logo from '$lib/images/icon/openai.svg';
-	import azure_logo from '$lib/images/icon/azure.png';
-	import aws_logo from '$lib/images/icon/aws.png';
+	import ProviderLogo from '$lib/components/ProviderLogo.svelte';
 	import type { AISystem } from '$lib/types/types';
-	import type { PageData } from './$types';
 	import { A, Button } from 'flowbite-svelte';
-	import { ArrowRightOutline } from 'flowbite-svelte-icons';
+	import { ArrowRightOutline, EditOutline } from 'flowbite-svelte-icons';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 	const system: AISystem = data.system;
-
-	function getImage(name: string): string {
-		if (name === 'Google Cloud') {
-			return google_logo;
-		}
-		if (name === 'OpenAI') {
-			return openai_logo;
-		}
-		if (name === 'Azure') {
-			return azure_logo;
-		}
-		if (name === 'AWS') {
-			return aws_logo;
-		}
-		return '';
-	}
 </script>
 
 <div class="grid grid-rows-[max-content,1fr] text-xs md:text-base lg:text-lg p-2 md:p-16 gap-4">
 	<div class="flex gap-8 bg-white dark:bg-gray-900 py-4 px-8 rounded-xl">
-		<div class="w-32 h-32">
-			<img
-				src={getImage(system.provider?.name ?? '')}
-				alt={system.provider?.name}
-				class="w-32 h-32"
-			/>
+		<div class="flex justify-center items-center">
+			{#if system.provider}
+				<ProviderLogo provider={system.provider} size={320} />
+			{/if}
 		</div>
-		<div class="flex flex-col justify-between my-2">
-			<h1 class="text-4xl font-bold flex items-center gap-8">
-				{system.name}
-				<span
-					class="text-2xl font-normal px-4 py-2 rounded-full bg-opacity-75 {system.approvalStatus
-						?.id === 1
-						? 'bg-green-500'
-						: system.approvalStatus?.id === 2
-						? 'bg-yellow-500'
-						: 'bg-red-500'} }}">{system.approvalStatus?.name}</span
-				>
-			</h1>
-			<div class="flex flex-col justify-between">
-				<p class="text-xl">{system.provider?.name}</p>
-				<p class="text-lg">
-					<span class="font-bold">Scanned on:</span>
-					<span>{system.dateAdded}</span>
-				</p>
+		<div class="flex w-full justify-between">
+			<div class="flex flex-col justify-between my-2">
+				<h1 class="text-4xl font-bold flex items-center gap-8">
+					{system.name}
+					<span
+						class="text-2xl font-normal px-4 py-2 rounded-full bg-opacity-75 {system.approvalStatus
+							?.id === 1
+							? 'bg-green-500'
+							: system.approvalStatus?.id === 2
+							? 'bg-yellow-500'
+							: 'bg-red-500'} }}">{system.approvalStatus?.name}</span
+					>
+				</h1>
+				<div class="flex flex-col justify-between">
+					<p class="text-xl">{system.provider?.name}</p>
+					<p class="text-lg">
+						<span class="font-bold">Scanned on:</span>
+						<span>{system.dateAdded}</span>
+					</p>
+				</div>
+			</div>
+			<div class="flex items-end">
+				<Button color="blue" class="h-min" href="/dashboard/system/{system.guid}/edit">
+					<EditOutline class="w-4 h-4 mr-2" />
+					Edit System
+				</Button>
 			</div>
 		</div>
-		<div></div>
 	</div>
 
 	<div class="grid gap-4">

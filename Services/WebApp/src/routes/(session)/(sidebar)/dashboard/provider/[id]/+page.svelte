@@ -1,43 +1,32 @@
 <script lang="ts">
 	import DeviceTable from '$lib/components/DeviceTable.svelte';
+	import ProviderLogo from '$lib/components/ProviderLogo.svelte';
 	import type { Provider } from '$lib/types/types';
+	import { Button } from 'flowbite-svelte';
+	import { EditOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from './$types';
-	import google_logo from '$lib/images/icon/google_logo.svg';
-	import openai_logo from '$lib/images/icon/openai.svg';
 
 	export let data: PageData;
 
 	const provider: Provider = data.provider;
-
-	interface SupportedProvider {
-		name: string;
-		image: string;
-	}
-
-	const supportedProviders: SupportedProvider[] = [
-		{
-			name: 'Google Cloud',
-			image: google_logo
-		},
-		{
-			name: 'OpenAI',
-			image: openai_logo
-		}
-	];
 </script>
 
 <div class="grid grid-rows-[max-content,1fr] text-xs md:text-base lg:text-lg p-2 md:p-16 gap-12">
-	{#each supportedProviders as supportedProvider}
-		{#if supportedProvider.name === provider.name}
-			<div>
-				<div class="flex flex-row items-end gap-4">
-					<img src={supportedProvider.image} class="w-20 h-20" alt={supportedProvider.name} />
-					<h1 class="text-4xl font-bold mb-2">{supportedProvider.name}</h1>
+	<div>
+		<div class="flex flex-row items-end gap-4">
+			<ProviderLogo {provider} size={250} />
+			<div class="flex w-full justify-between mb-2">
+				<h1 class="text-4xl font-bold">{provider.name}</h1>
+				<div class="flex items-end">
+					<Button color="blue" class="h-min" href="/dashboard/provider/{provider.guid}/edit">
+						<EditOutline class="w-4 h-4 mr-2" />
+						Edit Provider
+					</Button>
 				</div>
-				<hr class="mt-4 border-primary-400 border-[1px]" />
 			</div>
-		{/if}
-	{/each}
+		</div>
+		<hr class="mt-4 border-primary-400 border-[1px]" />
+	</div>
 
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 		<div class="bg-white rounded-xl py-4 px-6">

@@ -20,14 +20,11 @@ export const load = (async ({ params, fetch }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	//TODO: This is not working anymore and should be fixed later
 	default: async ({ request, params }) => {
 		const data = await request.formData();
 
-		const id = params.id;
+		const guid = params.id;
 		const name = data.get('name') as string;
-		const status = data.get('status') as string;
-		const date = data.get('date') as string;
 		const description = data.get('description') as string;
 		const url = data.get('url') as string;
 		const technicalDocumentationLink = data.get('technicalDocumentationLink') as string;
@@ -39,10 +36,9 @@ export const actions = {
 
 		const api: AiRegisterAPI = new AiRegisterAPI(fetch);
 
-		const result = await api.editAiSystem(
-			id,
+		await api.editAiSystem(
+			guid,
 			name,
-			parseInt(status),
 			description,
 			url,
 			technicalDocumentationLink,

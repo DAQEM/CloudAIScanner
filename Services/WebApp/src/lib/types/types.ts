@@ -1,5 +1,5 @@
 interface AISystem {
-	id?: string;
+	guid?: string;
 	unambiguousReference?: string;
 	name?: string;
 	status?: AISystemStatus;
@@ -73,10 +73,10 @@ interface Pagination<T> {
 }
 
 interface OpenAiModel {
-	id: string,
-	object: string,
-	created: number,
-	owned_by: string
+	id: string;
+	object: string;
+	created: number;
+	owned_by: string;
 }
 
 interface Account {
@@ -87,13 +87,13 @@ interface Account {
 export type {
 	AISystem,
 	AISystemStatus,
+	Account,
 	ApprovalStatus,
 	Certificate,
 	FetchError,
 	MemberStates,
-	Provider,
-	ScanCertificate,
-	Pagination,
 	OpenAiModel,
-	Account
+	Pagination,
+	Provider,
+	ScanCertificate
 };
