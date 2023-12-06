@@ -53,9 +53,7 @@ namespace AIRegister.Controllers
                 return NotFound();
             }
 
-            // Get the file extension
             string extension = System.IO.Path.GetExtension(aiSystemFile.Filepath);
-            // Set the content type based on the file extension
             string contentType = "";
             switch (extension)
             {
@@ -72,7 +70,6 @@ namespace AIRegister.Controllers
                 case ".txt":
                     contentType = "text/plain";
                     break;
-                // Office 365 files
                 case ".doc":
                 case ".docx":
                 case ".docm":
