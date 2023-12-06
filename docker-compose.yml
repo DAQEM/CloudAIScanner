@@ -61,7 +61,7 @@ services:
     container_name: ai-register-service
     volumes:
       - type: bind
-        source: ./pdfs
+        source: ./files
         target: /path/in/container
     environment:
       - ASPNETCORE_URLS=http://+:8080
