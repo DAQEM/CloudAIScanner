@@ -10,7 +10,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
-        corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
+        corsPolicyBuilder => corsPolicyBuilder.WithOrigins("http://localhost:5050")
             .AllowAnyMethod()
             .AllowAnyHeader());
 });

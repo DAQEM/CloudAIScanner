@@ -35,7 +35,7 @@ namespace AiExtractionService.Controllers
                 Name = dto.Id,
                 UnambiguousReference = dto.Id,
                 Description =
-                    $"{dto.Id} owned by {dto.OwnedBy} and created on: {new DateTime(dto.Created).ToLongDateString()}",
+                    $"{dto.Id} owned by {dto.OwnedBy} and created on: {new DateTime(dto.Created * 1000L).ToLongDateString()}",
                 Provider = new AiSystemProvider
                 {
                     Guid = Guid.Parse("15085208-a80f-42c8-8a75-c39c87384941")

@@ -5,7 +5,7 @@ namespace AIRegister.DTOs
 {
     public class GetAISystemDTO
     {
-        public Guid Id { get; set; }
+        public Guid Guid { get; set; }
         public string Name { get; set; }
         public ProviderDTO Provider { get; set; }
         public string UnambiguousReference { get; set; }
@@ -15,7 +15,7 @@ namespace AIRegister.DTOs
 
         public GetAISystemDTO(Guid id , string name, string providerName, DateOnly dateAdded, ApprovalStatus approvalStatus, string description, string unambiguousReference)
         {
-            Id = id;
+            Guid = id;
             Name = name;
             Provider = new ProviderDTO(new Provider(Guid.Empty, providerName, string.Empty, string.Empty, string.Empty));
             DateAdded = dateAdded;
