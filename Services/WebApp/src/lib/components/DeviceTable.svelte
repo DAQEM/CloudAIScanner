@@ -220,7 +220,7 @@
 					</TableBodyCell>
 				{/if}
 			</TableBodyRow>
-			{#if openRow === i && selectedSystem?.id === item.id}
+			{#if openRow === i && selectedSystem?.guid === item.guid}
 				<TableBodyRow on:dblclick={() => (details = item)}>
 					{#if showCheckboxes}
 						<TableBodyCell colspan="1"></TableBodyCell>
@@ -235,12 +235,12 @@
 									<p class="font-bold">Quick Actions</p>
 									<div class="grid grid-rows-2 gap-2">
 										<div>
-											<Button class="w-full" color="primary" href="/dashboard/system/{item.id}"
+											<Button class="w-full" color="primary" href="/dashboard/system/{item.guid}"
 												>View Details</Button
 											>
 										</div>
 										<div class="grid grid-cols-2 gap-2">
-											<Button class="w-full" color="blue" href="/dashboard/system/{item.id}/edit"
+											<Button class="w-full" color="blue" href="/dashboard/system/{item.guid}/edit"
 												>Edit</Button
 											>
 											<Button class="w-full" color="red" on:click={() => handleDelete(item)}>
@@ -357,7 +357,7 @@
 				action="/dashboard/register?/delete"
 			>
 				<p>Are you sure you want to delete this system?</p>
-				<Input type="hidden" name="id" bind:value={selectedSystem.id} />
+				<Input type="hidden" name="id" bind:value={selectedSystem.guid} />
 				<div class="flex gap-2">
 					<p class="font-bold">Name:</p>
 					<p>{selectedSystem.name}</p>
@@ -383,7 +383,7 @@
 		<div transition:slide={{ duration: 150, axis: 'y' }}>
 			<form class="flex items-center flex-col gap-4" method="POST" action="/admin/approval?/reject">
 				<p>Are you sure you want to reject this system?</p>
-				<Input type="hidden" name="id" bind:value={selectedSystem.id} />
+				<Input type="hidden" name="id" bind:value={selectedSystem.guid} />
 				<div class="flex gap-2">
 					<p class="font-bold">Name:</p>
 					<p>{selectedSystem.name}</p>
@@ -413,7 +413,7 @@
 				action="/admin/approval?/approve"
 			>
 				<p>Are you sure you want to approve this system?</p>
-				<Input type="hidden" name="id" bind:value={selectedSystem.id} />
+				<Input type="hidden" name="id" bind:value={selectedSystem.guid} />
 				<div class="flex gap-2">
 					<p class="font-bold">Name:</p>
 					<p>{selectedSystem.name}</p>
@@ -451,7 +451,7 @@
 				<p>Are you sure you want to delete {checkedRows.filter((row) => row).length} systems?</p>
 			{/if}
 			{#each getCheckedSystems() as system}
-				<Input type="hidden" name="ids" bind:value={system.id} />
+				<Input type="hidden" name="ids" bind:value={system.guid} />
 			{/each}
 			<div class="flex gap-4">
 				<Button color="primary" type="submit">Yes</Button>
@@ -477,7 +477,7 @@
 				<p>Are you sure you want to approve {checkedRows.filter((row) => row).length} systems?</p>
 			{/if}
 			{#each getCheckedSystems() as system}
-				<Input type="hidden" name="ids" bind:value={system.id} />
+				<Input type="hidden" name="ids" bind:value={system.guid} />
 			{/each}
 			<div class="flex gap-4">
 				<Button color="primary" type="submit">Yes</Button>
@@ -503,7 +503,7 @@
 				<p>Are you sure you want to reject {checkedRows.filter((row) => row).length} systems?</p>
 			{/if}
 			{#each getCheckedSystems() as system}
-				<Input type="hidden" name="ids" bind:value={system.id} />
+				<Input type="hidden" name="ids" bind:value={system.guid} />
 			{/each}
 			<div class="flex gap-4">
 				<Button color="primary" type="submit">Yes</Button>

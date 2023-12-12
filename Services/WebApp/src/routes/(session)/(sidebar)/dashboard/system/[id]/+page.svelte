@@ -1,12 +1,15 @@
 <script lang="ts">
+	import FileCard from '$lib/components/FileCard.svelte';
 	import ProviderLogo from '$lib/components/ProviderLogo.svelte';
 	import type { AISystem } from '$lib/types/types';
-	import { A, Button } from 'flowbite-svelte';
-	import { ArrowRightOutline, EditOutline } from 'flowbite-svelte-icons';
+	import { A, Button, Fileupload, Input, Label, Modal } from 'flowbite-svelte';
+	import { ArrowRightOutline, EditOutline, FileCirclePlusOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 	const system: AISystem = data.system;
+
+	let showUploadModal: boolean = false;
 </script>
 
 <div class="grid grid-rows-[max-content,1fr] text-xs md:text-base lg:text-lg p-2 md:p-16 gap-4">
@@ -79,11 +82,25 @@
 			</div>
 			<div class="flex justify-end">
 				<Button href={`/dashboard/provider/${system.provider?.guid}`} color="primary">
+					<ArrowRightOutline class="mr-2 w-4 h-4" />
 					More Info
-					<span class="ml-2">
-						<ArrowRightOutline class="w-4 h-4" />
-					</span>
 				</Button>
+			</div>
+		</div>
+		<div class="bg-white dark:bg-gray-900 py-4 px-8 rounded-xl">
+			<div class="flex justify-between">
+				<h2 class="font-bold text-xl">Attached Files</h2>
+				<Button color="primary" on:click={() => (showUploadModal = true)}>
+					<FileCirclePlusOutline class="mr-2 w-4 h-4" />
+					Add File
+				</Button>
+			</div>
+			<div class="my-4 grid gap-4">
+				{#each system.files ?? [] as file}
+					<FileCard {file} systemId={system.guid ?? '1'} />
+				{:else}
+					<p>There are currently no files attached to this system.</p>
+				{/each}
 			</div>
 		</div>
 		<div class="bg-white dark:bg-gray-900 py-4 px-8 rounded-xl">
@@ -111,3 +128,23 @@
 		</div>
 	</div>
 </div>
+<Modal title="Upload File" open={showUploadModal} on:close={() => (showUploadModal = false)}>
+	<form action="?/upload_file" method="post" class="grid gap-4" enctype="multipart/form-data">
+		<div>
+			<Label for="name" class="font-bold ml-1">Filename*</Label>
+			<Input type="text" name="name" placeholder="Filename" required />
+		</div>
+		<div>
+			<Label for="file" class="font-bold ml-1">File*</Label>
+			<Fileupload
+				type="file"
+				name="file"
+				accept=".jpg, .jpeg, .png, .pdf, .txt, .doc, .docx, .docm, .xls, .xlsx, .xlsm, .ppt, .pptx, .pptm"
+				required
+			/>
+		</div>
+		<div class="flex justify-end">
+			<Button type="submit" color="primary" class="mt-4">Upload</Button>
+		</div>
+	</form>
+</Modal>
