@@ -39,7 +39,7 @@ namespace DAL.Repositories
         {
             try
             {
-                var AISystemList = await AiSystemEntities();
+                var AISystemList = await GetAiSystemEntities();
                 var PaginationAiSystemList = AISystemList
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize).ToList();
@@ -60,7 +60,7 @@ namespace DAL.Repositories
             }
         }
 
-        private async Task<List<AISystemEntity>> AiSystemEntities()
+        public async Task<List<AISystemEntity>> GetAiSystemEntities()
         {
             try
             {

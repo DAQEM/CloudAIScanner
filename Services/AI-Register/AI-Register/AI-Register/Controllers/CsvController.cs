@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BusinessLogic.Classes;
 using BusinessLogic.Services;
 using BusinessLogic.Interfaces;
+using Microsoft.DotNet.Scaffolding.Shared;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,9 +31,10 @@ namespace AIRegister.Controllers
         }
 
         [HttpGet]
-        public FileContentResult Get()
+        public async Task<FileContentResult> Get()
         {
-            return null;
+            Byte[] content = await _csvService.GetAllFiles();
+            return File(content, "text/csv", "AISystemList.csv");
         }
 
         [HttpGet("{provider}")]
