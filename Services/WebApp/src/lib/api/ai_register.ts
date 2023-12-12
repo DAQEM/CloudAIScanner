@@ -233,4 +233,31 @@ export default class AiRegisterAPI {
 			body: formData
 		});
 	}
+
+	async csvExportSelectedAiSystems(aiSystems: AISystem[]): Promise<Response> {
+
+		aiSystems = aiSystems.map((aiSystem) => {
+			return {
+				id: aiSystem.guid,
+				name: aiSystem.name,
+				providerName: aiSystem?.provider?.name ?? "Unknown",
+				unambiguousReference: aiSystem.unambiguousReference,
+				dateAdded: aiSystem.dateAdded,
+				description: aiSystem.description,
+				approvalStatusName: aiSystem?.approvalStatus?.name ?? "Unknown"
+			}
+		});
+
+		return await this.fetch(this.getUrl(`AISystem/Csv`), {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(aiSystems)
+		});
+	}
+
+	async csvExportAllAiSystems(): Promise<Response> {
+		return await this.fetch(this.getUrl(`AISystem/Csv`));
+	}
 }

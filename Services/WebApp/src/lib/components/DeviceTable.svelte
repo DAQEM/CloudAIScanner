@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AiRegisterAPI from '$lib/api/ai_register';
 	import type { AISystem, Pagination } from '$lib/types/types';
 	import {
 		Button,
@@ -16,7 +17,15 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { ChevronDownSolid, PlusSolid, SearchOutline } from 'flowbite-svelte-icons';
+	import {
+		CheckCircleSolid,
+		ChevronDownSolid,
+		CloseCircleSolid,
+		FileCsvSolid,
+		PlusSolid,
+		SearchOutline,
+		TrashBinSolid
+	} from 'flowbite-svelte-icons';
 	import { slide } from 'svelte/transition';
 
 	export let systems: Pagination<AISystem[]>;
@@ -27,6 +36,7 @@
 	export let approvable: boolean = false;
 	export let showPagination: boolean = true;
 	export let showActions: boolean = true;
+	export let showCSVExport: boolean = true;
 
 	const page = systems.page;
 	let pageSize = systems.pageSize;
@@ -96,6 +106,33 @@
 		selectedSystem = system;
 		showDeleteModal = true;
 	}
+
+	async function downloadSelectedData() {
+		if (getCheckedSystems().length > 0) {
+			const response = await new AiRegisterAPI(fetch).csvExportSelectedAiSystems(
+				getCheckedSystems()
+			);
+			const blob = await response.blob();
+			await downloadData(blob, 'csv_export.csv');
+		}
+	}
+
+	async function downloadAllData() {
+		if (systems.data.length > 0) {
+			const response = await new AiRegisterAPI(fetch).csvExportAllAiSystems();
+			const blob = await response.blob();
+			await downloadData(blob, 'csv_export.csv');
+		}
+	}
+
+	async function downloadData(blob: Blob, fileName: string) {
+		const a = document.createElement('a');
+		document.body.append(a);
+		a.download = fileName;
+		a.href = URL.createObjectURL(blob);
+		a.click();
+		a.remove();
+	}
 </script>
 
 <div class="flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between">
@@ -133,6 +170,7 @@
 							disabled={checkedRows.every((row) => !row)}
 							on:click={() => (showBulkDeleteModal = true)}
 						>
+							<TrashBinSolid class="w-4 h-4 mr-4 text-white" />
 							Delete Selected
 						</Button>
 					</DropdownItem>
@@ -147,6 +185,7 @@
 							disabled={checkedRows.every((row) => !row)}
 							on:click={() => (showBulkApproveModal = true)}
 						>
+							<CheckCircleSolid class="w-4 h-4 mr-4 text-white" />
 							Approve Selected
 						</Button>
 					</DropdownItem>
@@ -157,7 +196,34 @@
 							disabled={checkedRows.every((row) => !row)}
 							on:click={() => (showBulkRejectModal = true)}
 						>
+							<CloseCircleSolid class="w-4 h-4 mr-4 text-white" />
 							Reject Selected
+						</Button>
+					</DropdownItem>
+				{/if}
+				{#if showCSVExport}
+					<DropdownDivider class="my-4" />
+					<Label class="px-4">Export Actions</Label>
+					<DropdownItem>
+						<Button
+							class="w-full"
+							color="green"
+							disabled={checkedRows.every((row) => !row)}
+							on:click={() => downloadSelectedData()}
+						>
+							<FileCsvSolid class="w-4 h-4 mr-4 text-white" />
+							CSV Selected
+						</Button>
+					</DropdownItem>
+					<DropdownItem>
+						<Button
+							class="w-full"
+							color="green"
+							disabled={systems.data.length === 0}
+							on:click={() => downloadAllData()}
+						>
+							<FileCsvSolid class="w-4 h-4 mr-4 text-white" />
+							CSV All
 						</Button>
 					</DropdownItem>
 				{/if}

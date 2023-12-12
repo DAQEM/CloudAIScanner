@@ -3,7 +3,12 @@
 	import ProviderLogo from '$lib/components/ProviderLogo.svelte';
 	import type { AISystem } from '$lib/types/types';
 	import { A, Button, Fileupload, Input, Label, Modal } from 'flowbite-svelte';
-	import { ArrowRightOutline, EditOutline, FileCirclePlusOutline } from 'flowbite-svelte-icons';
+	import {
+		ArrowRightOutline,
+		EditOutline,
+		FileCirclePlusOutline,
+		TrashBinSolid
+	} from 'flowbite-svelte-icons';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -40,11 +45,19 @@
 					</p>
 				</div>
 			</div>
-			<div class="flex items-end">
+			<div class="flex items-end gap-4">
 				<Button color="blue" class="h-min" href="/dashboard/system/{system.guid}/edit">
 					<EditOutline class="w-4 h-4 mr-2" />
 					Edit System
 				</Button>
+
+				<form method="POST" action="/dashboard/register?/delete">
+					<Input type="hidden" name="id" bind:value={system.guid} />
+					<Button color="red" class="h-min" type="submit">
+						<TrashBinSolid class="w-4 h-4 mr-2" />
+						Delete System
+					</Button>
+				</form>
 			</div>
 		</div>
 	</div>
