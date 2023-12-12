@@ -60,6 +60,7 @@ namespace BusinessLogic.Services
             using (var writer = new StreamWriter(memoryStream))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
+                writer.WriteLine("sep=,");
                 csv.WriteRecords(AISystemList);
                 writer.Flush();
                 memoryStream.Position = 0;
