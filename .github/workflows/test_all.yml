@@ -41,7 +41,7 @@ jobs:
     name: AI Register Service 
     runs-on: ubuntu-latest
     env:
-      working-directory: Services/AI-Register
+      working-directory: Services/AI-Register/AI-Register
 
     steps:
     - uses: actions/checkout@v3
