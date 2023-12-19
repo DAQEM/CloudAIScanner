@@ -109,8 +109,18 @@ namespace AIRegister.Controllers
         // GET api/<AISystemController>/5
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
-        {
+        { 
+            AISystem aiSystem = await _aiSystemService.getAISystemById(id);
             await _aiSystemService.DeleteAiSystem(id);
+            foreach (AISystemFile aiSystemFile in aiSystem.Files)
+            {
+                System.IO.File.Delete(aiSystemFile.Filepath);
+                string folderPath = Path.GetDirectoryName(aiSystemFile.Filepath);
+                if (Directory.GetFiles(folderPath).Length == 0)
+                {
+                    Directory.Delete(folderPath);
+                }
+            }
             return Ok();
         }
 
