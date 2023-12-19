@@ -15,13 +15,11 @@ public class FileRepository : IFileRepository
 
     public async Task<AISystemFileEntity> AddAiSystemFile(AISystemFileEntity aiSystemFileEntity)
     {
-        AISystemEntity aisystem = await _context.AISystems.Include(a => a.FileEntities).Where(a => a.Id == aiSystemFileEntity.AISystemId).FirstAsync();
-        foreach (AISystemFileEntity fileEntity in aisystem.FileEntities)
+        AISystemFileEntity? duplicateFileEntity = await _context.AISystemFiles.Where(f => f.Filepath == aiSystemFileEntity.Filepath)
+            .FirstOrDefaultAsync();
+        if (duplicateFileEntity is not null)
         {
-            if (fileEntity.Filepath == aiSystemFileEntity.Filepath)
-            {
-                _context.AISystemFiles.Remove(fileEntity);
-            }
+            _context.AISystemFiles.Remove(duplicateFileEntity);
         }
         await _context.AddAsync(aiSystemFileEntity);
         await _context.SaveChangesAsync();
