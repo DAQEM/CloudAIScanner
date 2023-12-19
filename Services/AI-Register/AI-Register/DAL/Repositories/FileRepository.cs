@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories;
 
@@ -14,6 +15,14 @@ public class FileRepository : IFileRepository
 
     public async Task<AISystemFileEntity> AddAiSystemFile(AISystemFileEntity aiSystemFileEntity)
     {
+        AISystemEntity aisystem = await _context.AISystems.Include(a => a.FileEntities).Where(a => a.Id == aiSystemFileEntity.AISystemId).FirstAsync();
+        foreach (AISystemFileEntity fileEntity in aisystem.FileEntities)
+        {
+            if (fileEntity.Filepath == aiSystemFileEntity.Filepath)
+            {
+                _context.AISystemFiles.Remove(fileEntity);
+            }
+        }
         await _context.AddAsync(aiSystemFileEntity);
         await _context.SaveChangesAsync();
         return aiSystemFileEntity;
