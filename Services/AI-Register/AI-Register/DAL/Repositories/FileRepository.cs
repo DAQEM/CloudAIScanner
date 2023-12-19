@@ -15,8 +15,8 @@ public class FileRepository : IFileRepository
 
     public async Task<AISystemFileEntity> AddAiSystemFile(AISystemFileEntity aiSystemFileEntity)
     {
-        AISystemFileEntity? duplicateFileEntity = await _context.AISystemFiles.Where(f => f.Filepath == aiSystemFileEntity.Filepath)
-            .FirstOrDefaultAsync();
+        AISystemFileEntity? duplicateFileEntity = await _context.AISystemFiles
+            .FirstOrDefaultAsync(f => f.Filepath == aiSystemFileEntity.Filepath);
         if (duplicateFileEntity is not null)
         {
             _context.AISystemFiles.Remove(duplicateFileEntity);
