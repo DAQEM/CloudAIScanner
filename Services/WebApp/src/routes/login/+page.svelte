@@ -24,8 +24,13 @@
 						color="primary"
 						size="lg"
 						class="text-lg"
-						iconStyle="!w-5 !h-5">
-						<img src={google_logo} alt="Google logo" class="w-8 h-8 p-1 mr-4 rounded-full bg-white" />
+						iconStyle="!w-5 !h-5"
+					>
+						<img
+							src={google_logo}
+							alt="Google logo"
+							class="w-8 h-8 p-1 mr-4 rounded-full bg-white"
+						/>
 						Log in with Google
 					</Button>
 				</div>

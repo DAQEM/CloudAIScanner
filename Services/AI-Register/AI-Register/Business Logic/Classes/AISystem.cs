@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusinessLogic.Entities;
+using BusinessLogic.Enums;
 
 namespace BusinessLogic.Classes
 {
@@ -10,10 +7,72 @@ namespace BusinessLogic.Classes
     {
         public Guid Guid { get; set; }
         public string Name { get; set; }
-        public int Status { get; set; }
+        public string UnambiguousReference {get; set;}
+        public AISystemStatus Status { get; set; }
         public string URL { get; set; }
+        public string Description { get; set; }
         public string TechnicalDocumentationLink { get; set; }
+        public ApprovalStatus ApprovalStatus { get; set; }
+        public DateOnly DateAdded { get; set; }
         public Provider provider { get; set; }
         public Certificate certificate { get; set; }
+        public MemberStates MemberState { get; set; }
+        public ICollection<AISystemFile> Files { get; set; }
+
+
+        public AISystem(){ }
+        
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, Provider provider, Certificate certificate, string description, MemberStates memberstate, string unambiguousReference)
+        {
+            Guid = guid;
+            Name = name;
+            Status = status;
+            URL = url;
+            MemberState = memberstate;
+            Description = description;
+            TechnicalDocumentationLink = technicalDocumentationLink;
+            ApprovalStatus = approvalStatus;
+            DateAdded = dateAdded;
+            this.provider = provider;
+            this.certificate = certificate;
+            UnambiguousReference = unambiguousReference;
+        }
+
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string description, string technicalDocumentationLink, ApprovalStatus approvalStatus, MemberStates memberState)
+        {
+            Guid = guid;
+            Name = name;
+            Status = status;
+            URL = url;
+            Description = description;
+            TechnicalDocumentationLink = technicalDocumentationLink;
+            ApprovalStatus = approvalStatus;
+            MemberState = memberState;
+        }
+
+        public AISystem(Guid guid, string name, AISystemStatus status, string url, string description, string technicalDocumentationLink, ApprovalStatus approvalStatus, DateOnly dateAdded, MemberStates memberState, string unambiguousReference)
+        {
+            Guid = guid;
+            Name = name;
+            Status = status;
+            URL = url;
+            Description = description;
+            TechnicalDocumentationLink = technicalDocumentationLink;
+            ApprovalStatus = approvalStatus;
+            DateAdded = dateAdded;
+            MemberState = memberState;
+            UnambiguousReference = unambiguousReference;
+        }
+
+        internal void setFiles(AISystemEntity aiSystemEntity)
+        {
+            Files = new List<AISystemFile>();
+            foreach (AISystemFileEntity fileEntity in aiSystemEntity.FileEntities)
+            {
+                AISystemFile aiSystemFile = new AISystemFile(fileEntity.Id, fileEntity.Filepath,
+                    fileEntity.Filetype);
+                Files.Add(aiSystemFile);
+            }
+        }
     }
 }

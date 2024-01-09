@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies.
+RUN npm install -g npm@10.2.4
 RUN npm install
 
 # Copy local code to the container image.

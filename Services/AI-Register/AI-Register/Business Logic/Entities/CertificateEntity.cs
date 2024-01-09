@@ -16,5 +16,6 @@ namespace BusinessLogic.Entities
 
         public ScanCertificateEntity ScanCertificate { get; set; }
         public AISystemEntity AISystemEntity { get; set; }
+        
     }
 }

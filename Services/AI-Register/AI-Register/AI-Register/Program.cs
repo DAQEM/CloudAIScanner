@@ -1,38 +1,63 @@
+using AIRegister;
+using BusinessLogic.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DAL;
+using DAL.Repositories;
+using System.Web.Http;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        corsPolicyBuilder => corsPolicyBuilder.WithOrigins("http://localhost:5050")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<HttpExceptionHandlingAttribute>();
+});
 
-//add DBcontext
-IConfigurationRoot config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
+builder.Services.AddScoped<IAISystemRepository, AISystemRepository>();
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+builder.Services.AddScoped<IRepresentativeRepository, RepresentativeRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
 
-builder.Services.AddDbContext<AIRegisterDBContext>(
-    options =>
-    {
-        options.UseMySql(config.GetConnectionString("MySqlConnection"),
-            ServerVersion.AutoDetect(config.GetConnectionString("MySqlConnection")));
-    }, ServiceLifetime.Transient);
+IConfigurationRoot config;
+if (builder.Environment.IsDevelopment())
+{
+    config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.Development.json")
+        .Build();
+}
+else
+{
+    config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
+}
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+string? connectionString = config.GetConnectionString("MySqlConnection");
+
+builder.Services.AddDbContext<AIRegisterDBContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+        optionsBuilder => optionsBuilder.MigrationsAssembly("AIRegister"));
+}, ServiceLifetime.Transient);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
+WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseCors("CorsPolicy");
 
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

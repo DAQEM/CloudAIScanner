@@ -2,8 +2,10 @@
 
 public class AiSystemProvider
 {
-    public int Id { get; set; }
+    public Guid Guid { get; set; }
     public string Name { get; set; } = null!;
     public string Address { get; set; } = null!;
-    public string ContactDetails { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string PhoneNumber { get; set; } = null!;
+    public List<AuthorisedRepresentative> AuthorizedRepresentitives { get; set; }
 }

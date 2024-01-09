@@ -2,11 +2,11 @@
 
 public class AiSystemCertificate
 {
-    public string Type { get; set; } = null!;
+    public Guid guid { get; set; }
+    public string Type { get; set; }
     public int Number { get; set; }
     public DateTime ExpiryDate { get; set; }
-    public string? NotifiedBody { get; set; }
-    
-    //If we use a file system
-    //public string ScannedCopyId { get; set; }
+    public string NameNotifiedBody { get; set; }
+    public int IdNotifiedBody { get; set; }
+    public AiSystemScanCertificate ScanCertificate { get; set; }
 }
