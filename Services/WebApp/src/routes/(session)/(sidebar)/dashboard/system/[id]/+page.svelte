@@ -144,8 +144,8 @@
 <Modal title="Upload File" open={showUploadModal} on:close={() => (showUploadModal = false)}>
 	<form action="?/upload_file" method="post" class="grid gap-4" enctype="multipart/form-data">
 		<div>
-			<Label for="name" class="font-bold ml-1">Filename*</Label>
-			<Input type="text" name="name" placeholder="Filename" required />
+			<Label for="name" class="font-bold ml-1">File description*</Label>
+			<Input type="text" name="name" placeholder="File description" required />
 		</div>
 		<div>
 			<Label for="file" class="font-bold ml-1">File*</Label>

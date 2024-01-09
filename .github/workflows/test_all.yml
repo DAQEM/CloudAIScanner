@@ -1,0 +1,90 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Test All
+
+on:
+  push:
+    branches: [ "development", "feature/all/111/ci-cd" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  extraction-service:
+    name: AI Extraction Service
+    runs-on: ubuntu-latest
+    env:
+      working-directory: Services/AiExtractionService
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ${{env.working-directory}}
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: ${{env.working-directory}}
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./TestResults --logger "trx;LogFileName=test-results.trx"
+      working-directory: ${{env.working-directory}}
+
+  register-service:
+    name: AI Register Service 
+    runs-on: ubuntu-latest
+    env:
+      working-directory: Services/AI-Register/AI-Register
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ${{env.working-directory}}
+
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: ${{env.working-directory}}
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./TestResults --logger "trx;LogFileName=test-results.trx"
+      working-directory: ${{env.working-directory}}
+
+  web-app:
+    name: Web Application
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    env:
+      working-directory: Services/WebApp
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ${{env.working-directory}}
+    - name: Build SvelteKit project
+      run: npm run build
+      working-directory: ${{env.working-directory}}
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      working-directory: ${{env.working-directory}}
+    - name: Run Playwright tests
+      run: npx playwright test
+      working-directory: ${{env.working-directory}}
