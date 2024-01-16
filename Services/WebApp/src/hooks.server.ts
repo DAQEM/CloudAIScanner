@@ -1,9 +1,11 @@
 import AiRegisterAPI from '$lib/api/ai_register';
 import clientPromise from '$lib/database/clientPromise';
+import { UserDatabase } from '$lib/database/userDatabase';
+import { roles } from '$lib/types/role';
 import type { Provider } from '$lib/types/types';
 import Google from '@auth/core/providers/google';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import { SvelteKitAuth } from '@auth/sveltekit';
+import { SvelteKitAuth, type SvelteKitAuthConfig } from '@auth/sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
@@ -42,6 +44,7 @@ const providers: Provider[] = [
 
 const initialize = async () => {
 	initializeProviders();
+	initDefaultUser();
 };
 
 export const defaultHandle: Handle = async ({ event, resolve }) => {
@@ -51,11 +54,16 @@ export const defaultHandle: Handle = async ({ event, resolve }) => {
 };
 
 export const authHandle: Handle = SvelteKitAuth(async () => {
-	const authOptions = {
+	const authOptions: SvelteKitAuthConfig = {
 		providers: [
 			Google({
 				clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-				clientSecret: import.meta.env.VITE_GOOGLE_SECRET
+				clientSecret: import.meta.env.VITE_GOOGLE_SECRET,
+				authorization: {
+					params: {
+						redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI
+					}
+				}
 			}),
 			Google({
 				id: 'google-aiextraction',
@@ -63,6 +71,7 @@ export const authHandle: Handle = SvelteKitAuth(async () => {
 				clientSecret: import.meta.env.VITE_GOOGLE_AI_EXTRACTION_SECRET,
 				authorization: {
 					params: {
+						redirect_uri: import.meta.env.VITE_GOOGLE_AI_EXTRACTION_REDIRECT_URI,
 						scope:
 							'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/cloud-platform.read-only'
 					}
@@ -73,7 +82,7 @@ export const authHandle: Handle = SvelteKitAuth(async () => {
 			databaseName: 'accounts'
 		}),
 		secret: import.meta.env.VITE_SECRET,
-		trustHost: true
+		trustHost: true,
 	};
 	return authOptions;
 });
@@ -103,6 +112,22 @@ function initializeProvider(provider: Provider, api: AiRegisterAPI) {
 		} else {
 			console.error('Error creating provider ' + provider.name);
 			console.error('result', res);
+		}
+	});
+}
+
+async function initDefaultUser() {
+	const api: UserDatabase = await UserDatabase.get();
+	const email: string | undefined = import.meta.env.VITE_DEFAULT_USER_EMAIL;
+	if (!email) {
+		return;
+	}
+	await api.getUserByEmail(email).then((user) => {
+		if (!user || !user._id) {
+			api.addUser({
+				email,
+				roles: roles
+			});
 		}
 	});
 }
