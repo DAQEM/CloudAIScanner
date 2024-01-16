@@ -5,7 +5,7 @@
 The main web applocation where the user can interact with the extracted data.
 ### AI Extraction Service (ASP.NET)
 The service responsible for extracting data from the AI providers.
-### AI Register Service
+### AI Register Service (ASP.NET)
 The service responsible for storing and retrieving the data from and to the MySQl Database.
 ### MySql Database
 This database is used to store the data of the retrieved AI systems
